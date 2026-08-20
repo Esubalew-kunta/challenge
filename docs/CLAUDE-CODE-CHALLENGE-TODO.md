@@ -54,13 +54,17 @@ reader's own browser. A day counts when all of its questions are answered. See
 
 ## Open
 
-### 1. The email copy is not proven
+### 1. The webhook that sends the email is open to anyone
 
-The n8n workflow is written and importable
-(`docs/n8n/claude-code-send-challenge-sheets.json`, four nodes), but it has not
-been imported or activated, so no email has ever been sent. Until
-`N8N_SHEET_WEBHOOK_URL` is set the route returns `emailed: false`, which is
-correct behaviour, not a failure: the reader still gets the file link.
+**The email itself works.** Built live in n8n on 20 August 2026, activated,
+and proven end to end. See `docs/n8n/README.md`. `N8N_SHEET_WEBHOOK_URL` is set
+in `.env.local` and still has to be set on Render.
+
+What is not solved: the webhook takes no authentication, so anyone who learns
+the URL can make the AI Makers Gmail account send any link to any address. The
+fix is header authentication on the n8n webhook plus a matching header sent by
+`src/app/api/challenge-sheet/route.ts`. It needs a credential created by hand in
+the n8n interface, so it was not done in the same pass.
 
 ### 2. Never tested on a real phone
 
