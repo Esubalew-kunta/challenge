@@ -27,22 +27,24 @@
 import { useState } from "react";
 import { ArrowRight, Check, Download, Loader2, Lock, Sparkles } from "lucide-react";
 import { track } from "@vercel/analytics";
-import { UI } from "@/lib/challenge/config";
+import { uiFor } from "@/lib/challenge/locale";
 import { LEAD_SOURCE } from "@/lib/challenge/registry";
-import { TOTAL_DAYS, answerKey } from "@/lib/challenge";
+import { answerKeyFor, totalDaysFor } from "@/lib/challenge/nav";
+import type { ChallengeLocale } from "@/lib/challenge/types";
 import { summarise } from "@/lib/challenge/progress";
 import { EARNED_SHEET_ID, earnedState } from "@/lib/challenge/earned";
 import { leadSubmissionSchema } from "@/lib/schemas/lead";
 import { useProfile } from "./use-profile";
 import { useProgress } from "./use-progress";
 
-/** Built once at module load: the content does not change at runtime. */
-const KEY = answerKey();
+/** Built once per language at module load: the content does not change. */
+const KEYS = { en: answerKeyFor("en"), fr: answerKeyFor("fr") } as const;
 
 /** Below this, the reader is too early for a teaser to mean anything. */
 const TEASE_FROM_POINTS = 30;
 
-export function EarnedOffer() {
+export function EarnedOffer({ locale = "en" }: { locale?: ChallengeLocale }) {
+  const UI = uiFor(locale);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,7 +53,7 @@ export function EarnedOffer() {
   const { state } = useProgress();
   const { profile } = useProfile();
 
-  const score = summarise(state, KEY, TOTAL_DAYS);
+  const score = summarise(state, KEYS[locale], totalDaysFor());
   const earned = earnedState(state, score.points, score.daysDone);
 
   const submit = async (e: React.FormEvent) => {
@@ -67,7 +69,7 @@ export function EarnedOffer() {
     });
 
     if (!parsed.success) {
-      setError(parsed.error.issues[0]?.message ?? "Please check your email address");
+      setError(parsed.error.issues[0]?.message ?? UI.sheetBadEmail);
       return;
     }
 
@@ -86,6 +88,7 @@ export function EarnedOffer() {
           // Their two answers from the index page, if they gave them.
           role: profile.role ?? undefined,
           claudeLevel: profile.level ?? undefined,
+          locale,
         }),
       });
       if (!response.ok) throw new Error("failed");
@@ -95,7 +98,7 @@ export function EarnedOffer() {
       track("challenge_earned_sheet", { days: score.daysDone });
       setSent(true);
     } catch {
-      setError("That did not go through. Try again in a moment.");
+      setError(UI.sheetFailed);
     } finally {
       setLoading(false);
     }
@@ -146,20 +149,17 @@ export function EarnedOffer() {
               className="inline-flex w-fit items-center gap-2 rounded-sm border border-foreground px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-foreground hover:text-background"
             >
               <Download className="size-4" aria-hidden />
-              Open it now
+              {UI.sheetOpenNow}
             </a>
           ) : (
-            <p className="text-[0.8125rem] text-muted-foreground">
-              This one is still being finished. It will land in your inbox as
-              soon as it is ready.
-            </p>
+            <p className="text-[0.8125rem] text-muted-foreground">{UI.sheetNotReady}</p>
           )}
         </div>
       ) : (
         <form onSubmit={submit} className="flex flex-col gap-2">
           <div className="flex flex-wrap gap-2">
             <label className="sr-only" htmlFor="earned-sheet-email">
-              Your email address
+              {UI.sheetEmailLabel}
             </label>
             <input
               id="earned-sheet-email"
@@ -199,3 +199,6 @@ export function EarnedOffer() {
     </div>
   );
 }
+
+
+

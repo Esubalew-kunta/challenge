@@ -22,12 +22,14 @@
 import Link from "next/link";
 import { ArrowRight, Check, X } from "lucide-react";
 import { track } from "@vercel/analytics";
-import { UI } from "@/lib/challenge/config";
-import { dayHrefFor } from "@/lib/challenge";
+import { uiFor } from "@/lib/challenge/locale";
+import { dayByNumberIn, dayHrefIn } from "@/lib/challenge/nav";
+import { baseFor } from "@/lib/challenge/locale";
+import type { ChallengeLocale } from "@/lib/challenge/types";
 import {
-  LEVEL_OPTIONS,
-  ROLE_OPTIONS,
-  levelOption,
+  levelOptionIn,
+  levelOptionsFor,
+  roleOptionsFor,
   shouldAsk,
 } from "@/lib/challenge/profile";
 import { useProfile } from "./use-profile";
@@ -58,9 +60,18 @@ function Choice({
   );
 }
 
-export function ProfileQuestions() {
+export function ProfileQuestions({
+  locale = "en",
+}: {
+  locale?: ChallengeLocale;
+}) {
+  const UI = uiFor(locale);
+  const hrefForDay = (n: number) => {
+    const day = dayByNumberIn(locale, n);
+    return day ? dayHrefIn(locale, day) : baseFor(locale);
+  };
   const { profile, setLevel, setRole, dismiss, reopen } = useProfile();
-  const chosen = levelOption(profile.level);
+  const chosen = levelOptionIn(locale, profile.level);
 
   // Answered, or closed. Either way the questions are done. A single quiet
   // line is left so the advice can be found again and so a reader who clicked
@@ -74,7 +85,7 @@ export function ProfileQuestions() {
             <span>
               {UI.profileAnsweredPrefix}{" "}
               <Link
-                href={dayHrefFor(chosen.startDay)}
+                href={hrefForDay(chosen.startDay)}
                 className="font-semibold text-primary-dark underline-offset-2 hover:underline"
               >
                 {UI.profileDayLabel(chosen.startDay)}
@@ -121,7 +132,7 @@ export function ProfileQuestions() {
           {UI.profileLevelQuestion}
         </legend>
         <div className="grid gap-2 sm:grid-cols-3">
-          {LEVEL_OPTIONS.map((option) => (
+          {levelOptionsFor(locale).map((option) => (
             <Choice
               key={option.id}
               label={option.label}
@@ -147,7 +158,7 @@ export function ProfileQuestions() {
             {UI.profileRoleQuestion}
           </legend>
           <div className="grid gap-2 sm:grid-cols-2">
-            {ROLE_OPTIONS.map((option) => (
+            {roleOptionsFor(locale).map((option) => (
               <Choice
                 key={option.id}
                 label={option.label}
@@ -171,7 +182,7 @@ export function ProfileQuestions() {
             {chosen.because}
           </p>
           <Link
-            href={dayHrefFor(chosen.startDay)}
+            href={hrefForDay(chosen.startDay)}
             className="mt-1 inline-flex w-fit items-center gap-2 rounded-sm border border-primary bg-primary px-5 py-2.5 text-[0.9375rem] font-semibold text-primary-foreground transition-colors hover:border-primary-dark hover:bg-primary-dark"
           >
             {UI.profileGo(chosen.startDay)}
@@ -186,3 +197,5 @@ export function ProfileQuestions() {
     </div>
   );
 }
+
+

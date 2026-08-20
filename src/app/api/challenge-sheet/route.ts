@@ -47,6 +47,8 @@ const requestSchema = z.object({
   points: z.number().int().min(0).max(1000).optional(),
   daysDone: z.number().int().min(0).max(30).optional(),
   levelId: z.string().trim().max(40).optional(),
+  /** Which language the reader was reading in. Decides the email they get. */
+  locale: z.enum(["en", "fr"]).optional(),
 });
 
 interface SheetRow {
@@ -167,6 +169,9 @@ export async function POST(request: Request) {
           sheetTitle: sheet.title,
           sheetDay: sheet.day,
           fileUrl: sheet.file_url,
+          // The language of the page they asked from. Without it a French
+          // reader gets an English email, which is worse than no email.
+          locale: data.locale ?? "en",
           // Where this request came from, so the links inside the email point
           // back at the site the reader is actually on.
           //
@@ -196,3 +201,4 @@ export async function POST(request: Request) {
   // link to nothing.
   return NextResponse.json({ success: true, fileUrl: sheet.file_url, emailed });
 }
+

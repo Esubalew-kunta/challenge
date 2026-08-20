@@ -80,8 +80,18 @@ export const UI_FR = {
   sheetDone: "C'est parti. Regardez votre boîte mail.",
   sheetFineprint:
     "Elle s'ouvre aussi tout de suite sur cette page. L'email sert juste à en garder une copie.",
+  sheetOpenNow: "L'ouvrir maintenant",
+  sheetNotReady:
+    "Celle-ci est encore en cours de finition. Elle arrivera dans votre boîte mail dès qu'elle sera prête.",
+  sheetEmailLabel: "Votre adresse email",
+  sheetFailed: "Ça n'est pas passé. Réessayez dans un instant.",
+  sheetBadEmail: "Vérifiez votre adresse email",
   sheetNoPrices:
     "Aucun prix ni détail d'abonnement n'est imprimé dessus. Ils renvoient vers notre site, donc la fiche ne peut pas devenir fausse dans votre boîte mail.",
+  dayLabel: (n: number) => `Jour ${n}`,
+  beforeNextDay: (n: number) => `Avant de passer au jour ${n}`,
+  thatIsAllThirty: "Et voilà les trente",
+  allDaysCount: (n: number) => `Les ${n} jours`,
   prev: "Précédent",
   next: "Suivant",
   verifiedPrefix:
@@ -185,4 +195,6 @@ export const UI_FR = {
     `${answered} sur ${total} répondues. Terminez-les pour compléter ce jour.`,
   dayNotStarted: "Répondez aux questions ci-dessus pour compléter ce jour.",
 } satisfies ChallengeUI;
+
+
 

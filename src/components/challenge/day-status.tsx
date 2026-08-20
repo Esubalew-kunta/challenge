@@ -13,14 +13,22 @@
  */
 
 import { Check } from "lucide-react";
-import { UI } from "@/lib/challenge/config";
+import { uiFor } from "@/lib/challenge/locale";
 import { answerKey } from "@/lib/challenge";
+import type { ChallengeLocale } from "@/lib/challenge/types";
 import { dayProgress } from "@/lib/challenge/progress";
 import { useProgress } from "./use-progress";
 
 const KEY = answerKey();
 
-export function DayStatus({ day }: { day: number }) {
+export function DayStatus({
+  day,
+  locale = "en",
+}: {
+  day: number;
+  locale?: ChallengeLocale;
+}) {
+  const UI = uiFor(locale);
   const { state } = useProgress();
   const p = dayProgress(state, day, KEY);
 
@@ -53,7 +61,14 @@ export function DayStatus({ day }: { day: number }) {
   );
 }
 
-export function DayTick({ day }: { day: number }) {
+export function DayTick({
+  day,
+  locale = "en",
+}: {
+  day: number;
+  locale?: ChallengeLocale;
+}) {
+  const UI = uiFor(locale);
   const { state } = useProgress();
   const p = dayProgress(state, day, KEY);
   if (!p.done) return null;
@@ -68,3 +83,4 @@ export function DayTick({ day }: { day: number }) {
     </span>
   );
 }
+

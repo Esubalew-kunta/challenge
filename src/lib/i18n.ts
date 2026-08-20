@@ -31,8 +31,36 @@ export const OG_LOCALE: Record<Locale, string> = { fr: "fr_FR", en: "en_US" };
  * Les slugs anglais viennent des masters de contenu
  * (`[EN] website-content/`), qui s'y lient déjà en interne.
  */
+/**
+ * Les trente jours du challenge Claude Code, dans les deux langues.
+ *
+ * Dérivés au lieu d'être recopiés : les slugs sont `day-N` côté anglais et
+ * `jour-N` côté français, donc trente paires écrites à la main seraient trente
+ * occasions de se tromper d'un chiffre.
+ *
+ * Le nombre est écrit ici plutôt qu'importé de `lib/challenge` volontairement.
+ * Ce module est chargé par la génération des métadonnées de chaque page du
+ * site, et y tirer les 200 Ko de contenu des leçons pour compter jusqu'à trente
+ * serait un mauvais échange. Le contrôle de parité de `index.fr.ts` garantit
+ * déjà que les deux langues ont bien le même nombre de jours.
+ */
+const CHALLENGE_TOTAL_DAYS = 30;
+
+const CHALLENGE_DAY_ROUTES: Record<string, string> = Object.fromEntries(
+  Array.from({ length: CHALLENGE_TOTAL_DAYS }, (_, i) => i + 1).map((n) => [
+    `/challenge-claude-code/jour-${n}`,
+    `/en/claude-code-challenge/day-${n}`,
+  ]),
+);
+
 export const ROUTE_MAP: Record<string, string> = {
   "/": "/en",
+
+  // 30 jours de Claude Code. L'index, puis les trente jours dérivés au-dessus.
+  // La version française existe depuis le 21 août 2026, donc le hreflang peut
+  // enfin être annoncé dans les deux sens.
+  "/challenge-claude-code": "/en/claude-code-challenge",
+  ...CHALLENGE_DAY_ROUTES,
 
   // Offres
   "/offre": "/en/ai-partner",
@@ -184,11 +212,14 @@ export const EN_PUBLISHED = new Set<string>([
   "/en/ai-training-for-teams/microsoft-copilot",
   "/en/ai-training-for-teams/vibe-coding",
 
-  // 30 Days of Claude Code. L'index seulement : les trente pages de jour sont
-  // ajoutées au sitemap depuis les données (src/lib/challenge), pas recopiées
-  // ici. Aucune entrée dans ROUTE_MAP tant que la version française n'existe
-  // pas — un hreflang vers une page absente est une erreur d'indexation.
+  // 30 Days of Claude Code. L'index, plus les trente pages de jour.
+  //
+  // Les jours étaient volontairement absents tant que la version française
+  // n'existait pas : un hreflang vers une page absente est une erreur
+  // d'indexation. Elle existe depuis le 21 août 2026, donc les deux sens
+  // peuvent être annoncés.
   "/en/claude-code-challenge",
+  ...Object.values(CHALLENGE_DAY_ROUTES),
 ]);
 
 /**

@@ -16,7 +16,9 @@ import {
   Trophy,
 } from "lucide-react";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import { UI, getPhase, neighbours, dayHref, BASE, TOTAL_DAYS } from "@/lib/challenge";
+import { baseFor, uiFor } from "@/lib/challenge/locale";
+import { dayHrefIn, neighboursIn, phaseIn, totalDaysFor } from "@/lib/challenge/nav";
+import type { ChallengeLocale } from "@/lib/challenge/types";
 import type { Day, Step, TeachSection } from "@/lib/challenge/types";
 import { CodeBlock } from "./code-block";
 import { DayStatus } from "./day-status";
@@ -144,9 +146,17 @@ function StepItem({ step, index }: { step: Step; index: number }) {
 
 /* ------------------------------------------------------------------- page */
 
-export function DayView({ day }: { day: Day }) {
-  const phase = getPhase(day.phase);
-  const { prev, next } = neighbours(day);
+export function DayView({
+  day,
+  locale = "en",
+}: {
+  day: Day;
+  locale?: ChallengeLocale;
+}) {
+  const UI = uiFor(locale);
+  const BASE = baseFor(locale);
+  const phase = phaseIn(locale, day.phase);
+  const { prev, next } = neighboursIn(locale, day);
 
   return (
     <article className="mx-auto w-full max-w-[52rem] px-5 pb-20">
@@ -259,21 +269,21 @@ export function DayView({ day }: { day: Day }) {
       */}
       <ScrollReveal className="mt-12">
         <BlockLabel>{UI.quizLabel}</BlockLabel>
-        <Quiz questions={day.quiz} day={day.day} />
+        <Quiz questions={day.quiz} day={day.day} locale={locale} />
         <div className="mt-4">
-          <DayStatus day={day.day} />
+          <DayStatus day={day.day} locale={locale} />
         </div>
       </ScrollReveal>
 
       {/* Gate, or the sheet on its own */}
       {day.gate ? (
         <ScrollReveal className="mt-12">
-          <BlockLabel>Before you go to Day {day.day + 1}</BlockLabel>
-          <SuccessGate gate={day.gate} sheet={day.sheet} day={day.day} />
+          <BlockLabel>{UI.beforeNextDay(day.day + 1)}</BlockLabel>
+          <SuccessGate gate={day.gate} sheet={day.sheet} day={day.day} locale={locale} />
         </ScrollReveal>
       ) : day.sheet ? (
         <ScrollReveal className="mt-12">
-          <SheetOffer sheet={day.sheet} day={day.day} />
+          <SheetOffer sheet={day.sheet} day={day.day} locale={locale} />
         </ScrollReveal>
       ) : null}
 
@@ -289,12 +299,12 @@ export function DayView({ day }: { day: Day }) {
         <div className="grid gap-2.5 sm:grid-cols-2">
           {prev ? (
             <Link
-              href={dayHref(prev)}
+              href={dayHrefIn(locale, prev)}
               className="group flex flex-col gap-1 rounded-md border border-border bg-card px-4 py-3.5 transition-colors hover:border-primary"
             >
               <span className="inline-flex items-center gap-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
                 <ArrowLeft className="size-3 transition-transform group-hover:-translate-x-0.5" aria-hidden />
-                Day {prev.day}
+                {UI.dayLabel(prev.day)}
               </span>
               <span className="text-[0.9375rem] font-semibold">{prev.title}</span>
             </Link>
@@ -304,11 +314,11 @@ export function DayView({ day }: { day: Day }) {
 
           {next ? (
             <Link
-              href={dayHref(next)}
+              href={dayHrefIn(locale, next)}
               className="group flex flex-col gap-1 rounded-md border border-primary bg-card px-4 py-3.5 text-right transition-colors hover:bg-accent sm:col-start-2"
             >
               <span className="inline-flex items-center justify-end gap-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-primary-dark">
-                Day {next.day}
+                {UI.dayLabel(next.day)}
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </span>
               <span className="text-[0.9375rem] font-semibold">{day.nextTeaser}</span>
@@ -319,7 +329,7 @@ export function DayView({ day }: { day: Day }) {
               className="group flex flex-col gap-1 rounded-md border border-primary bg-card px-4 py-3.5 text-right transition-colors hover:bg-accent sm:col-start-2"
             >
               <span className="inline-flex items-center justify-end gap-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-primary-dark">
-                That is all thirty
+                {UI.thatIsAllThirty}
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </span>
               <span className="text-[0.9375rem] font-semibold">{day.nextTeaser}</span>
@@ -333,10 +343,11 @@ export function DayView({ day }: { day: Day }) {
             className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-[0.8125rem] font-semibold text-muted-foreground transition-colors hover:border-primary hover:text-primary"
           >
             <LayoutGrid className="size-3.5" aria-hidden />
-            All {TOTAL_DAYS} days
+            {UI.allDaysCount(totalDaysFor())}
           </Link>
         </div>
       </nav>
     </article>
   );
 }
+

@@ -16,14 +16,15 @@
  */
 
 import { Flame, Trophy } from "lucide-react";
-import { UI } from "@/lib/challenge/config";
-import { TOTAL_DAYS, answerKey } from "@/lib/challenge";
+import { uiFor } from "@/lib/challenge/locale";
+import { answerKeyFor, totalDaysFor } from "@/lib/challenge/nav";
+import type { ChallengeLocale } from "@/lib/challenge/types";
 import { summarise } from "@/lib/challenge/progress";
 import { EarnedOffer } from "./earned-offer";
 import { useProgress } from "./use-progress";
 
-/** Built once at module load: the content does not change at runtime. */
-const KEY = answerKey();
+/** Built once per language at module load: the content does not change. */
+const KEYS = { en: answerKeyFor("en"), fr: answerKeyFor("fr") } as const;
 
 function Figure({ value, label }: { value: string; label: string }) {
   return (
@@ -38,9 +39,10 @@ function Figure({ value, label }: { value: string; label: string }) {
   );
 }
 
-export function ScoreCard() {
+export function ScoreCard({ locale = "en" }: { locale?: ChallengeLocale }) {
+  const UI = uiFor(locale);
   const { state } = useProgress();
-  const s = summarise(state, KEY, TOTAL_DAYS);
+  const s = summarise(state, KEYS[locale], totalDaysFor());
 
   const level = UI.levels[s.levelId];
   const nextName = s.nextLevelId ? UI.levels[s.nextLevelId].name : null;
@@ -127,7 +129,8 @@ export function ScoreCard() {
         The earned sheet. It renders nothing at all for a reader who is too
         early, so this line costs nothing on most visits.
       */}
-      <EarnedOffer />
+      <EarnedOffer locale={locale} />
     </div>
   );
 }
+

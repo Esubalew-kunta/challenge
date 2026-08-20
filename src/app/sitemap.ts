@@ -6,7 +6,7 @@ import { secteurs } from "@/lib/secteurs";
 import { villesFormation } from "@/lib/villes-formation";
 import { jobOpenings } from "@/lib/careers/postes";
 import { EN_PUBLISHED } from "@/lib/i18n";
-import { BASE as CHALLENGE_BASE, DAYS } from "@/lib/challenge";
+import { BASE_FR as CHALLENGE_BASE_FR, DAYS_FR } from "@/lib/challenge/index.fr";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://aimakers.fr";
@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/outils/scanner-opportunites-ia",
     "/playbook-ia",
     "/challenge-30-jours",
+    "/challenge-claude-code",
     "/pourquoi-maintenant",
     "/ia-maroc",
     "/glossaire-ia",
@@ -141,15 +142,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  // Les trente jours du challenge Claude Code, dérivés des données.
+  // Les trente jours français du challenge Claude Code, dérivés des données.
   //
-  // L'index vit dans `EN_PUBLISHED` avec les autres pages EN ; les jours n'y
-  // sont pas, parce que cet ensemble sert aussi de porte au hreflang et à la
-  // bascule de langue, et qu'aucun de ces trente jours n'a d'équivalent
-  // français. Les dériver ici évite de recopier trente URLs qui existent déjà
-  // dans src/lib/challenge.
-  const challengeDayEntries: MetadataRoute.Sitemap = DAYS.map((day) => ({
-    url: `${baseUrl}${CHALLENGE_BASE}/${day.slug}`,
+  // Les jours ANGLAIS ne sont pas repris ici : depuis que la version française
+  // existe, ils sont entrés dans `EN_PUBLISHED` pour que le hreflang puisse les
+  // annoncer, et `enEntries` les sort donc déjà. Les dériver une seconde fois
+  // mettait chaque URL anglaise deux fois dans le sitemap.
+  const challengeDayEntries: MetadataRoute.Sitemap = DAYS_FR.map((day) => ({
+    url: `${baseUrl}${CHALLENGE_BASE_FR}/${day.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.6,
@@ -168,3 +168,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...legalEntries,
   ];
 }
+
+

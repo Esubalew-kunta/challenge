@@ -25,9 +25,10 @@
 import { useState } from "react";
 import { ArrowRight, Check, Download, Loader2 } from "lucide-react";
 import { track } from "@vercel/analytics";
-import { UI } from "@/lib/challenge/config";
+import { uiFor } from "@/lib/challenge/locale";
 import { LEAD_SOURCE } from "@/lib/challenge/registry";
-import { TOTAL_DAYS, answerKey } from "@/lib/challenge";
+import { answerKeyFor, totalDaysFor } from "@/lib/challenge/nav";
+import type { ChallengeLocale } from "@/lib/challenge/types";
 import { summarise } from "@/lib/challenge/progress";
 import { leadSubmissionSchema } from "@/lib/schemas/lead";
 import type { Sheet } from "@/lib/challenge/types";
@@ -35,10 +36,19 @@ import { RichText } from "./rich-text";
 import { useProfile } from "./use-profile";
 import { useProgress } from "./use-progress";
 
-/** Built once at module load: the content does not change at runtime. */
-const KEY = answerKey();
+/** Built once per language at module load: the content does not change. */
+const KEYS = { en: answerKeyFor("en"), fr: answerKeyFor("fr") } as const;
 
-export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
+export function SheetOffer({
+  sheet,
+  day,
+  locale = "en",
+}: {
+  sheet: Sheet;
+  day: number;
+  locale?: ChallengeLocale;
+}) {
+  const UI = uiFor(locale);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,7 +70,7 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
     });
 
     if (!parsed.success) {
-      setError(parsed.error.issues[0]?.message ?? "Please check your email address");
+      setError(parsed.error.issues[0]?.message ?? UI.sheetBadEmail);
       return;
     }
 
@@ -72,7 +82,7 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
       // has done twenty days and then hands over an address is worth far more
       // than somebody who downloaded a sheet on day one and left. It costs
       // nothing to send, because the number is already sitting in the page.
-      const score = summarise(state, KEY, TOTAL_DAYS);
+      const score = summarise(state, KEYS[locale], totalDaysFor());
 
       // The sheet route is the one that must succeed: it writes the lead row
       // and hands back the file link. Its answer decides what the reader sees.
@@ -91,6 +101,7 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
           // on every row since the table was created because nothing asked.
           role: profile.role ?? undefined,
           claudeLevel: profile.level ?? undefined,
+          locale,
         }),
       });
       if (!response.ok) throw new Error("failed");
@@ -100,7 +111,7 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
       track("challenge_sheet", { sheet: sheet.id, day });
       setSent(true);
     } catch {
-      setError("That did not go through. Try again in a moment.");
+      setError(UI.sheetFailed);
     } finally {
       setLoading(false);
     }
@@ -148,20 +159,17 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
               className="inline-flex w-fit items-center gap-2 rounded-sm border border-foreground px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-foreground hover:text-background"
             >
               <Download className="size-4" aria-hidden />
-              Open it now
+              {UI.sheetOpenNow}
             </a>
           ) : (
-            <p className="text-[0.8125rem] text-muted-foreground">
-              This one is still being finished. It will land in your inbox as
-              soon as it is ready.
-            </p>
+            <p className="text-[0.8125rem] text-muted-foreground">{UI.sheetNotReady}</p>
           )}
         </div>
       ) : (
         <form onSubmit={submit} className="flex flex-col gap-2">
           <div className="flex flex-wrap gap-2">
             <label className="sr-only" htmlFor={`sheet-email-${sheet.id}`}>
-              Your email address
+              {UI.sheetEmailLabel}
             </label>
             <input
               id={`sheet-email-${sheet.id}`}
@@ -198,3 +206,6 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
     </div>
   );
 }
+
+
+

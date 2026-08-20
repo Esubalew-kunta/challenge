@@ -14,7 +14,8 @@
  */
 
 import { Check, X } from "lucide-react";
-import { UI } from "@/lib/challenge/config";
+import { uiFor } from "@/lib/challenge/locale";
+import type { ChallengeLocale } from "@/lib/challenge/types";
 import { UNANSWERED } from "@/lib/challenge/progress";
 import type { Question } from "@/lib/challenge/types";
 import { RichText } from "./rich-text";
@@ -26,10 +27,12 @@ function QuestionCard({
   total,
   picked,
   onPick,
+  locale,
 }: {
   question: Question;
   index: number;
   total: number;
+  locale: ChallengeLocale;
   /** The stored choice, or null when this one has not been answered yet. */
   picked: number | null;
   onPick: (option: number) => void;
@@ -39,7 +42,7 @@ function QuestionCard({
   return (
     <div className="flex flex-col gap-4 rounded-md border border-border bg-card p-5 shadow-sm">
       <span className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
-        {UI.quizCounter(index + 1, total)}
+        {uiFor(locale).quizCounter(index + 1, total)}
       </span>
 
       <p className="text-[1.0625rem] font-semibold leading-snug">
@@ -106,7 +109,15 @@ function QuestionCard({
   );
 }
 
-export function Quiz({ questions, day }: { questions: Question[]; day: number }) {
+export function Quiz({
+  questions,
+  day,
+  locale = "en",
+}: {
+  questions: Question[];
+  day: number;
+  locale?: ChallengeLocale;
+}) {
   const { state, answer } = useProgress();
   const row = state.answers[day];
 
@@ -124,6 +135,7 @@ export function Quiz({ questions, day }: { questions: Question[]; day: number })
             index={i}
             total={questions.length}
             picked={picked}
+            locale={locale}
             onPick={(option) => answer(day, i, option, questions.length)}
           />
         );
@@ -131,3 +143,5 @@ export function Quiz({ questions, day }: { questions: Question[]; day: number })
     </div>
   );
 }
+
+

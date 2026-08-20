@@ -67,8 +67,18 @@ export const UI = {
   sheetDone: "On its way. Check your inbox.",
   sheetFineprint:
     "It also opens on this page straight away. The email is so you keep a copy.",
+  sheetOpenNow: "Open it now",
+  sheetNotReady:
+    "This one is still being finished. It will land in your inbox as soon as it is ready.",
+  sheetEmailLabel: "Your email address",
+  sheetFailed: "That did not go through. Try again in a moment.",
+  sheetBadEmail: "Please check your email address",
   sheetNoPrices:
     "No prices or plan details are printed on it. Those link back to our site, so it cannot go out of date in your inbox.",
+  dayLabel: (n: number) => `Day ${n}`,
+  beforeNextDay: (n: number) => `Before you go to Day ${n}`,
+  thatIsAllThirty: "That is all thirty",
+  allDaysCount: (n: number) => `All ${n} days`,
   prev: "Previous",
   next: "Next",
   verifiedPrefix: "Every command on this page was run before publishing. Checked against",
@@ -188,3 +198,5 @@ type Widen<T> = T extends (...args: infer A) => infer R
         : { -readonly [K in keyof T]: Widen<T[K]> };
 
 export type ChallengeUI = Widen<typeof UI>;
+
+

@@ -11,7 +11,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, LifeBuoy, XCircle } from "lucide-react";
-import type { Sheet, SuccessGate as GateData } from "@/lib/challenge/types";
+import type { ChallengeLocale, Sheet, SuccessGate as GateData } from "@/lib/challenge/types";
 import { SheetOffer } from "./sheet-offer";
 import { Paragraphs } from "./rich-text";
 
@@ -19,10 +19,12 @@ export function SuccessGate({
   gate,
   sheet,
   day,
+  locale = "en",
 }: {
   gate: GateData;
   sheet?: Sheet;
   day: number;
+  locale?: ChallengeLocale;
 }) {
   const [answer, setAnswer] = useState<"yes" | "no" | null>(null);
 
@@ -63,7 +65,7 @@ export function SuccessGate({
         </div>
       </div>
 
-      {answer === "yes" && sheet ? <SheetOffer sheet={sheet} day={day} /> : null}
+      {answer === "yes" && sheet ? <SheetOffer sheet={sheet} day={day} locale={locale} /> : null}
 
       {answer === "no" ? (
         <div className="flex flex-col gap-2 rounded-md border border-l-[3px] border-border border-l-accent-warm bg-card px-5 py-4">
@@ -77,3 +79,4 @@ export function SuccessGate({
     </div>
   );
 }
+

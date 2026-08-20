@@ -81,6 +81,57 @@ export const ROLE_OPTIONS: RoleOption[] = [
 ];
 
 /**
+ * The same options in French.
+ *
+ * `startDay` and `id` are taken from the English list rather than retyped, so
+ * the two can never point a reader at different days. Only the words change.
+ */
+export const LEVEL_OPTIONS_FR: LevelOption[] = [
+  {
+    ...LEVEL_OPTIONS[0],
+    label: "Je ne l'ai jamais utilisé",
+    because:
+      "Le jour 1 est l'installation, et rien d'autre ne marche tant qu'elle ne marche pas.",
+  },
+  {
+    ...LEVEL_OPTIONS[1],
+    label: "Je l'ai ouvert quelques fois",
+    because:
+      "Sautez l'installation si la vôtre tourne déjà. Le jour 5 est là où le cours arrête d'installer et commence à choisir.",
+  },
+  {
+    ...LEVEL_OPTIONS[2],
+    label: "Je m'en sers presque tous les jours",
+    because:
+      "La phase 1 est l'installation qui marche, que vous avez déjà. La phase 2 est là où ça commence à devenir vôtre.",
+  },
+];
+
+export const ROLE_OPTIONS_FR: RoleOption[] = [
+  { ...ROLE_OPTIONS[0], label: "J'écris du code" },
+  { ...ROLE_OPTIONS[1], label: "Technique, mais pas développeur" },
+  { ...ROLE_OPTIONS[2], label: "Je dirige une équipe" },
+  { ...ROLE_OPTIONS[3], label: "Autre chose" },
+];
+
+/** The options for a page in this language. */
+export function levelOptionsFor(locale: "en" | "fr"): LevelOption[] {
+  return locale === "fr" ? LEVEL_OPTIONS_FR : LEVEL_OPTIONS;
+}
+
+export function roleOptionsFor(locale: "en" | "fr"): RoleOption[] {
+  return locale === "fr" ? ROLE_OPTIONS_FR : ROLE_OPTIONS;
+}
+
+/** The chosen level, described in this language. */
+export function levelOptionIn(
+  locale: "en" | "fr",
+  id: ClaudeLevel | null,
+): LevelOption | null {
+  return levelOptionsFor(locale).find((o) => o.id === id) ?? null;
+}
+
+/**
  * What is stored, versioned.
  *
  * `dismissed` is a real answer and not an absence of one. Without it, a reader
