@@ -1,5 +1,5 @@
 /**
- * Phase 1 — Le faire fonctionner. Jours 1 à 10.
+ * Phase 1, le faire fonctionner. Jours 1 à 10.
  *
  * Traduction française de `days-phase-1.ts`, jour pour jour.
  *
@@ -1735,3 +1735,4 @@ Sois franc. Ne sois pas encourageant.`,
     nextTeaser: "Construisez un garde-fou qui vérifie le travail et vous rend compte",
   },
 ];
+
