@@ -67,6 +67,22 @@ function withTimeout(ms: number) {
   return AbortSignal.timeout(ms);
 }
 
+/**
+ * The address the reader is actually on.
+ *
+ * Read from the forwarded headers rather than `request.url`, because behind a
+ * proxy `request.url` can carry the internal hostname the platform routed to,
+ * not the one in the visitor's address bar. The email links are built from
+ * this, so getting it wrong sends people to a URL that only exists inside a
+ * data centre.
+ */
+function originOf(request: Request): string {
+  const host =
+    request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  const proto = request.headers.get("x-forwarded-proto") ?? "https";
+  return host ? `${proto}://${host}` : new URL(request.url).origin;
+}
+
 export async function POST(request: Request) {
   if (!SUPABASE_URL || !SERVICE_KEY) {
     // Loud on our side, vague on theirs. A visitor cannot fix our configuration
@@ -90,6 +106,7 @@ export async function POST(request: Request) {
     );
   }
   const data = parsed.data;
+  const siteUrl = originOf(request);
 
   // The sheet is looked up rather than trusted from the request. Otherwise
   // anyone could post any title and any file URL, and we would email a link of
@@ -150,6 +167,14 @@ export async function POST(request: Request) {
           sheetTitle: sheet.title,
           sheetDay: sheet.day,
           fileUrl: sheet.file_url,
+          // Where this request came from, so the links inside the email point
+          // back at the site the reader is actually on.
+          //
+          // Sent rather than configured in n8n on purpose. A hardcoded address
+          // over there has to be remembered and changed on the day the domain
+          // moves, and that is exactly the kind of thing nobody remembers on a
+          // launch day. This follows the domain by itself.
+          siteUrl,
         }),
         signal: withTimeout(8000),
       });
