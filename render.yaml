@@ -1,0 +1,68 @@
+# Render blueprint for aimakers.fr, and for 30 Days of Claude Code inside it.
+#
+# Docker and not Render's Node runtime, because the Dockerfile already exists,
+# already produces the standalone build, and is already what the VPS uses. One
+# build definition, three places it runs, so a build cannot pass here and fail
+# there.
+#
+# How to use it, once, in the Render dashboard:
+#
+#   New  ->  Blueprint  ->  connect Esubalew-kunta/challenge  ->  Apply
+#
+# Render reads this file, creates the service, and asks for the values marked
+# `sync: false` below. It never reads them from the repository, which is why
+# they are not in it.
+#
+# The three the challenge cannot work without are the first three. Without
+# them the sheet form writes nowhere and emails nobody, and the reader gets a
+# 503 that they cannot fix.
+
+services:
+  - type: web
+    name: aimakers-site
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    region: frankfurt
+    branch: main
+    # Render sends traffic here and restarts the service if it stops answering.
+    # The index page is a static file, so it costs nothing to serve.
+    healthCheckPath: /en/claude-code-challenge
+    autoDeploy: true
+    envVars:
+      # ----------------------------------------------------- the challenge
+      # Supabase project ai_makers_internal. Both come from
+      # Project Settings > API. The service role key bypasses every row level
+      # security rule, so it is set here and read on the server only.
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      # The n8n webhook that emails the sheet. Empty is a valid setting: the
+      # page still shows the file link and simply sends no email.
+      - key: N8N_SHEET_WEBHOOK_URL
+        sync: false
+
+      # ------------------------------------------- the rest of the site
+      # None of these are needed for the challenge. Each one that is left
+      # empty disables its own form and nothing else.
+      - key: N8N_LEAD_WEBHOOK_URL
+        sync: false
+      - key: N8N_DIAGNOSTIC_WEBHOOK_URL
+        sync: false
+      - key: N8N_CATALOGUE_WEBHOOK_URL
+        sync: false
+      - key: N8N_APPLICATION_WEBHOOK_URL
+        sync: false
+      - key: NEXT_PUBLIC_GA_ID
+        sync: false
+
+      # Next reads both. HOSTNAME must be 0.0.0.0 or the container answers
+      # only itself and Render marks the deploy as failed.
+      - key: NODE_ENV
+        value: production
+      - key: HOSTNAME
+        value: 0.0.0.0
+      - key: PORT
+        value: 3000

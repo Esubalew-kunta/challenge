@@ -78,10 +78,20 @@ const nextConfig: NextConfig = {
   async headers() {
     // La préprod vercel.app ne doit jamais s'indexer : noindex conditionnel
     // par host, retiré automatiquement à la bascule sur aimakers.fr.
+    //
+    // onrender.com suit la même règle, et pour la même raison. Une URL Render
+    // sert le site entier : sans cet en-tête, Google indexe une seconde copie
+    // complète d'aimakers.fr qui concurrence l'originale sur ses propres mots
+    // clés. Ajouté le 20 août 2026, avant le premier déploiement Render.
     return [
       {
         source: "/:path*",
         has: [{ type: "host", value: "(?<host>.*vercel\\.app)" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "(?<renderHost>.*onrender\\.com)" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
     ];
