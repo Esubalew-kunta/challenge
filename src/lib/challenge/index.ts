@@ -40,6 +40,18 @@ export function dayHref(day: Pick<Day, "slug">): string {
   return `${BASE}/${day.slug}`;
 }
 
+/**
+ * The link to a day by its number, for the places that only have a number.
+ *
+ * Falls back to the index rather than building `/day-undefined` when the
+ * number does not exist. A dead link on a marketing page is worse than a link
+ * to the list the reader was already looking at.
+ */
+export function dayHrefFor(n: number): string {
+  const day = getDayByNumber(n);
+  return day ? dayHref(day) : BASE;
+}
+
 export function getDayBySlug(slug: string): Day | undefined {
   return DAYS.find((d) => d.slug === slug);
 }

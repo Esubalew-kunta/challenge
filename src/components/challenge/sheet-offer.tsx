@@ -32,6 +32,7 @@ import { summarise } from "@/lib/challenge/progress";
 import { leadSubmissionSchema } from "@/lib/schemas/lead";
 import type { Sheet } from "@/lib/challenge/types";
 import { RichText } from "./rich-text";
+import { useProfile } from "./use-profile";
 import { useProgress } from "./use-progress";
 
 /** Built once at module load: the content does not change at runtime. */
@@ -45,6 +46,7 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
   /** Where the file actually is. Null until the server answers with it. */
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const { state } = useProgress();
+  const { profile } = useProfile();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +86,11 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
           points: score.points,
           daysDone: score.daysDone,
           levelId: score.levelId,
+          // The two answers from the index page, if they gave them. This is
+          // what finally fills `role` and `claude_level`, which had been null
+          // on every row since the table was created because nothing asked.
+          role: profile.role ?? undefined,
+          claudeLevel: profile.level ?? undefined,
         }),
       });
       if (!response.ok) throw new Error("failed");

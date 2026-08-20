@@ -33,6 +33,7 @@ import { TOTAL_DAYS, answerKey } from "@/lib/challenge";
 import { summarise } from "@/lib/challenge/progress";
 import { EARNED_SHEET_ID, earnedState } from "@/lib/challenge/earned";
 import { leadSubmissionSchema } from "@/lib/schemas/lead";
+import { useProfile } from "./use-profile";
 import { useProgress } from "./use-progress";
 
 /** Built once at module load: the content does not change at runtime. */
@@ -48,6 +49,7 @@ export function EarnedOffer() {
   const [sent, setSent] = useState(false);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const { state } = useProgress();
+  const { profile } = useProfile();
 
   const score = summarise(state, KEY, TOTAL_DAYS);
   const earned = earnedState(state, score.points, score.daysDone);
@@ -81,6 +83,9 @@ export function EarnedOffer() {
           points: score.points,
           daysDone: score.daysDone,
           levelId: score.levelId,
+          // Their two answers from the index page, if they gave them.
+          role: profile.role ?? undefined,
+          claudeLevel: profile.level ?? undefined,
         }),
       });
       if (!response.ok) throw new Error("failed");

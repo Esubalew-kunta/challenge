@@ -100,6 +100,24 @@ export const UI = {
   scoreLocal:
     "Kept in this browser only. Nothing is sent to us, and clearing your browser clears it.",
 
+  /* ------------------------------------------------- the two questions */
+
+  profileTag: "Before you start",
+  profileTitle: "Thirty days is a lot. Which of them do you need?",
+  profileBody:
+    "Two taps and this page tells you where to open, instead of you guessing. Nothing is sent anywhere, and you can close it.",
+  profileLevelQuestion: "How much Claude Code have you used?",
+  profileRoleQuestion: "And what do you do? Optional.",
+  profileStartAt: (day: number) => `Start at Day ${day}.`,
+  profileGo: (day: number) => `Open Day ${day}`,
+  profileDayLabel: (day: number) => `Day ${day}`,
+  profileAnsweredPrefix: "You were pointed at",
+  profileDismissed: "You skipped the two questions. Any day is a fine place to start.",
+  profileChange: "Change",
+  profileSkip: "Close this",
+  profileFineprint:
+    "Answers stay in this browser. They only travel if you later ask for a sheet.",
+
   /* --------------------------------------------------------- earned sheet */
 
   earnedTag: "Earned",

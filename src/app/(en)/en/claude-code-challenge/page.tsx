@@ -12,6 +12,7 @@ import { constructMetadata } from "@/lib/metadata";
 import { JsonLd } from "@/components/shared/json-ld";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { DayTick } from "@/components/challenge/day-status";
+import { ProfileQuestions } from "@/components/challenge/profile-questions";
 import { ScoreCard } from "@/components/challenge/score-card";
 import { siteConfig } from "@/lib/site-config";
 import {
@@ -101,14 +102,17 @@ export default function ChallengeIndexPage() {
         </ScrollReveal>
 
         {/*
-          The reader's own score.
+          Two questions, then the reader's own score.
 
-          Under the hero and above the days, because somebody returning on day
-          twelve wants to see where they are before they see the list again.
-          It renders its empty state until the browser has hydrated, so the
-          static HTML and the first paint agree.
+          The questions come first because they are for somebody arriving, and
+          the score is for somebody returning. A new reader answers two taps
+          and gets a day number; a returning reader has already answered, so
+          that block collapses to one line and the score is what they see.
+
+          Neither blocks anything. Start with Day 1 is above both of them.
         */}
-        <ScrollReveal className="mx-auto mt-12 w-full max-w-[52rem]">
+        <ScrollReveal className="mx-auto mt-12 flex w-full max-w-[52rem] flex-col gap-4">
+          <ProfileQuestions />
           <ScoreCard />
         </ScrollReveal>
 
