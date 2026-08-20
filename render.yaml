@@ -23,7 +23,19 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    plan: starter
+    # Free, at the owner's request, 20 August 2026.
+    #
+    # What free actually means, so nobody is surprised later:
+    #
+    #   - The service sleeps after 15 minutes with no visitors. The next
+    #     visitor waits about 50 seconds while it wakes. On a page whose job
+    #     is collecting leads, that first visitor is the one you lose.
+    #   - 512 MB of memory at runtime. Enough here, because almost every page
+    #     is a static file and the server only handles the form.
+    #   - 750 instance hours a month across the whole account.
+    #
+    # `starter` removes the sleeping. It is one word on this line.
+    plan: free
     region: frankfurt
     branch: main
     # Render sends traffic here and restarts the service if it stops answering.
