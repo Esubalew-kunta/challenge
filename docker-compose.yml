@@ -1,0 +1,50 @@
+# Déploiement VPS du site aimakers.fr, derrière le Caddy partagé
+# (/opt/ai-makers/infra/caddy). Tenant AI Makers, à côté de apps/os/app.
+#
+# Utilisation depuis /opt/ai-makers/apps/website/app :
+#   cp .env.example .env   # puis renseigner les vraies valeurs
+#   docker compose up -d --build
+#
+# LOAD-BEARING : le nom de projet explicite. Sans lui, Compose le déduit du nom
+# du dossier ("app"), qui entrerait en collision avec le projet "app" déjà pris
+# par l'OS (/opt/ai-makers/apps/os/app) — et un `up` ici remplacerait ses
+# conteneurs.
+name: aimakers-website
+
+services:
+  web:
+    build:
+      context: .
+    image: aimakers-web:latest
+    container_name: aimakers-web
+    # Port d'entrée publié uniquement sur le loopback de l'hôte.
+    # Caddy route aimakers.fr vers 127.0.0.1:8101 et n'utilise pas les alias
+    # Docker partagés pour le routage public.
+    #
+    # Le conteneur reste attaché au réseau externe partagé `web` pour la
+    # connectivité inter-conteneurs. Les alias Docker de ce réseau restent donc
+    # partagés/visibles entre les conteneurs qui y sont attachés.
+    #
+    # 127.0.0.1 est porteur : exposé sur 0.0.0.0, ce port serait joignable
+    # depuis Internet et court-circuiterait Caddy et son TLS.
+    ports:
+      - "127.0.0.1:8101:3000"
+    restart: unless-stopped
+    env_file:
+      - .env
+    # Sans sonde, un process Next figé (boucle bloquée, fuite mémoire) reste
+    # "Up" indéfiniment : `restart: unless-stopped` ne relance que sur sortie du
+    # process. La sonde interroge la home, donc elle teste le rendu réel et pas
+    # seulement l'écoute du port.
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

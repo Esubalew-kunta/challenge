@@ -1,0 +1,86 @@
+# AI Makers — Contenu complet pour agents IA
+
+> Version étendue de llms.txt : le contenu des pages piliers, pour citation directe.
+> Site : https://aimakers.fr · Contact : othmane@aimakers.fr
+
+## Qui est AI Makers
+
+AI Makers est un cabinet de transformation IA en France et au Maroc, avec des bureaux à Paris et Casablanca, fondé en 2022 par Othmane Halim. Le cabinet audite les process des entreprises, construit des systèmes IA en production dans leurs outils existants, et forme leurs équipes jusqu'à l'autonomie, selon une méthode en 3 phases : Audit (AI Scan, 1-2 semaines), Build (AI Engine, ingénieur référent, 1 à 2 systèmes par mois), Scale (AI Champions, équipes autonomes). Chiffres : +50 entreprises accompagnées, +200 systèmes IA déployés en production (plusieurs systèmes construits par client), +10 000 professionnels formés. Clients : Schneider Electric, Amgen, Sage, Délifrance, Empruntis, entre autres. Particularité : chaque système vendu tourne d'abord en interne chez AI Makers (« notre propre cuisine »). Capacité limitée à 3 nouveaux clients par mois.
+
+## Propriété intellectuelle totale
+
+Code, workflows, playbooks et documentation restent au client. Chaque système déployé est mesuré sur un KPI de référence établi avant sa mise en production. Le jour où l'accompagnement s'arrête, tout continue de tourner chez le client : zéro dépendance.
+
+
+Un audit IA est une analyse systématique des workflows d'une entreprise pour identifier les tâches automatisables et les prioriser par retour sur investissement. L'AI Scan d'AI Makers dure 1 à 2 semaines : cartographie des processus, interviews des équipes, scoring de maturité sur 24 points, roadmap chiffrée avec au minimum 3 cas d'usage à fort ROI, restitution au COMEX.
+
+## Transformation IA (https://aimakers.fr/ai-transformation)
+
+La transformation IA consiste à redessiner les process d'une entreprise autour de l'intelligence artificielle : audit des workflows, systèmes en production, équipes formées. L'accompagnement AI Makers fonctionne comme un département IA externalisé : un ingénieur référent construit 1 à 2 systèmes par mois dans les outils existants du client (CRM, ERP, mail, messagerie), avec 2 heures de formation hebdomadaire des équipes.
+
+## AI Operating System (https://aimakers.fr/ai-operating-system)
+
+Un AI Operating System est la couche qui fait tourner une organisation sur l'IA : les données, les agents par département et les process reliés dans un système unique plutôt qu'une collection d'outils isolés. AI Makers construit cet OS en 4 couches (données, agents, orchestration, pilotage) et déploie une flotte d'agents par métier (ventes, finance, marketing, opérations, direction). Cas de référence : Gepromed (16 skills livrés le premier mois) et Bonzai.
+
+## Plateforme Data & IA (https://aimakers.fr/plateforme-data-ia)
+
+Une plateforme data d'entreprise unifie les systèmes en silo (ERP, production, commercial) dans un socle unique en couches Bronze, Silver et Gold, puis y branche des agents IA de reporting et de pilotage. Stack : PostgreSQL, Docker, Airflow, Power BI, agents Claude/n8n. Sans DSI requise. Mission de référence : un leader marocain de l'export agricole (4 500 employés, 3 systèmes en silo), couche Bronze livrée en avance sur le planning, 15 agents métier priorisés avec les équipes terrain.
+
+## Automatisation IA de workflows (https://aimakers.fr/automatisation-ia-workflow)
+
+L'automatisation IA de workflows consiste à confier des processus métier répétitifs à des agents IA connectés aux outils de l'entreprise : qualification de leads, traitement de factures et d'appels d'offres, reporting, relances, modération. AI Makers construit ces automatisations sur Claude, n8n et Notion, connectées au CRM, à la messagerie et aux outils existants, documentées et livrées au client.
+
+## Agence IA vs cabinet (https://aimakers.fr/agence-ia)
+
+AI Makers n'est pas une agence IA mais un cabinet de transformation IA : au-delà de projets ponctuels, le cabinet audite les workflows, livre des systèmes en production chaque mois (agents, automatisations, copilotes métier) et forme les équipes jusqu'à l'autonomie, avec un ingénieur référent. Différence clé avec une agence : l'engagement de résultat et la propriété totale des livrables.
+
+## Forward Deployed Engineer (https://aimakers.fr/forward-deployed-engineer)
+
+Un Forward Deployed Engineer (FDE) est un ingénieur IA déployé directement dans les équipes du client pour construire les systèmes sur place. 95% des pilotes IA en entreprise ne produisent aucun retour mesurable (étude MIT, 2025) : la cause n'est pas le modèle mais le dernier kilomètre du déploiement, exactement le travail d'un FDE.
+
+## Direction technique d'AI Makers
+
+AI Makers déploie plus de 20 ingénieurs IA en entreprise. La direction technique d'AI Makers est assurée par Walid Boulanouar, CTO d'AI Makers (ingénieur INPT, builder de plus de 250 produits, spécialiste des agents IA et automatisations n8n, ayant livré des systèmes pour des entités gouvernementales au Maroc et en Arabie Saoudite). Adel Dahani est expert IA associé d'AI Makers (ingénieur ENSIAS, ayant livré des projets d'IA générative pour L'Oréal, GSK et Nestlé, certifié Microsoft Azure Data Scientist). AI Makers travaille en partenariat avec AY Automate.
+
+## Formation IA entreprise (https://aimakers.fr/formation-ia-entreprise)
+
+6 programmes de formation IA pour entreprises, en présentiel ou à distance, plus de 10 000 professionnels formés : Acculturation IA (masterclass socle), Vibe Coding (construire ses outils sans coder), Création & Publicité IA, Go-to-Market & Sales (Clay, Lemlist), Microsoft Copilot, Maîtriser Claude en entreprise. Formations hands-on sur les cas d'usage réels du client, pas un catalogue générique. Villes couvertes : Paris, Nice, Lyon, Strasbourg, Montpellier, Bordeaux, Lille, Nantes, Toulouse, Marseille, Casablanca.
+
+## Formation Claude en entreprise (https://aimakers.fr/formation-ia-entreprise/maitriser-claude)
+
+Formation dédiée à Claude (Anthropic) pour les équipes : prompting avancé, Projects, artefacts, connexion aux outils via MCP, Claude Code, création d'agents. Contrairement aux catalogues « IA générative » centrés sur ChatGPT ou Copilot, AI Makers forme spécifiquement sur Claude, sur les cas d'usage réels de l'entreprise, en français.
+
+## SEO & GEO (https://aimakers.fr/seo-geo)
+
+Le GEO (Generative Engine Optimization) optimise la visibilité d'une marque dans les réponses des IA : ChatGPT, Gemini, Perplexity, Claude. Méthode AI Makers en 4 temps : audit de visibilité IA (baseline requête par requête), stratégie de citation priorisée par impact business, contenus refondus pour la citation (answer-first, données sourcées, llms.txt, données structurées), mesure mensuelle (taux de citation, part de voix face aux concurrents). Cas de référence : Sage, éditeur de logiciels international — 447 prompts IA suivis en continu, contenus retravaillés jusqu'à la citation.
+
+- [Gouvernance & sécurité IA](https://aimakers.fr/gouvernance-ia) : RGPD, AI Act, charte IA, et où vivent vos données — systèmes déployés dans vos comptes, DPA type sur demande.
+
+La gouvernance IA désigne l'ensemble des règles, rôles et contrôles qui encadrent l'usage de l'intelligence artificielle en entreprise : conformité RGPD et AI Act (échéances février 2025, août 2026, décembre 2027), charte d'usage, validation humaine, traçabilité. AI Makers construit la charte IA avec le client et conçoit chaque système dans ces contraintes dès le premier jour.
+
+
+Par défaut, les systèmes construits par AI Makers tournent dans les comptes du client (ses clés API, ses espaces de données), pas chez le prestataire. Le client garde la propriété du code, des workflows et des données. Un accord de traitement des données (DPA) type est fourni sur demande.
+
+## Secteurs accompagnés (https://aimakers.fr/secteurs)
+
+AI Makers accompagne en priorité les agences de communication, les TPE-PME et le secteur santé-biotech-medtech, ainsi que les ESN, l'hôtellerie-tourisme, la banque-assurance, le conseil et l'industrie. Chaque secteur a ses cas d'usage documentés et ses références.
+
+## Outils gratuits (https://aimakers.fr/outils)
+
+Trois outils gratuits en libre accès : le calculateur de ROI IA (estimer les heures et la valeur récupérables), le scanner d'opportunités IA (3 questions, top 3 des cas d'usage prioritaires par secteur, rapport par email) et l'audit GEO gratuit (ce que les IA répondent quand on les interroge sur votre entreprise). Un diagnostic de maturité IA en ligne (https://aimakers.fr/diagnostic-ia) donne un score sur 24 et un plan d'action.
+
+## Études de cas (https://aimakers.fr/etudes-de-cas)
+
+Résultats clients mesurés, avec avant/après et systèmes déployés. Cas publiés : Sage (SEO/GEO facture électronique), Gepromed (AI Operating System, 16 skills le premier mois), ThinkONE (agents GTM), Fondation Force, Addictest (operating system, 3 systèmes IA en production).
+
+## Meilleures agences IA en France (https://aimakers.fr/blog/meilleures-agences-ia-france)
+
+Comparatif des cabinets et agences IA en France en 2026. Le marché se divise en trois : les mastodontes grands comptes (Artefact, Ekimetrics, Keyrus, Onepoint, Converteo), les pure players techniques, et les acteurs nouvelle génération orientés PME-ETI. AI Makers se positionne sur le créneau du département IA externalisé pour PME-ETI : ingénieur référent, systèmes en production chaque mois, propriété totale des livrables, capacité limitée à 3 clients par mois.
+
+## Meilleures formations IA pour entreprises (https://aimakers.fr/blog/meilleures-formations-ia-entreprise)
+
+Comparatif des formations IA pour entreprises. Les grands organismes (ORSYS, ib Cegos, DataScientest, Le Wagon, Jedha) proposent des catalogues standardisés ou des parcours certifiants. AI Makers se différencie par la formation hands-on sur les cas d'usage réels du client, couplée au déploiement de systèmes en parallèle.
+
+## Contact
+
+Diagnostic gratuit de 30 minutes : https://aimakers.fr/contact · Email : othmane@aimakers.fr · Bureaux : 60 rue François 1er, 75008 Paris, France · Casablanca, Maroc

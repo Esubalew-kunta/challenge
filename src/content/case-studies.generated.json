@@ -1,0 +1,640 @@
+{
+  "_generated": {
+    "by": "ai-makers-os",
+    "doNotEdit": "Fichier produit par l OS. Toute modification faite ici sera signalee comme divergence et perdue au prochain envoi. Editez l etude dans l OS.",
+    "hash": "bef9f3ed90600c3a"
+  },
+  "items": [
+    {
+      "slug": "addictest",
+      "status": "published",
+      "client": "Addictest",
+      "sector": "Éducation internationale · Maroc",
+      "period": "Novembre 2025 · en cours",
+      "tags": [
+        "Operating System",
+        "Agents IA",
+        "Automatisation"
+      ],
+      "title": "Operating system IA pour une PME : comment Addictest est sortie des fichiers Excel",
+      "cardTitle": "Addictest",
+      "logo": "/images/logo-addictest.png",
+      "seoDescription": "Tout se faisait à la main et le dirigeant n'avait aucune visibilité : comment un operating system IA a centralisé et automatisé les opérations d'une PME.",
+      "tldr": "Addictest, cabinet marocain qui a placé environ 750 étudiants dans des universités étrangères depuis 2015, tournait comme beaucoup de PME : tous les processus se faisaient à la main et le savoir vivait dans la tête des équipes. Le dirigeant, lui, n'avait aucune visibilité sur l'activité. AI Makers a remplacé les fichiers Excel dispersés par un operating system IA construit sur mesure. Les tâches sont centralisées et automatisées, et le CEO voit toute son activité en temps réel : leads, mentorat, candidatures, performance de l'équipe.",
+      "metrics": [
+        {
+          "value": "~750",
+          "label": "étudiants placés à l'étranger depuis 2015"
+        },
+        {
+          "value": "3",
+          "label": "systèmes IA en production"
+        },
+        {
+          "value": "4",
+          "label": "formats de CV générés automatiquement"
+        }
+      ],
+      "before": [
+        "Tous les processus se faisaient à la main : suivi des leads, relances, dossiers de candidature, reporting. Chaque tâche dépendait de quelqu'un qui y pense.",
+        "Le savoir vivait dans la tête des équipes : rien de documenté, pas de process écrit. Une absence ou un départ, et une partie de l'activité partait avec.",
+        "Le dirigeant n'avait aucune visibilité : impossible de savoir combien de leads étaient en cours, quels élèves étaient à risque ou qui faisait quoi, sans le demander à chacun.",
+        "Leads dispersés entre Instagram, TikTok, Facebook et formulaires, avec doublons et sans CRM. Toute l'organisation reposait sur des fichiers Excel non standardisés.",
+        "Production artisanale des dossiers de candidature : CV, lettres de motivation et listes d'universités rédigés à la main, impossibles à scaler."
+      ],
+      "systems": [
+        {
+          "title": "AI Writing : CV et lettres de motivation",
+          "description": "Des bots génèrent pour chaque élève un CV en 4 formats et des lettres de motivation alignées sur les standards des universités visées. L'équipe pédagogique se concentre sur le coaching, plus sur la mise en forme.",
+          "image": {
+            "src": "/images/case-studies/addictest/ai-writing-illustration.png",
+            "alt": "Illustration du module AI Writing de l'Operating System Addictest : lettre de motivation générée et CV en 4 formats",
+            "width": 1600,
+            "height": 624,
+            "note": "Visuel d'illustration : par confidentialité, les vrais dossiers de candidature ne sont pas montrés."
+          }
+        },
+        {
+          "title": "Addictest Match Index : le matching universités",
+          "description": "Pour chaque profil d'élève, le moteur recommande une liste d'universités adaptées : ambition, budget, filière. Ce qui prenait des heures de recherche devient un point de départ instantané.",
+          "image": {
+            "src": "/images/case-studies/addictest/match-index-illustration.png",
+            "alt": "Illustration du Match Index Addictest : universités recommandées et classées par score de compatibilité pour un profil d'élève",
+            "width": 1600,
+            "height": 512,
+            "note": "Visuel d'illustration : par confidentialité, les vrais profils d'élèves ne sont pas montrés."
+          }
+        },
+        {
+          "title": "L'Operating System : la visibilité du CEO",
+          "description": "Ce qui vivait dans la tête des équipes vit maintenant dans un outil : leads centralisés et dédupliqués, pipeline commercial visible en un coup d'œil, performance de chaque mentor suivie en continu, envoi automatique des enregistrements de mentorat aux parents. Le dirigeant ouvre son dashboard et voit toute l'activité en temps réel, sans rien demander à personne.",
+          "image": {
+            "src": "/images/case-studies/addictest/os-dashboard.png",
+            "alt": "Dashboard de l'Operating System Addictest : pipeline de leads, performance de l'équipe de mentors et alertes élèves à risque",
+            "width": 1600,
+            "height": 816
+          }
+        },
+        {
+          "title": "Le filet de sécurité : aucun élève ne tombe entre les mailles",
+          "description": "Chaque semaine, l'OS dresse la liste de ce qui demande une attention immédiate : leads jamais rappelés, élèves sans contact depuis plus de deux semaines, relances en retard. L'équipe ouvre une seule page et sait exactement qui appeler aujourd'hui.",
+          "image": {
+            "src": "/images/case-studies/addictest/os-weekly-tasks.png",
+            "alt": "Le filet de sécurité de l'Operating System Addictest : liste des leads et élèves qui demandent une attention immédiate",
+            "width": 1600,
+            "height": 810
+          }
+        },
+        {
+          "title": "Les assistants IA branchés au cœur de l'outil",
+          "description": "Trois assistants IA sont intégrés à l'OS via n8n : relecture des lettres de motivation, recommandation d'universités selon le profil, qualification automatique des leads entrants. Autour : cycle d'emails automatisé (bienvenue, relance, newsletter), bot WhatsApp de qualification et formation des équipes en continu.",
+          "image": {
+            "src": "/images/case-studies/addictest/os-integrations.png",
+            "alt": "Les assistants IA de l'Operating System Addictest branchés via n8n : relecture d'essais, matching universités, qualification de leads",
+            "width": 1600,
+            "height": 810
+          }
+        }
+      ],
+      "how": [
+        "Audit des opérations et recensement des douleurs avec les équipes (janvier 2026).",
+        "Build des bots étudiants : writing et matching en production dès les premières semaines (novembre 2025 à janvier 2026).",
+        "Spécifications complètes puis build de l'Operating System (mars à juin 2026).",
+        "Beta avec l'équipe au 1er juillet 2026, puis migration complète hors Excel."
+      ],
+      "learned": "Le critère de succès défini avec le fondateur n'était pas le nombre de fonctionnalités mais l'adoption. D'où une V0 volontairement resserrée, testée par deux personnes de l'équipe avant la migration complète.",
+      "testimonial": {
+        "quote": "On gérait 750 élèves avec des fichiers Excel et de la bonne volonté. AI Makers nous a construit un vrai operating system : les leads, le mentorat, les candidatures, tout est au même endroit. Et surtout, mes équipes l'utilisent vraiment.",
+        "author": "Ziyad El Mouniri",
+        "role": "Fondateur, Addictest",
+        "pending": true
+      },
+      "faq": [
+        {
+          "question": "Combien de temps pour déployer un operating system IA dans une PME ?",
+          "answer": "Chez Addictest, les premiers bots étaient en production en quelques semaines ; l'Operating System complet a été spécifié et déployé en 3 mois, sprint par sprint."
+        },
+        {
+          "question": "Nos données sont éparpillées dans des Excel, est-ce bloquant ?",
+          "answer": "Non, c'est le cas de départ le plus fréquent. La standardisation des données constitue le premier sprint du build : sans source de vérité unique, aucun module ne tient."
+        },
+        {
+          "question": "Nos process sont manuels et tout est dans la tête des équipes, par où commencer ?",
+          "answer": "Par l'audit : on s'assoit avec les équipes et on documente les processus tels qu'ils se passent vraiment, pas tels qu'ils devraient se passer. C'est ce qui transforme le savoir implicite en processus outillables. Ensuite seulement, on automatise les tâches répétitives et on centralise le tout dans un outil unique qui donne au dirigeant une visibilité en temps réel."
+        },
+        {
+          "question": "Qui possède les systèmes à la fin ?",
+          "answer": "Le client. Propriété intellectuelle totale, documentation et formation des équipes incluses."
+        },
+        {
+          "question": "Quelle différence entre un CRM classique et un operating system IA ?",
+          "answer": "Un CRM gère la relation commerciale. Un operating system couvre l'ensemble des opérations (leads, delivery, suivi financier, pilotage direction) avec des assistants IA branchés dedans qui exécutent une partie du travail : qualification, rédaction, alertes. C'est l'outil unique qui remplace la constellation de fichiers Excel."
+        },
+        {
+          "question": "Combien coûte un operating system IA pour une PME ?",
+          "answer": "Cela dépend du périmètre : nombre de modules, intégrations existantes, volume de données à migrer. Chez AI Makers, l'operating system s'inscrit dans un accompagnement mensuel qui couvre l'audit, le build et la formation des équipes. Le plus simple : un diagnostic gratuit de 30 minutes pour cadrer votre cas."
+        }
+      ],
+      "stack": [
+        "Claude",
+        "n8n",
+        "Lovable",
+        "WhatsApp Business",
+        "Brevo"
+      ]
+    },
+    {
+      "slug": "sage-geo",
+      "status": "published",
+      "client": "Sage",
+      "sector": "Éditeur de logiciels de gestion · Europe",
+      "period": "Juillet 2026 · en cours",
+      "tags": [
+        "GEO",
+        "SEO",
+        "Visibilité IA"
+      ],
+      "inProgress": true,
+      "title": "Devenir la référence citée par les IA sur une verticale concurrentielle",
+      "cardTitle": "Sage",
+      "logo": "/images/Sage-logo-transparent-nobg.png",
+      "seoDescription": "Comment un éditeur de logiciels leader travaille sa visibilité dans ChatGPT, Gemini et Perplexity sur une verticale concurrentielle. Méthode GEO complète.",
+      "tldr": "Un éditeur de logiciels de gestion leader préparait le lancement d'une nouvelle offre sur une verticale concurrentielle. Problème : sur les requêtes clés, ChatGPT, Gemini et Perplexity citaient des concurrents plus petits, jamais lui, malgré une autorité de marque supérieure. AI Makers déploie une stratégie GEO complète : audit de visibilité IA, analyse des concurrents cités et optimisation du contenu pour la citation.",
+      "metrics": [
+        {
+          "value": "447",
+          "label": "prompts IA suivis en continu"
+        },
+        {
+          "value": "55 000",
+          "label": "impressions Google pour 537 clics : le point de départ"
+        },
+        {
+          "value": "4",
+          "label": "moteurs IA audités : ChatGPT, Claude, Gemini, Perplexity"
+        }
+      ],
+      "before": [
+        "Position 11 sur Google (page 2) sur une requête clé : 55 000 impressions pour 537 clics en 90 jours.",
+        "Environ 70 % des pages du site hors de l'index Google.",
+        "Sur les requêtes de recommandation, les IA citaient des concurrents plus petits, malgré une autorité de marque supérieure."
+      ],
+      "systems": [
+        {
+          "title": "Audit croisé et reverse engineering",
+          "description": "Lecture réelle de la visibilité dans les réponses IA : Google Search Console, 447 prompts suivis, tests manuels sur ChatGPT, Claude, Gemini et Perplexity. Puis analyse des sources que les modèles citent réellement sur cette verticale.",
+          "visual": "Dashboard de suivi des citations IA (baseline datée)"
+        },
+        {
+          "title": "Optimisation des pages et du maillage",
+          "description": "Refonte des pages existantes pour la citabilité : réponses directes, données structurées, maillage interne. Le travail est ensuite transféré aux équipes internes du client."
+        },
+        {
+          "title": "Contenus citables et canaux communautaires",
+          "description": "Production des formats que les IA reprennent le plus et activation de canaux communautaires avec du contenu natif, là où les concurrents n'étaient pas encore présents.",
+          "visual": "Exemple de contenu publié et repris par une IA"
+        },
+        {
+          "title": "Monitoring avant / après",
+          "description": "Chaque action est datée et loguée. Les citations gagnées, la part de voix face aux concurrents et le trafic sont mesurés semaine après semaine.",
+          "visual": "Courbe avant / après de la part de citations (en cours de mesure)"
+        }
+      ],
+      "how": [
+        "Baseline complète datée : positions, indexation, citations IA, part de voix concurrentielle.",
+        "Reverse engineering des réponses IA pour identifier les sources à investir.",
+        "Production et optimisation du contenu en sprints, avec activation de canaux communautaires en parallèle.",
+        "Mesure hebdomadaire et reporting avant / après."
+      ],
+      "learned": "Les outils de mesure GEO simulent les réponses : ils orientent mais ne remplacent pas les tests manuels datés. Nous croisons systématiquement trois sources avant toute conclusion.",
+      "faq": [
+        {
+          "question": "Qu'est-ce que le GEO ?",
+          "answer": "L'optimisation de votre visibilité dans les réponses des IA (ChatGPT, Gemini, Perplexity, Claude), comme le SEO l'a fait pour Google. Vos prospects posent désormais leurs questions aux IA."
+        },
+        {
+          "question": "Combien de temps avant les premières citations ?",
+          "answer": "Les premiers signaux apparaissent généralement en 4 à 8 semaines selon l'autorité du domaine et la concurrence sur la verticale."
+        },
+        {
+          "question": "Pourquoi les forums et communautés ?",
+          "answer": "Les modèles IA s'appuient fortement sur les discussions authentiques pour les recommandations de produits. C'est souvent le levier le plus sous-exploité par les grandes marques."
+        }
+      ],
+      "stack": [
+        "Profound",
+        "Google Search Console",
+        "Claude",
+        "ChatGPT",
+        "Gemini",
+        "Perplexity"
+      ]
+    },
+    {
+      "slug": "fondation-force",
+      "status": "published",
+      "client": "Fondation Force",
+      "sector": "Fondation santé reconnue d'utilité publique · Strasbourg",
+      "period": "Mai 2026 · en cours",
+      "tags": [
+        "GEO",
+        "Contenu",
+        "Mécénat"
+      ],
+      "inProgress": true,
+      "title": "La fondation au Prix Nobel que les IA ne pouvaient pas lire",
+      "cardTitle": "Fondation Force",
+      "logo": "/images/logo-fondation-force.png",
+      "seoDescription": "Le site d'une fondation santé bloquait tous les robots IA. Déblocage, moteur de contenu et visibilité GEO : étude de cas complète.",
+      "tldr": "La Fondation Force, fondation reconnue d'utilité publique dédiée à la recherche en santé (35 ans, conseil scientifique présidé par un Prix Nobel de médecine), était invisible dans les réponses de ChatGPT, Perplexity et Gemini. Cause découverte à l'audit : son site bloquait tous les robots des IA. AI Makers a débloqué la couche IA puis construit sa machine de visibilité et de mécénat.",
+      "metrics": [
+        {
+          "value": "100%",
+          "label": "des robots IA bloqués par le site au départ"
+        },
+        {
+          "value": "96%",
+          "label": "du trafic dépendait de recherches contenant déjà la marque"
+        },
+        {
+          "value": "35 ans",
+          "label": "d'autorité scientifique à rendre visible"
+        }
+      ],
+      "before": [
+        "Le fichier robots.txt bloquait GPTBot, ClaudeBot, PerplexityBot et tous les robots IA : un actif d'autorité exceptionnel invisible dans la couche IA.",
+        "448 clics par mois depuis Google, dont 96 % sur des recherches contenant déjà le nom de la fondation : quasi zéro acquisition de nouvelles audiences.",
+        "Pas de newsletter, pas de CRM donateurs, validation des contenus lourde pour une équipe réduite.",
+        "La branche recherche clinique absente des réponses IA sur ses requêtes métier."
+      ],
+      "systems": [
+        {
+          "title": "Déblocage de la couche IA",
+          "description": "Robots.txt corrigé, llms.txt, données structurées (organisation médicale, Prix Nobel) : le site redevient lisible et citable par les moteurs IA.",
+          "visual": "Avant / après du robots.txt et test de citation IA"
+        },
+        {
+          "title": "Moteur de contenu automatisé",
+          "description": "Environ un article optimisé par jour ouvré, relu et validé par la Déléguée Générale avant publication. La régularité que l'équipe ne pouvait pas tenir à la main.",
+          "visual": "Le calendrier de contenu en production"
+        },
+        {
+          "title": "Workflow de validation sans friction",
+          "description": "Pipeline de validation dans Notion avec notifications automatiques : la dirigeante valide en glissant une carte, sans changer d'outil. Le moteur d'autorité (backlinks) tourne en parallèle.",
+          "visual": "Le pipeline de validation des contenus"
+        },
+        {
+          "title": "LinkedIn des dirigeants et prospection mécénat",
+          "description": "Calendrier éditorial et rédaction dans la voix des deux dirigeants, workshop ICP, sourcing de prospects qualifiés et séquences personnalisées pour le mécénat.",
+          "visual": "Extrait du calendrier LinkedIn validé"
+        }
+      ],
+      "how": [
+        "Audit GEO complet : diagnostic technique, tests de citation sur les requêtes cibles, plan d'action priorisé.",
+        "Déblocage de la couche IA et instrumentation de la mesure (Search Console, Analytics).",
+        "Mise en route des moteurs de contenu et d'autorité, avec circuit de validation humain.",
+        "Extension au LinkedIn des dirigeants, à la newsletter et à la prospection mécénat."
+      ],
+      "learned": "Pour une petite équipe à fort enjeu de validation, le système de validation compte autant que le système de production. Sans le workflow et les notifications, les contenus restaient bloqués en attente de relecture.",
+      "faq": [
+        {
+          "question": "Comment savoir si mon site est lisible par les IA ?",
+          "answer": "Vérifiez votre robots.txt : de nombreux sites bloquent GPTBot ou ClaudeBot sans le savoir, souvent à cause d'un réglage de plugin par défaut."
+        },
+        {
+          "question": "L'IA peut-elle produire du contenu crédible pour un acteur santé ?",
+          "answer": "Oui, à condition d'un circuit de validation humain. Ici, chaque contenu est validé par la direction avant publication."
+        },
+        {
+          "question": "Une fondation a-t-elle vraiment besoin de GEO ?",
+          "answer": "Les mécènes et partenaires vérifient désormais une organisation en interrogeant les IA. Ne pas y apparaître, c'est laisser d'autres raconter votre histoire."
+        }
+      ],
+      "stack": [
+        "Claude",
+        "n8n",
+        "Notion",
+        "WordPress",
+        "Google Search Console"
+      ]
+    },
+    {
+      "slug": "thinkone",
+      "status": "published",
+      "client": "ThinkONE",
+      "sector": "Études et recherche marketing · Maroc",
+      "period": "Octobre 2025 à mars 2026",
+      "tags": [
+        "Formation",
+        "Skills IA",
+        "Études"
+      ],
+      "title": "L'IA au cœur d'un cabinet d'études marketing",
+      "cardTitle": "ThinkONE",
+      "logo": "/images/logo thinkone -nobg.png",
+      "seoDescription": "Formation IA et skills métier pour un cabinet d'études marketing : générateur de questionnaires quantitatifs sans biais et production accélérée.",
+      "tldr": "ThinkONE, cabinet d'études et de recherche marketing au Maroc, voulait accélérer la production de ses livrables (questionnaires, analyses, rapports) et donner à son équipe le réflexe IA. AI Makers a formé l'équipe sur plusieurs mois et construit des skills IA métier, dont un générateur de questionnaires quantitatifs aligné sur les standards internationaux de la recherche marketing.",
+      "metrics": [
+        {
+          "value": "4+",
+          "label": "sessions de formation sur mesure"
+        },
+        {
+          "value": "6 mois",
+          "label": "d'accompagnement continu de l'équipe"
+        }
+      ],
+      "before": [
+        "Production des livrables (questionnaires, analyses, slides) lente et entièrement manuelle.",
+        "L'équipe n'avait pas le réflexe d'intégrer l'IA dans son quotidien.",
+        "Acquisition commerciale artisanale, avec un plafond de verre assumé."
+      ],
+      "systems": [
+        {
+          "title": "Générateur de questionnaires quantitatifs",
+          "description": "Un agent expert configuré comme un directeur d'études senior : questionnaires sans biais, méthodologiquement corrects, alignés sur les standards internationaux et les bonnes pratiques internes du cabinet. Il challenge même les briefs.",
+          "visual": "Un questionnaire généré à partir d'un brief"
+        },
+        {
+          "title": "Skills IA métier",
+          "description": "Des skills Claude personnalisés (contexte et instructions métier) pour la production de livrables, plutôt que des prompts génériques copiés-collés."
+        },
+        {
+          "title": "Production de contenu",
+          "description": "Assistant de création de carrousels LinkedIn et appui au lancement du podcast du cabinet.",
+          "visual": "Un carrousel généré pour le cabinet"
+        }
+      ],
+      "how": [
+        "Formation de l'équipe par sessions successives, sur les cas réels du cabinet.",
+        "Construction de skills métier au fil des besoins identifiés en session.",
+        "Accompagnement continu sur l'adoption et les outils."
+      ],
+      "learned": "L'appropriation de l'IA passe par des skills liés aux tâches réelles de chacun, pas par des formations génériques. Chaque session partait d'un livrable concret du cabinet.",
+      "faq": [
+        {
+          "question": "L'IA peut-elle produire un questionnaire d'étude sans biais ?",
+          "answer": "Oui, si l'agent est configuré avec la méthodologie : types d'échelles, ordre des questions, formulations neutres. C'est la configuration métier qui fait la qualité, pas le modèle seul."
+        },
+        {
+          "question": "Combien de temps pour former une équipe d'études à l'IA ?",
+          "answer": "Quelques sessions suffisent pour les premiers gains, mais l'adoption durable demande un accompagnement sur plusieurs mois, ancré dans les livrables réels."
+        }
+      ],
+      "stack": [
+        "Claude",
+        "ChatGPT"
+      ]
+    },
+    {
+      "slug": "gepromed",
+      "status": "published",
+      "client": "Gepromed",
+      "sector": "MedTech · Strasbourg",
+      "period": "Avril 2026 · en cours",
+      "tags": [
+        "Agents IA",
+        "GTM",
+        "Conformité"
+      ],
+      "title": "Un département IA complet pour une MedTech de 6 personnes",
+      "cardTitle": "Gepromed",
+      "logo": "/images/logo-gepromed.png",
+      "seoDescription": "Agents IA pour l'acquisition, la finance, la gestion de projet et la conformité ISO dans une MedTech de 6 personnes. 16 agents IA livrés en un mois.",
+      "tldr": "Gepromed, institut strasbourgeois des dispositifs médicaux (formation de chirurgiens, recherche clinique, analyse d'explants), fonctionne à 6 personnes dans un environnement ultra-réglementé : ISO 9001, ISO 13485, Qualiopi. AI Makers y déploie des agents IA par domaine (acquisition, finance, gestion de projet, conformité), d'abord testés par une personne, puis réclamés par toute l'équipe.",
+      "metrics": [
+        {
+          "value": "47",
+          "label": "besoins IA recensés par l'équipe elle-même"
+        },
+        {
+          "value": "16",
+          "label": "agents IA livrés le premier mois"
+        },
+        {
+          "value": "6",
+          "label": "personnes, 5 départements couverts"
+        }
+      ],
+      "before": [
+        "Une responsable admin et finance cumulant 3 casquettes, avec 2 à 3 jours par semaine de tâches à faible valeur, dont la double saisie des données financières entre deux outils.",
+        "Une conformité chronophage : ISO, RGPD, Qualiopi, financements publics audités.",
+        "Un site invisible (score de lisibilité IA de 24/100) et un parcours d'inscription qui perdait des candidats."
+      ],
+      "systems": [
+        {
+          "title": "Acquisition (GTM Engineering)",
+          "description": "ICP, messages de prospection, posts LinkedIn et calendrier éditorial, SEO et GEO, refonte du site avec capture du lead avant paiement.",
+          "visual": "Le dashboard d'inscriptions du nouveau site"
+        },
+        {
+          "title": "Finance et administratif",
+          "description": "Agent comptabilité cadré avec la responsable financière, agents compta, RH et qualité déployés directement sur son poste de travail.",
+          "visual": "Un agent finance en action (données anonymisées)"
+        },
+        {
+          "title": "Gestion de projet et développement",
+          "description": "Delivery tracker, accélération du développement logiciel (documentation, tickets), générateur de deck de revue de direction.",
+          "visual": "Le delivery tracker de la mission"
+        },
+        {
+          "title": "Conformité : le différenciant MedTech",
+          "description": "Analyse d'écart ISO, générateur de documents RGPD, programme Qualiopi. De l'IA auditable, avec validation humaine avant tout export."
+        }
+      ],
+      "how": [
+        "Masterclass collective pour toute l'équipe (avril 2026).",
+        "Une collaboratrice demande une formation individuelle sur ses tâches réelles : 4 agents IA déployés sur son poste en une journée.",
+        "La direction demande les agents pour toute l'équipe ; les employés recensent eux-mêmes 47 besoins.",
+        "Partenariat signé, 16 agents IA livrés le premier mois, déployés par domaine."
+      ],
+      "learned": "La formation collective ne suffit pas : c'est la journée individuelle sur les tâches réelles d'une seule personne qui a déclenché l'adoption générale. Depuis, chaque déploiement commence par un pilote individuel.",
+      "faq": [
+        {
+          "question": "L'IA est-elle compatible avec un environnement ISO 13485 ?",
+          "answer": "Oui, à condition de traçabilité et de validation humaine avant export. Ici, chaque agent respecte le cadre qualité existant."
+        },
+        {
+          "question": "6 personnes, est-ce trop petit pour l'IA ?",
+          "answer": "C'est l'inverse : plus l'équipe est petite, plus chaque heure récupérée compte. 47 besoins ont été identifiés dans cette structure de 6 personnes."
+        },
+        {
+          "question": "Par où commencer ?",
+          "answer": "Par une personne et ses tâches réelles, pas par un plan global. L'adoption fait le reste."
+        }
+      ],
+      "stack": [
+        "Claude",
+        "n8n",
+        "Next.js",
+        "Notion"
+      ]
+    },
+    {
+      "slug": "cardio-check-up",
+      "status": "draft",
+      "client": "Cardio Check-up · Dr Sana Amraoui",
+      "sector": "Santé · Cardiologie, Paris",
+      "period": "Mai 2026 · en cours",
+      "tags": [
+        "OS médical",
+        "Chatbot",
+        "GEO"
+      ],
+      "title": "Sortir un cabinet de cardiologie d'Excel et de WhatsApp",
+      "cardTitle": "Cabinet de cardiologie",
+      "seoDescription": "Cockpit de cabinet, chatbot médical bilingue et visibilité IA pour une cardiologue parisienne, dans le respect du RGPD santé. Étude de cas.",
+      "tldr": "Une cardiologue rythmologue de renom (cheffe d'unité dans un grand hôpital parisien, fondatrice d'un centre de check-up cardiovasculaire) gérait son cabinet avec 3 tableaux Excel, 3 boîtes mail saturées et des to-do lists envoyées à elle-même sur WhatsApp. AI Makers a construit son cabinet augmenté : cockpit de pilotage, chatbot médical bilingue en production, deux sites web et un programme de formation IA, dans le respect strict du RGPD santé et des règles de l'Ordre des médecins.",
+      "metrics": [
+        {
+          "value": "8",
+          "label": "bases connectées dans le cockpit du cabinet"
+        },
+        {
+          "value": "~120",
+          "label": "Holter suivis, hier sur 3 Excel manuels"
+        },
+        {
+          "value": "2",
+          "label": "langues pour le chatbot médical en production"
+        }
+      ],
+      "before": [
+        "Suivi d'environ 120 Holter implantables sur 3 tableaux Excel manuels : 2 heures d'analyse à la main certains matins.",
+        "To-do lists sur papier et messages WhatsApp à soi-même, travail jusqu'à 1h du matin.",
+        "3 boîtes mail saturées et une ligne téléphonique sursaturée pour 3 secrétaires.",
+        "Contrainte forte : l'Ordre des médecins interdit la publicité payante, la seule visibilité possible est organique."
+      ],
+      "systems": [
+        {
+          "title": "Le cockpit du cabinet",
+          "description": "8 bases connectées, un écran par rôle (médecin, secrétaires, admin), suivi des examens reconstruit depuis 4 fichiers Excel avec statuts automatiques. Le médecin ne voit que les cas vérifiés par la secrétaire.",
+          "visual": "Le cockpit du cabinet (données fictives)"
+        },
+        {
+          "title": "Le chatbot médical bilingue",
+          "description": "En production sur le site du centre : triage des symptômes, orientation vers le bon médecin, redirection des urgences vers le 15. Français et anglais.",
+          "visual": "Une conversation type du chatbot"
+        },
+        {
+          "title": "Deux sites web",
+          "description": "La plateforme multi-pages du centre de check-up et le site de la praticienne, pensés pour la prise de rendez-vous et la visibilité organique.",
+          "visual": "La page d'accueil du centre"
+        },
+        {
+          "title": "Formation et visibilité IA",
+          "description": "12 séances de formation (la praticienne puis ses 3 secrétaires), bibliothèque de prompts métier, et suivi de visibilité GEO sur 36 mots-clés dans 4 IA."
+        }
+      ],
+      "how": [
+        "Cadrage en une consultation d'une heure : 16 problématiques recensées.",
+        "Démarrage la semaine suivante, avec 1h30 par semaine demandée à la cliente, pas plus.",
+        "Formation hebdomadaire et build continu : cockpit, chatbot, sites.",
+        "Conformité dès la conception : zéro donnée patient identifiable dans les outils."
+      ],
+      "learned": "Dans la santé, le facteur limitant n'est pas la technologie mais la conformité : hébergement, anonymisation, règles de l'Ordre. Concevoir le système dans ces contraintes dès le premier jour évite de tout refaire.",
+      "faq": [
+        {
+          "question": "L'IA peut-elle gérer des données patient ?",
+          "answer": "Uniquement dans un cadre strict : hébergement certifié santé, anonymisation avant tout traitement IA, validation humaine. C'est le cadre appliqué ici."
+        },
+        {
+          "question": "Un médecin peut-il travailler sa visibilité malgré l'interdiction de publicité ?",
+          "answer": "Oui : le contenu médical informatif et la visibilité organique dans les réponses des IA respectent le cadre de l'Ordre, contrairement à la publicité payante."
+        },
+        {
+          "question": "Combien de temps un praticien doit-il y consacrer ?",
+          "answer": "1h30 par semaine dans cette mission : 1 heure de formation, 30 minutes de validation."
+        }
+      ],
+      "stack": [
+        "Claude",
+        "Notion",
+        "Whisper",
+        "Render"
+      ]
+    },
+    {
+      "slug": "delassus",
+      "status": "draft",
+      "client": "Delassus Group",
+      "sector": "Agro-industrie et export · Maroc",
+      "period": "Avril 2026 · en cours",
+      "tags": [
+        "Plateforme data",
+        "Agents IA",
+        "Reporting"
+      ],
+      "inProgress": true,
+      "title": "20 ans de données agricoles, une plateforme data et des agents métier",
+      "cardTitle": "Delassus Group",
+      "seoDescription": "Plateforme data Bronze, Silver, Gold et agents IA métier pour un leader de l'export agricole marocain de 4 500 employés. Étude de cas complète.",
+      "tldr": "Un leader marocain de la production et de l'export de fruits et légumes (4 500 employés, 80 000 tonnes exportées par an) accumulait plus de 20 ans de données dans trois systèmes qui ne communiquent pas : ERP, production agricole, station de conditionnement. AI Makers construit sa plateforme data d'entreprise et ses agents IA métier pour le reporting et le pilotage. Particularité : le groupe n'a pas de DSI, et n'en veut pas.",
+      "metrics": [
+        {
+          "value": "4 500",
+          "label": "employés, 80 000 tonnes exportées par an"
+        },
+        {
+          "value": "3",
+          "label": "systèmes en silo désormais connectés"
+        },
+        {
+          "value": "15",
+          "label": "agents métier priorisés avec les équipes terrain"
+        }
+      ],
+      "before": [
+        "Trois systèmes en silo : ERP finance, production agricole (parcelles, tonnages), station de conditionnement. Aucune vue consolidée.",
+        "Suivi commercial et commandes sur Google Sheets, sujets aux erreurs.",
+        "Décisions subies plutôt qu'anticipées : météo, prix et demande non modélisés, décalages production-station détectés trop tard.",
+        "Une dizaine d'utilisateurs informels de ChatGPT, sans cadre."
+      ],
+      "systems": [
+        {
+          "title": "La plateforme data",
+          "description": "Serveur dédié, ingestion automatisée des trois systèmes sources, architecture en couches Bronze, Silver et Gold, tests de qualité des données. La couche Bronze a été livrée en avance sur le planning.",
+          "visual": "Le pipeline data (schéma d'architecture)"
+        },
+        {
+          "title": "L'atelier terrain : 15 agents priorisés",
+          "description": "Un atelier avec les équipes fermes a produit le plan des agents métier : chacun scoré sur le besoin, les utilisateurs, les données nécessaires et le gain attendu. Ce sont les utilisateurs finaux qui ont priorisé.",
+          "visual": "Photo de l'atelier terrain avec les équipes"
+        },
+        {
+          "title": "Les agents de reporting",
+          "description": "Déploiement par vagues : suivi des tonnages, KPI quotidien d'avancement, référentiel unifié des parcelles, reporting budgétaire. Chaque agent est validé par le métier à son jalon.",
+          "visual": "Un premier dashboard de reporting (données anonymisées)"
+        }
+      ],
+      "how": [
+        "Audit et cadrage sur site avec la direction : pas de DSI, la méthode s'adapte avec des ateliers directement métiers.",
+        "Atelier processus budgétaire avec les équipes fermes : 15 agents identifiés et priorisés.",
+        "Build de la plateforme : ingestion, architecture en couches, orchestration.",
+        "Déploiement progressif des agents par vague, avec validation métier à chaque jalon."
+      ],
+      "learned": "Dans un groupe sans DSI, la co-construction terrain remplace la maîtrise d'ouvrage : ce sont les équipes fermes qui ont priorisé les agents, pas un comité. Résultat : une fondation livrée en avance, et des utilisateurs qui attendent leurs agents au lieu de les subir.",
+      "faq": [
+        {
+          "question": "Faut-il une DSI pour construire une plateforme data ?",
+          "answer": "Non. Ici, un référent IT côté client et des ateliers métiers suffisent : AI Makers porte l'architecture et le build."
+        },
+        {
+          "question": "Combien de temps pour une première couche exploitable ?",
+          "answer": "La couche d'ingestion et la couche Bronze ont été livrées en quelques semaines, en avance sur le planning."
+        },
+        {
+          "question": "Que deviennent nos systèmes existants ?",
+          "answer": "Ils restent en place. La plateforme se branche dessus et les fait parler entre eux, sans migration."
+        }
+      ],
+      "stack": [
+        "PostgreSQL",
+        "Docker",
+        "Airflow",
+        "Power BI",
+        "Claude"
+      ]
+    }
+  ]
+}

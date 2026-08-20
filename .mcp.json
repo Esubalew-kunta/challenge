@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "gsc": {
+      "command": "uvx",
+      "args": ["mcp-search-console@0.3.3"],
+      "env": {
+        "GSC_CREDENTIALS_PATH": "/opt/ai-makers/secrets/gsc-service-account.json",
+        "GSC_SKIP_OAUTH": "true",
+        "GSC_DATA_STATE": "all"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+# Dossiers locaux anti-iCloud (énormes, inutiles au build Vercel)
+node_modules.nosync
+.next.nosync
+
+# Contenu de travail / rapports d'audit (pas des assets du site)
+[EN] website-content
+[FR] website-content
+ai-slop-audit-report
+ai-slop-audit-report-fr
+seo-audit-report
+seo-audit-report-fr

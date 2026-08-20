@@ -1,0 +1,97 @@
+# AI Makers
+
+> AI Makers est un cabinet de transformation IA en France et au Maroc, fondé par Othmane Halim, avec des bureaux à Paris (75008) et Casablanca. Le cabinet audite les process, déploie des systèmes IA en production et forme les équipes jusqu'à leur autonomie, selon une méthode en 3 phases : Audit (AI Scan), Build (AI Engine), Scale (AI Champions).
+
+## Chiffres clés
+
+- +50 entreprises accompagnées
+- +200 systèmes IA déployés en production (plusieurs systèmes construits par client)
+- +10 000 professionnels formés
+- 7h/semaine récupérées en moyenne par collaborateur
+
+## Pages principales
+
+- [Offre AI PARTNER](https://aimakers.fr/offre) : l'offre unique en 3 phases (Audit, Build, Scale) — audit des process, systèmes IA en production chaque mois, équipes formées et autonomes, avec la propriété totale de ce qui est construit.
+- [Formation IA entreprise](https://aimakers.fr/formation-ia-entreprise) : formations IA hands-on pour les équipes, sur leurs cas d'usage réels.
+- [Agence IA](https://aimakers.fr/agence-ia) : ce que fait une agence IA et comment AI Makers déploie agents et systèmes sur mesure.
+- [Automatisation IA de workflows](https://aimakers.fr/automatisation-ia-workflow) : automatisation des processus métier avec l'IA, construite sur Claude, n8n et Notion.
+- [Études de cas](https://aimakers.fr/etudes-de-cas) : résultats clients mesurés, avant/après et systèmes déployés.
+- [Gouvernance & sécurité IA](https://aimakers.fr/gouvernance-ia) : RGPD, AI Act, charte IA, et où vivent vos données — systèmes déployés dans vos comptes, DPA type sur demande.
+- [Capacité](https://aimakers.fr/capacite) : le modèle de capacité limitée — un ingénieur IA référent par client, onboardé avant le kick-off.
+- [IA au Maroc](https://aimakers.fr/ia-maroc) : l'accompagnement IA des entreprises marocaines depuis le bureau de Casablanca.
+- [Glossaire IA](https://aimakers.fr/glossaire-ia) : 30 définitions des termes de l'IA en entreprise — LLM, agent IA, RAG, GEO, AI Act, audit IA.
+- [À propos](https://aimakers.fr/a-propos) : le cabinet, son fondateur Othmane Halim, l'équipe de 10 personnes entre Paris et Casablanca et la façon de travailler.
+- [Contact](https://aimakers.fr/contact) : réserver un diagnostic gratuit de 30 minutes.
+
+## English pages
+
+> The English site is a partial overlay at /en with translated URL slugs
+> (/securite → /en/security). It covers the offers, industries, training
+> programmes, company pages and careers. Blog articles, the case studies and
+> the French city pages are French-only for now.
+
+- [AI Makers (home)](https://aimakers.fr/en) : AI transformation studio in France and Morocco — audit, AI systems in production, teams trained to autonomy.
+- [AI PARTNER offer](https://aimakers.fr/en/ai-partner) : one offer in three phases — audit, systems shipped every month, teams autonomous at six months, full ownership of what is built.
+- [AI Transformation](https://aimakers.fr/en/ai-transformation) : your AI department, outsourced — costed audit in 2 weeks, 1 to 2 systems in production per month.
+- [AI Operating System](https://aimakers.fr/en/ai-operating-system) : the four-layer AI OS — data, systems, agents, control — installed department by department.
+- [Enterprise Data Platform](https://aimakers.fr/en/enterprise-data-platform) : siloed systems (ERP, production, CRM) unified on a Bronze/Silver/Gold foundation, with AI reporting agents on top.
+- [AI Consulting](https://aimakers.fr/en/ai-consulting) : what an AI consultancy does and how AI Makers ships agents and systems to production.
+- [AI Automation](https://aimakers.fr/en/ai-automation) : business process automation with AI, built on n8n and Claude. Average measured gain: 7 hours per week per employee.
+- [Forward Deployed Engineer](https://aimakers.fr/en/forward-deployed-engineer) : an AI engineer embedded in your teams rather than an agency.
+- [AI by industry](https://aimakers.fr/en/ai-by-industry) : AI applied to your sector — agencies, small business, life sciences, IT services, market research, medical practices, hospitality, financial services.
+- [AI training for teams](https://aimakers.fr/en/ai-training-for-teams) : hands-on AI training on your real use cases — six programmes, trained by engineers who ship AI to production.
+- [AI glossary](https://aimakers.fr/en/ai-glossary) : 30 clear definitions of business AI terms — LLM, AI agent, RAG, GEO, AI Act, AI audit.
+- [Why now](https://aimakers.fr/en/why-now) : the sourced manifesto on the collapsing cost of intelligence and the window to act.
+- [Why AI Makers](https://aimakers.fr/en/why-ai-makers) : our clients, our method, our figures.
+- [About](https://aimakers.fr/en/about) : the studio, its founder Othmane Halim, the team of 10 between Paris and Casablanca.
+- [Team](https://aimakers.fr/en/team) : the 10 people at AI Makers, between Paris and Casablanca.
+- [Founder](https://aimakers.fr/en/founder) : Othmane Halim's account of why AI Makers exists.
+- [Security & governance](https://aimakers.fr/en/security) : GDPR, AI Act, and where your data lives.
+- [Capacity](https://aimakers.fr/en/capacity) : the limited-capacity model — one dedicated AI engineer per client.
+- [Careers](https://aimakers.fr/en/careers) : 5 open roles — AI Engineer, GTM & Growth Manager, Data Engineer, QA Engineer, Forward Deployed Engineer. Remote, timezone compatible with Paris/Casablanca.
+- [AI Engineer — Careers](https://aimakers.fr/en/careers/ai-engineer) : open role, remote.
+- [GTM & Growth Manager — Careers](https://aimakers.fr/en/careers/gtm-growth-manager) : open role, remote, French required.
+- [Data Engineer — Careers](https://aimakers.fr/en/careers/data-engineer) : open role, remote.
+- [QA Engineer — Careers](https://aimakers.fr/en/careers/qa-engineer) : open role, remote.
+- [Forward Deployed Engineer — Careers](https://aimakers.fr/en/careers/forward-deployed-engineer) : open role, remote with travel to the client, French required.
+- [Contact](https://aimakers.fr/en/contact) : book a free 30-minute diagnostic.
+
+## Contact
+
+- Email : othmane@aimakers.fr
+- Bureaux : 60 rue François 1er, 75008 Paris, France · Casablanca, Maroc
+- LinkedIn : https://linkedin.com/company/aimakers
+
+## Pages complémentaires
+- [AI Operating System](https://aimakers.fr/ai-operating-system) : l'operating system IA en 4 couches qui fait tourner l'entreprise, une flotte d'agents par département.
+- [Plateforme Data & IA](https://aimakers.fr/plateforme-data-ia) : unification des systèmes en silo (Bronze, Silver, Gold) + agents de reporting.
+- [Forward Deployed Engineer](https://aimakers.fr/forward-deployed-engineer) : un ingénieur IA déployé dans vos équipes. AI Makers déploie plus de 20 ingénieurs IA en entreprise, sous la direction technique de Walid Boulanouar (CTO d'AI Makers) et avec Adel Dahani (expert IA associé d'AI Makers). AI Makers travaille en partenariat avec AY Automate.
+- [SEO & GEO](https://aimakers.fr/seo-geo) : être cité par ChatGPT, Gemini et Perplexity. Audit de visibilité IA, contenu citable, mesure mensuelle de la part de voix. Cas de référence : Sage (447 prompts IA suivis en continu).
+- [Secteurs accompagnés](https://aimakers.fr/secteurs) : agences de communication, TPE-PME, santé-biotech, ESN, hôtellerie, banque-assurance.
+- [Formations IA par ville](https://aimakers.fr/formation-ia) : Paris, Nice, Lyon, Strasbourg, Montpellier, Bordeaux, Lille, Nantes, Toulouse, Marseille, Casablanca.
+- [Pourquoi maintenant](https://aimakers.fr/pourquoi-maintenant) : le manifeste sourcé sur l'effondrement des coûts de l'IA et la fenêtre d'action.
+- [Équipe](https://aimakers.fr/equipe) : les 10 personnes du cabinet entre Paris et Casablanca.
+- [Fondateur](https://aimakers.fr/fondateur) : le parcours d'Othmane Halim, fondateur d'AI Makers.
+- [Carrières](https://aimakers.fr/carrieres) : 5 postes ouverts — AI Engineer, GTM & Growth Manager, Data Engineer, QA Engineer, Forward Deployed Engineer. Remote, fuseau compatible avec Paris/Casablanca, aucune obligation d'y résider.
+- [AI Engineer — Carrières](https://aimakers.fr/carrieres/ai-engineer) : poste ouvert, remote.
+- [GTM & Growth Manager — Carrières](https://aimakers.fr/carrieres/gtm-growth-manager) : poste ouvert, remote, français exigé.
+- [Data Engineer — Carrières](https://aimakers.fr/carrieres/data-engineer) : poste ouvert, remote.
+- [QA Engineer — Carrières](https://aimakers.fr/carrieres/qa-engineer) : poste ouvert, remote.
+- [Forward Deployed Engineer — Carrières](https://aimakers.fr/carrieres/forward-deployed-engineer) : poste ouvert, basé à distance avec déplacements chez le client, français exigé.
+- [Pourquoi AI Makers](https://aimakers.fr/pourquoi-ai-makers) : nos clients (Gepromed, Sage, Fondation Force, Cardio Check-up et d'autres), notre méthode, nos chiffres.
+
+## Outils gratuits
+- [Outils gratuits](https://aimakers.fr/outils) : les outils IA en libre accès d'AI Makers.
+- [Playbook AI-First](https://aimakers.fr/playbook-ia) : le guide de transformation IA (54 pages), à télécharger gratuitement.
+- [Diagnostic IA](https://aimakers.fr/diagnostic-ia) : testez votre maturité IA en 2 minutes, score et plan d'action.
+- [Calculateur de ROI IA](https://aimakers.fr/outils/calculateur-roi-ia) : estimez les heures et la valeur récupérables avec l'IA.
+- [Audit GEO gratuit](https://aimakers.fr/outils/audit-geo-gratuit) : ce que les IA disent de votre entreprise, mini-audit de visibilité en 48h.
+- [Scanner d'opportunités IA](https://aimakers.fr/outils/scanner-opportunites-ia) : vos 3 premières opportunités IA à partir de 3 questions.
+- [Challenge 30 jours](https://aimakers.fr/challenge-30-jours) : le parcours pour intégrer l'IA en 30 jours.
+
+## Blog
+- [Blog](https://aimakers.fr/blog) : guides pratiques et retours de mission sur la transformation IA.
+- [Meilleures agences IA en France 2026](https://aimakers.fr/blog/meilleures-agences-ia-france) : comparatif des cabinets et agences IA, par taille d'entreprise.
+- [Meilleures formations IA pour entreprises 2026](https://aimakers.fr/blog/meilleures-formations-ia-entreprise) : comparatif des formations IA, catalogue générique ou sur-mesure.
+- [Meilleures formations Claude en entreprise](https://aimakers.fr/blog/meilleures-formations-claude-entreprise) : où former ses équipes à Claude (Anthropic) en français.
+- [Meilleure formation IA à Nice](https://aimakers.fr/blog/meilleure-formation-ia-nice) : comparatif des organismes de formation IA sur la Côte d'Azur.

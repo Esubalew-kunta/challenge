@@ -1,0 +1,43 @@
+# Portes de qualité du dépôt.
+#
+# Il n'y avait aucun workflow jusqu'ici : `npm test` échouait sur main sans que
+# personne en soit averti, et les erreurs de lint s'accumulaient sans garde-fou.
+#
+# `lint` est volontairement non bloquant pour l'instant : main porte 33 erreurs
+# préexistantes, surtout des apostrophes non échappées et des composants définis
+# dans le rendu d'un autre composant. Faire échouer la CI dessus rendrait le
+# premier workflow rouge à la naissance et pousserait à le contourner. Il tourne
+# donc en information, et deviendra bloquant une fois la dette résorbée.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint (informatif)
+        run: npm run lint
+        continue-on-error: true

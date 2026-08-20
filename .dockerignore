@@ -1,0 +1,26 @@
+# Le contexte de build est envoyé au démon Docker : tout ce qui est ici reste
+# hors de l'image et hors du transfert. La machine tourne à 80% de disque, donc
+# ça compte.
+node_modules
+node_modules.nosync
+.next
+.next.nosync
+.git
+.github
+.vercel
+npm-debug.log*
+.DS_Store
+
+# Rapports d'audit et masters de contenu : versionnés dans le dépôt, sans usage
+# à l'exécution.
+ai-slop-audit-report
+ai-slop-audit-report-fr
+seo-audit-report
+seo-audit-report-fr
+[EN] website-content
+[FR] website-content
+
+# Secrets : jamais dans une image.
+.env
+.env.*
+!.env.example

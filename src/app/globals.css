@@ -1,0 +1,496 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ============================================
+   AI Makers Design System — Light Mode
+   Style: Trust & Authority (UI/UX Pro Max)
+   Palette: Slate + Blue tech
+   ============================================ */
+
+:root {
+  --radius: 1rem;
+
+  --background: #f8fafc;
+  --foreground: #0f172a;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --primary-dark: #1e40af;
+
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+
+  --accent: #e0e8ff;
+  --accent-foreground: #0f172a;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #2563eb;
+
+  /* Custom AI Makers tokens */
+  --surface: #f1f5f9;
+  --surface-light: #ffffff;
+  --accent-warm: #f59e0b;
+  --success: #10b981;
+
+  /* Transition speeds */
+  --transition-fast: 150ms;
+  --transition-base: 200ms;
+  --transition-slow: 300ms;
+
+  /* Chart colors */
+  --chart-1: #2563eb;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #ef4444;
+  --chart-5: #8b5cf6;
+
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #2563eb;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Custom tokens */
+  --color-surface: var(--surface);
+  --color-surface-light: var(--surface-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent-warm: var(--accent-warm);
+  --color-success: var(--success);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Charts */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Typography — Inter partout (charte), mono réservé aux données chiffrées */
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* Radii */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Animations */
+  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
+  --animate-fade-in: fade-in 0.4s ease-out forwards;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 4s ease-in-out infinite;
+  --animate-slide-left: slide-left 40s linear infinite;
+  --animate-border-beam: border-beam calc(var(--duration) * 1s) infinite linear;
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+}
+
+/* Keyframes */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slide-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Étincelle de contour des badges — un point lumineux parcourt le périmètre
+   du pill en continu (ADN du site : fil + point lumineux). Angle animé via
+   @property : sans support (vieux navigateurs), le badge reste simplement
+   statique. */
+@property --badge-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes badge-spark {
+  to {
+    --badge-angle: 360deg;
+  }
+}
+
+/* Rayon lumineux qui parcourt la bordure d'une carte (BorderBeam, 21st.dev
+   magicui) — le pseudo-élément suit un offset-path rectangulaire arrondi. */
+@keyframes border-beam {
+  to {
+    offset-distance: 100%;
+  }
+}
+
+/* Orbite des logos autour d'un centre (OrbitingCircles, 21st.dev magicui). */
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(calc(var(--radius) * 1px)) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(calc(var(--radius) * 1px))
+      rotate(-360deg);
+  }
+}
+
+@keyframes btn-sweep {
+  to {
+    transform: translateX(340%) skewX(-14deg);
+  }
+}
+
+/* Reduced motion — WCAG 2.1 SC 2.3.3 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Les blocs animés à l'apparition (ScrollReveal) partent d'un état invisible :
+     le serveur ne connaît pas la préférence de mouvement et sérialise toujours
+     `opacity:0;filter:blur(7px);transform:translateY(24px)` en style inline.
+     En mouvement réduit, l'animation qui devait les révéler ne joue pas, et
+     React ne corrige pas un style inline divergent pendant l'hydratation en
+     production : le contenu restait invisible définitivement, y compris après
+     défilement. Mesuré avant correctif : 962 mots masqués sur /blog, 322 sur la
+     fiche Maîtriser Claude.
+
+     Un correctif JS ne peut pas gagner cette course. Une règle `!important` en
+     feuille de style, elle, l'emporte sur un style inline sans `!important`, et
+     s'applique avant même l'hydratation. */
+  [data-reveal] {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    /* Le header sticky (~96px) ne recouvre plus les titres ciblés par ancre */
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  /* Global focus-visible for all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline-none ring-2 ring-primary/50 ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-hero {
+    background: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(37, 99, 235, 0.1) 0%,
+      transparent 70%
+    );
+  }
+
+  .bg-gradient-section {
+    background: radial-gradient(
+      ellipse 60% 40% at 50% 0%,
+      rgba(37, 99, 235, 0.05) 0%,
+      transparent 60%
+    );
+  }
+
+  .bg-dot-grid {
+    background-image: radial-gradient(
+      circle,
+      rgba(37, 99, 235, 0.08) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+  }
+
+  .glass-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.5rem;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.06),
+      0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .glass-card-hover {
+    cursor: pointer;
+    transition: all var(--transition-slow) ease;
+  }
+  .glass-card-hover:hover {
+    border-color: rgba(37, 99, 235, 0.25);
+    box-shadow:
+      0 8px 30px rgba(37, 99, 235, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
+  }
+
+  .glow-blue {
+    box-shadow:
+      0 0 20px rgba(37, 99, 235, 0.12),
+      0 0 60px rgba(37, 99, 235, 0.04);
+  }
+
+  .btn-gradient {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all var(--transition-slow) ease;
+  }
+  .btn-gradient:hover {
+    box-shadow: 0 6px 24px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  }
+  .btn-gradient:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px #f8fafc,
+      0 0 0 4px rgba(37, 99, 235, 0.5);
+  }
+
+  /* Badge pill "verre premium" (design A1 validé) : fond blanc translucide
+     flouté, hairline dégradée bleue (::before), ombre portée bleue douce,
+     et étincelle qui parcourt le contour (::after). Les couches pseudo ne
+     peignent QUE l'anneau du bord (masque exclude) : le fond reste intact
+     quel que soit l'arrière-plan de la section. */
+  .section-badge {
+    position: relative;
+    background: rgba(255, 255, 255, 0.72) !important;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-color: transparent !important;
+    box-shadow:
+      0 2px 14px rgba(37, 99, 235, 0.14),
+      0 1px 2px rgba(15, 23, 42, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  .section-badge::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 9999px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(37, 99, 235, 0.45),
+      rgba(147, 197, 253, 0.25) 40%,
+      rgba(37, 99, 235, 0.12) 70%,
+      rgba(37, 99, 235, 0.4)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .section-badge::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 9999px;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--badge-angle),
+      transparent 0deg 285deg,
+      rgba(37, 99, 235, 0.08) 315deg,
+      rgba(37, 99, 235, 0.9) 345deg,
+      rgba(59, 130, 246, 0.35) 355deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: badge-spark 3.6s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Balayage lumineux des boutons primaires au survol — une strie claire
+     traverse le bouton une fois par survol (pas de boucle infinie). */
+  [data-slot="button"][data-variant="default"] {
+    position: relative;
+    overflow: hidden;
+  }
+  [data-slot="button"][data-variant="default"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 38%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgba(255, 255, 255, 0.32),
+      transparent
+    );
+    transform: translateX(-160%) skewX(-14deg);
+    pointer-events: none;
+  }
+  [data-slot="button"][data-variant="default"]:hover::after {
+    animation: btn-sweep 0.65s ease forwards;
+  }
+
+  .section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
+    }
+  }
+
+  /* Pour la toute première section d'une page (le hero) : le header est
+     fixed (56px mobile, 64px + 16px offset dès sm), donc retiré du flux.
+     section-padding ne suffit pas toujours à le degager — surtout quand
+     un badge precede le H1. hero-padding remplace section-padding sur le
+     wrapper exterieur du hero, avec un padding-top calibre sur la vraie
+     hauteur du header plutot qu'un espacement generique de section. */
+  .hero-padding {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (min-width: 640px) {
+    .hero-padding {
+      padding-top: 6.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero-padding {
+      padding-bottom: 4.5rem;
+    }
+  }
+}
