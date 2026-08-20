@@ -242,6 +242,25 @@ export const megaMenu = {
         title: "Ressources",
         items: [
           {
+            // ATTENTION, deux produits différents portent presque le même nom :
+            //
+            //   /challenge-30-jours      cours email sur Claude, l'application
+            //                            de chat. Existant, en français.
+            //   /en/claude-code-challenge  ce cours-ci, sur Claude Code,
+            //                            l'outil en ligne de commande.
+            //
+            // Le libellé dit explicitement lequel, sinon un lecteur clique sur
+            // le mauvais et repart. À trancher côté marque : deux « challenge
+            // 30 jours » dans un même menu restera confus quoi qu'on écrive.
+            //
+            // Pointe vers /en tant que la version française n'existe pas. La
+            // langue est annoncée : un lecteur français qui tombe sur de
+            // l'anglais sans prévenance repart aussi.
+            label: "Claude Code en 30 jours",
+            description: "Cours gratuit en anglais. Claude Code, pas le chat",
+            href: "/en/claude-code-challenge",
+          },
+          {
             label: "Playbook AI-First",
             description: "Le guide complet (PDF)",
             href: "/playbook-ia",
@@ -342,7 +361,12 @@ export const footerNav = {
     { label: "Outils gratuits", href: "/outils" },
     { label: "Tous les secteurs", href: "/secteurs" },
     { label: "Playbook AI-First (PDF)", href: "/playbook-ia" },
+    // Les deux challenges. Le premier porte sur Claude, l'application de chat,
+    // par email. Le second sur Claude Code, l'outil en ligne de commande, sur
+    // le site. Libellés distincts volontairement : voir le commentaire dans le
+    // méga-menu Ressources plus haut.
     { label: "Challenge 30 jours Claude", href: "/challenge-30-jours" },
+    { label: "Claude Code en 30 jours", href: "/en/claude-code-challenge" },
     { label: "Pourquoi maintenant", href: "/pourquoi-maintenant" },
     { label: "Blog", href: "/blog" },
     { label: "Glossaire IA", href: "/glossaire-ia" },
