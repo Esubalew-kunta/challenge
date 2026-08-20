@@ -13,6 +13,13 @@
  * 3. On Day 1 this is rendered only after the reader says the install worked.
  *    Asking for an address right after somebody failed is the worst moment on
  *    the site.
+ *
+ * Where the lead goes: `/api/challenge-sheet` only, which writes to
+ * `claude_code_leads`. It deliberately does NOT post to `/api/lead` as well.
+ * Owner's decision, 20 August 2026: the challenge keeps its own tables and
+ * touches nothing else. The cost, stated once and not re-argued, is that these
+ * leads do not reach the OS and do not fire the Slack notice that every other
+ * form on the site fires. Read `claude_code_leads` to see them.
  */
 
 import { useState } from "react";
@@ -63,16 +70,6 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
       });
       if (!response.ok) throw new Error("failed");
       const result = (await response.json()) as { fileUrl?: string | null };
-
-      // The site's existing lead pipeline, left exactly as it was. It is what
-      // puts the lead in front of the sales team and fires the Slack notice,
-      // and removing it was never asked for. Fire and forget: this one failing
-      // must not cost the reader their sheet.
-      void fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
-      }).catch(() => {});
 
       setFileUrl(result.fileUrl ?? null);
       track("challenge_sheet", { sheet: sheet.id, day });
