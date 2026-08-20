@@ -164,3 +164,27 @@ export const UI = {
     `${answered} of ${total} answered. Finish them to complete this day.`,
   dayNotStarted: "Answer the questions above to complete this day.",
 } as const;
+
+/**
+ * The shape of a language's string table, with the literals widened.
+ *
+ * `UI` is `as const`, so `typeof UI` says `challengeName` is the exact string
+ * "30 Days of Claude Code" and nothing else. That is useful here and useless
+ * for the French table, which would fail to be that exact string.
+ *
+ * This walks the object and turns every literal back into its plain type,
+ * leaving functions and nesting alone. `config.fr.ts` is checked against it,
+ * so adding an English string without a French one fails the build instead of
+ * showing an English word on a French page three weeks later.
+ */
+type Widen<T> = T extends (...args: infer A) => infer R
+  ? (...args: A) => R
+  : T extends string
+    ? string
+    : T extends number
+      ? number
+      : T extends boolean
+        ? boolean
+        : { -readonly [K in keyof T]: Widen<T[K]> };
+
+export type ChallengeUI = Widen<typeof UI>;
