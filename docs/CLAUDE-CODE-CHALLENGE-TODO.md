@@ -10,38 +10,57 @@ Last updated: 20 August 2026.
 
 ---
 
+## Done, 20 August 2026
+
+### The ten cheat sheets exist, and the button works
+
+All ten are written, built as one page A4 PDFs, uploaded, and delivered.
+
+- Content: `src/lib/challenge/sheets.ts`, one data record per sheet, same
+  principle as the thirty days
+- Layout: `src/components/challenge/sheet-doc.tsx`, one layout for all ten,
+  sized in millimetres so paper is identical on every machine
+- Pages: `src/app/(print)/`, a third root layout beside `(fr)` and `(en)` with
+  no site chrome, because hiding the header from inside `(en)` also hid the
+  sheet and every PDF came out blank
+- Build: `npm run sheets:build`, drives the Chrome already installed rather
+  than pulling in a 300 MB Puppeteer download
+- Upload: `npm run sheets:upload`, into the public `challenge-sheets` bucket,
+  and writes the URL back into `claude_code_sheets.file_url`
+- Delivery: `src/app/api/challenge-sheet/route.ts` writes the lead into
+  `claude_code_leads` first, then asks n8n to email a copy. The email is never
+  allowed to fail the request
+
+Verified: all ten are exactly one A4 page, all ten download over the public
+URL, and all ten complete the request and write a lead row.
+
+**What the one page rule cost.** The original brief for The Complete Guide
+promised all thirty days written out, and The Manager Pack four sections for an
+approver. Neither fits on a page. The Complete Guide is now the reference table
+plus the where-does-it-go rules; the Manager Pack is the rollout, the approver
+questions, the failure modes and what to measure. The days themselves stay on
+the site, where they can be kept current.
+
+**Also dropped, deliberately:** the verification date is no longer printed on a
+sheet (owner's call). `VERIFIED_AGAINST` still governs when we re-check.
+
+### The score exists
+
+Points, four levels, days done, a streak and a pace line, all kept in the
+reader's own browser. A day counts when all of its questions are answered. See
+`src/lib/challenge/progress.ts`.
+
+---
+
 ## Open
 
-### 1. The ten cheat sheets do not exist
+### 1. The email copy is not proven
 
-**Blocking.** Ten of the thirty days offer a downloadable sheet. The form works
-and the lead is captured, but the button that appears afterwards
-(`src/components/challenge/sheet-offer.tsx`, `href="#"`) goes nowhere.
-
-Anyone who gives an email today gets nothing back.
-
-| Slot | Day | Sheet |
-|---|---|---|
-| 1 | 1 | The Setup Sheet |
-| 2 | 5 | The Tool Picker |
-| 3 | 8 | The Hooks Cheat Sheet |
-| 4 | 10 | The Manager Pack |
-| 5 | 13 | The Context Sheet |
-| 6 | 15 | The Saved Jobs Sheet |
-| 7 | 16 | The Connections Sheet |
-| 8 | 24 | The Unattended Sheet |
-| 9 | 26 | The Instructions Sheet |
-| 10 | 30 | The Complete Guide |
-
-What each one contains is already written, in the `sheet` field of the matching
-day record. That is the brief.
-
-**One rule when writing them:** no prices, no plan details, no model names
-printed inside. Those link back to the site. A number inside a PDF sitting in
-somebody's inbox cannot be corrected; a link can.
-
-Until they exist, either write them or hide the offer. Capturing an address and
-delivering nothing is worse than not asking.
+The n8n workflow is written and importable
+(`docs/n8n/claude-code-send-challenge-sheets.json`, four nodes), but it has not
+been imported or activated, so no email has ever been sent. Until
+`N8N_SHEET_WEBHOOK_URL` is set the route returns `emailed: false`, which is
+correct behaviour, not a failure: the reader still gets the file link.
 
 ### 2. Never tested on a real phone
 

@@ -52,6 +52,29 @@ function Heading({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * A list line, with an optional bold lead-in written as `**like this**` at the
+ * very start.
+ *
+ * Deliberately not added to the shared `RichText`: the day content already
+ * contains real `**` in glob patterns such as `**\/*.ts`, and a general bold
+ * rule there would bold half a sentence somewhere nobody is looking. Anchoring
+ * it to position zero, in this file only, means it cannot reach that content.
+ */
+function ListLine({ text }: { text: string }) {
+  const match = /^\*\*(.+?)\*\*\s*/.exec(text);
+  if (!match) return <RichText text={text} />;
+
+  return (
+    <>
+      <strong style={{ fontWeight: 700, color: INK }}>
+        <RichText text={match[1]} />
+      </strong>{" "}
+      <RichText text={text.slice(match[0].length)} />
+    </>
+  );
+}
+
 function Mono({ children }: { children: React.ReactNode }) {
   return (
     <code
@@ -66,7 +89,16 @@ function Mono({ children }: { children: React.ReactNode }) {
         borderLeft: `0.8mm solid ${BLUE}`,
         borderRadius: "0.8mm",
         padding: "1.4mm 2mm",
-        // A long install line must wrap on paper rather than run off the edge.
+        // `pre-wrap`, not the default.
+        //
+        // Without it every newline collapses into a space, and a shell script
+        // or a settings file renders as one unreadable paragraph. The Setup
+        // Sheet hid this because all of its commands are one line; the moment
+        // a real script appeared it was obvious.
+        //
+        // `pre-wrap` rather than `pre` so a line that is still too wide wraps
+        // instead of running off the edge of the paper, which cannot scroll.
+        whiteSpace: "pre-wrap",
         overflowWrap: "anywhere",
       }}
     >
@@ -230,7 +262,7 @@ function Block({ block }: { block: SheetBlock }) {
                   background: BLUE,
                 }}
               />
-              <RichText text={item} />
+              <ListLine text={item} />
             </li>
           ))}
         </ul>
