@@ -27,9 +27,15 @@ import { ArrowRight, Check, Download, Loader2 } from "lucide-react";
 import { track } from "@vercel/analytics";
 import { UI } from "@/lib/challenge/config";
 import { LEAD_SOURCE } from "@/lib/challenge/registry";
+import { TOTAL_DAYS, answerKey } from "@/lib/challenge";
+import { summarise } from "@/lib/challenge/progress";
 import { leadSubmissionSchema } from "@/lib/schemas/lead";
 import type { Sheet } from "@/lib/challenge/types";
 import { RichText } from "./rich-text";
+import { useProgress } from "./use-progress";
+
+/** Built once at module load: the content does not change at runtime. */
+const KEY = answerKey();
 
 export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
   const [email, setEmail] = useState("");
@@ -38,6 +44,7 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
   const [sent, setSent] = useState(false);
   /** Where the file actually is. Null until the server answers with it. */
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const { state } = useProgress();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +64,14 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
 
     setLoading(true);
     try {
+      // Their score at the moment they asked, read from their own browser.
+      //
+      // This is the difference between a lead and a good lead: somebody who
+      // has done twenty days and then hands over an address is worth far more
+      // than somebody who downloaded a sheet on day one and left. It costs
+      // nothing to send, because the number is already sitting in the page.
+      const score = summarise(state, KEY, TOTAL_DAYS);
+
       // The sheet route is the one that must succeed: it writes the lead row
       // and hands back the file link. Its answer decides what the reader sees.
       const response = await fetch("/api/challenge-sheet", {
@@ -66,6 +81,9 @@ export function SheetOffer({ sheet, day }: { sheet: Sheet; day: number }) {
           email: parsed.data.email,
           sheetId: sheet.id,
           sheetDay: day,
+          points: score.points,
+          daysDone: score.daysDone,
+          levelId: score.levelId,
         }),
       });
       if (!response.ok) throw new Error("failed");
