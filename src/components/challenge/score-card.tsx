@@ -19,6 +19,7 @@ import { Flame, Trophy } from "lucide-react";
 import { UI } from "@/lib/challenge/config";
 import { TOTAL_DAYS, answerKey } from "@/lib/challenge";
 import { summarise } from "@/lib/challenge/progress";
+import { EarnedOffer } from "./earned-offer";
 import { useProgress } from "./use-progress";
 
 /** Built once at module load: the content does not change at runtime. */
@@ -121,6 +122,12 @@ export function ScoreCard() {
       <p className="text-[0.8125rem] leading-relaxed text-muted-foreground">
         {level.blurb} {UI.scoreLocal}
       </p>
+
+      {/*
+        The earned sheet. It renders nothing at all for a reader who is too
+        early, so this line costs nothing on most visits.
+      */}
+      <EarnedOffer />
     </div>
   );
 }

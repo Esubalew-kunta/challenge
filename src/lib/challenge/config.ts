@@ -100,6 +100,23 @@ export const UI = {
   scoreLocal:
     "Kept in this browser only. Nothing is sent to us, and clearing your browser clears it.",
 
+  /* --------------------------------------------------------- earned sheet */
+
+  earnedTag: "Earned",
+  earnedTitle: "The Team Sheet",
+  earnedPitch:
+    "The one sheet that is not on any day page. It is how everything you have learned survives four colleagues doing it badly: what has to be committed, what a new joiner does in their first thirty minutes, and what breaks the moment a second person joins.",
+  earnedWhy:
+    "You did not rush this. That is the whole reason you have it.",
+  earnedButton: "Send me the sheet",
+  earnedFineprint:
+    "Optional, as always. It opens on this page straight away and the email is only so you keep a copy.",
+  /** Enough points, but the whole course was done in a handful of sittings. */
+  earnedTooFast: (have: number, need: number) =>
+    `You have the points. This one also asks for the days: ${have} so far, ${need} needed. Come back tomorrow and the day after.`,
+  earnedLocked: (points: number) =>
+    `${points} more points and one more thing unlocks. It is not on any day page.`,
+
   /** Level names and what holding one says about the reader. */
   levels: {
     starter: {

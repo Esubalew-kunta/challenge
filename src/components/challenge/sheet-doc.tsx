@@ -304,7 +304,16 @@ function Block({ block }: { block: SheetBlock }) {
 /* ------------------------------------------------------------------- page */
 
 export function SheetDocView({ doc }: { doc: SheetDoc }) {
-  const dayPath = `${CHALLENGE_ROUTES.en}/day-${doc.day}`;
+  /*
+    `day: 0` means the sheet belongs to no single day. That is the earned
+    sheet, which is never offered on a lesson page, so there is no lesson to
+    send the reader back to. Both places that name a day branch on this rather
+    than printing "from Day 0" and linking to a page that does not exist.
+  */
+  const fromADay = doc.day > 0;
+  const dayPath = fromADay
+    ? `${CHALLENGE_ROUTES.en}/day-${doc.day}`
+    : CHALLENGE_ROUTES.en;
 
   return (
     <>
@@ -349,8 +358,11 @@ export function SheetDocView({ doc }: { doc: SheetDoc }) {
             color: MUTED,
           }}
         >
-          Sheet {doc.slot} of 10, from Day {doc.day}. Print this page, or save it
-          as PDF, to keep it. This line is not on the printed sheet.
+          {fromADay
+            ? `Sheet ${doc.slot} of 10, from Day ${doc.day}.`
+            : "The earned sheet. Not on any day page."}{" "}
+          Print this page, or save it as PDF, to keep it. This line is not on
+          the printed sheet.
         </div>
 
         <div
@@ -487,7 +499,7 @@ export function SheetDocView({ doc }: { doc: SheetDoc }) {
             }}
           >
             <span>
-              The full lesson:{" "}
+              {fromADay ? "The full lesson: " : "Earned on: "}
               <a
                 href={`${siteConfig.url}${dayPath}`}
                 style={{ color: BLUE_DARK, fontWeight: 700, textDecoration: "none" }}

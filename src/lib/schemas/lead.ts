@@ -100,7 +100,8 @@ export const leadSubmissionSchema = z
     source: z.enum(LEAD_SOURCES),
     /** Fiche demandée sur le challenge Claude Code (source "claude-code-challenge"). */
     sheetId: z.string().trim().max(60, "Identifiant de fiche trop long").optional(),
-    sheetDay: z.number().int().min(1).max(30).optional(),
+    // 0 est autorisé : la fiche méritée du challenge n'appartient à aucun jour.
+    sheetDay: z.number().int().min(0).max(30).optional(),
     /** Réponses du scanner d'opportunités IA (source "scanner"). */
     sector: z.string().trim().max(100, "Secteur trop long").optional(),
     teamSize: z.string().trim().max(50, "Taille trop longue").optional(),

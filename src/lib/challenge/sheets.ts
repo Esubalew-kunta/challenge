@@ -959,6 +959,110 @@ Then tell me what to delete. Be blunt.`,
   ],
 };
 
+/**
+ * The eleventh sheet, and the only one that is not free on a day page.
+ *
+ * `day: 0` means it belongs to no single day. Everything that reads `day`
+ * branches on that: the layout prints "Earned sheet" instead of "from Day N",
+ * and the footer points at the course rather than at a lesson.
+ *
+ * It is deliberately not another approver document. The Manager Pack on Day 10
+ * is for the person who has to say yes before anything starts. This one is for
+ * the person who already did the thirty days and now has to make it survive
+ * contact with four colleagues, which is a different and much later problem.
+ */
+const TEAM: SheetDoc = {
+  id: "sheet-team",
+  slot: 11,
+  day: 0,
+  title: "The Team Sheet",
+  strapline:
+    "You did the thirty days. This is how it survives four other people doing them badly.",
+  left: [
+    {
+      kind: "list",
+      heading: "What has to leave your laptop",
+      items: [
+        "**The rules file.** `CLAUDE.md` at the top of the project, committed. If it only exists on your machine, everybody else is working without it and nobody can see that.",
+        `**The guards.** \`${SETTINGS_PATHS.project}\` and \`${SETTINGS_PATHS.hooksDir}\`, committed. A guard nobody else has is a rule only you follow.`,
+        "**The saved jobs.** `.claude/skills/<name>/SKILL.md`, committed. This is the part that pays for itself: one person writes the boring job once and four people stop doing it by hand.",
+        "**The specialists.** `.claude/agents/<name>.md`, committed. The `tools` line in one is enforcement, not a suggestion, so it travels as a real limit.",
+        "**Nothing else.** No keys, no personal settings, no transcripts. If it would embarrass you in a pull request, it does not belong in the repository.",
+      ],
+    },
+    {
+      kind: "table",
+      heading: "Shared or personal",
+      head: ["Goes in the repository", "Stays on your machine"],
+      rows: [
+        ["The rules file for this project", "Your own habits and shortcuts"],
+        ["Guards that must always run", "Guards you are still trying out"],
+        ["Saved jobs the team repeats", "One-off jobs only you run"],
+        ["Specialists with a fixed job", "Anything holding a key or a token"],
+      ],
+    },
+    {
+      kind: "note",
+      heading: "The rule that keeps it alive",
+      body: "The rules file is corrected in the same commit as the mistake that proved it wrong. Written once and never touched again is the same as not having one, and everybody quietly stops reading it inside a month.",
+    },
+  ],
+  right: [
+    {
+      kind: "commands",
+      heading: "A new joiner, first thirty minutes",
+      items: [
+        {
+          label: "Install, on their own machine",
+          code: `${INSTALL.mac}\n${INSTALL.verify}`,
+          note: `Windows uses \`${INSTALL.windows}\`. If it installs and will not log in, that is the account, not the install.`,
+        },
+        {
+          label: "Open the project, not a folder of notes",
+          code: INSTALL.start,
+          note: "Started inside the repository, so it reads the rules file the team already wrote.",
+        },
+        {
+          label: "Show them what is enforced",
+          code: "/hooks",
+          note: "Read only, and it lists exactly what will block them. Far better than finding out by being blocked.",
+        },
+      ],
+    },
+    {
+      kind: "fixes",
+      heading: "What breaks the moment a second person joins",
+      items: [
+        {
+          problem: "Everybody writes their own rules file",
+          fix: "One file, in the project, in the repository. Personal preferences go in the user level file instead, where they cannot argue with the team's.",
+        },
+        {
+          problem: "A guard blocks somebody and they cannot tell why",
+          fix: "Make the guard say what it wants. It sends its message back when it refuses, so write that line for the colleague who has never seen it, not for yourself.",
+        },
+        {
+          problem: "Two people build the same saved job, slightly differently",
+          fix: "Search `.claude/skills` before writing one. Thirty seconds of looking beats two versions that drift apart for six months.",
+        },
+        {
+          problem: "The person who set it up leaves",
+          fix: "Nothing happens, if everything above is committed. The setup is plain files that live with the project, handed over by copying a folder rather than a person.",
+        },
+      ],
+    },
+    {
+      kind: "list",
+      heading: "What to standardise, and what to leave alone",
+      items: [
+        "**Standardise what must not happen.** Anything that would be expensive to undo goes in a guard, and everybody gets the same one.",
+        "**Standardise the boring repeated job.** That is where the hours are, and a shared version gets better every time somebody fixes it.",
+        "**Leave the way people work alone.** How somebody phrases a request is not a team decision, and policing it buys nothing while costing you goodwill.",
+      ],
+    },
+  ],
+};
+
 export const SHEET_DOCS: SheetDoc[] = [
   SETUP,
   TOOL_PICKER,
@@ -970,6 +1074,7 @@ export const SHEET_DOCS: SheetDoc[] = [
   UNATTENDED,
   INSTRUCTIONS,
   COMPLETE,
+  TEAM,
 ];
 
 export function getSheetDoc(id: string): SheetDoc | undefined {

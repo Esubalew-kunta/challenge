@@ -38,7 +38,8 @@ const N8N_SHEET_WEBHOOK_URL = process.env.N8N_SHEET_WEBHOOK_URL;
 const requestSchema = z.object({
   email: companyEmail,
   sheetId: z.string().trim().min(1).max(60),
-  sheetDay: z.number().int().min(1).max(30),
+  /** 0 is not a day. It is the earned sheet saying it belongs to none of them. */
+  sheetDay: z.number().int().min(0).max(30),
   /** Optional, and only ever what the reader typed into a visible field. */
   role: z.string().trim().max(80).optional(),
   claudeLevel: z.string().trim().max(40).optional(),
