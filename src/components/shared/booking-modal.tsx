@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import { bookingUrl } from "@/lib/site-config";
@@ -9,6 +10,21 @@ import { BookingGate } from "@/components/shared/booking-gate";
 import type { Locale } from "@/lib/i18n";
 
 const calLink = bookingUrl.replace(/^https:\/\/cal\.com\//, "");
+
+/**
+ * Faux sur le serveur, vrai dès l'hydratation.
+ *
+ * `useSyncExternalStore` plutôt qu'un effet et un setState : la règle
+ * `react-hooks/set-state-in-effect` du projet refuse le second, et le premier
+ * ne provoque pas de rendu en cascade.
+ */
+const NEVER_CHANGES = () => () => {};
+const useIsClient = () =>
+  useSyncExternalStore(
+    NEVER_CHANGES,
+    () => true,
+    () => false,
+  );
 
 interface BookingCtaButtonProps {
   label?: string;
@@ -29,6 +45,7 @@ interface BookingCtaButtonProps {
  */
 export function BookingCtaButton({ label, children, className, locale = "fr" }: BookingCtaButtonProps) {
   const content = children ?? label;
+  const isClient = useIsClient();
   const [open, setOpen] = useState(false);
   const [alreadyCaptured, setAlreadyCaptured] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -105,15 +122,26 @@ export function BookingCtaButton({ label, children, className, locale = "fr" }: 
     );
   }
 
-  return (
-    <>
-      <button type="button" onClick={openModal} className={className}>
-        {content}
-      </button>
+  /*
+    La modale est rendue dans `document.body`, pas là où le bouton se trouve.
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
+    Sans ça, `position: fixed` ne se cale pas sur la fenêtre dès qu'un ancêtre
+    porte un `transform`, un `filter` ou un `backdrop-filter` : la règle CSS dit
+    qu'un tel élément devient le bloc conteneur des descendants fixes. C'est
+    exactement ce qui est arrivé au jour 6 du challenge : l'outil est enveloppé
+    dans un `ScrollReveal`, qui termine son animation sur `filter: blur(0px)`,
+    et `blur(0px)` n'est pas `none`. La modale se retrouvait dessinée à 448 par
+    428 pixels au milieu de la page au lieu de couvrir les 1280 par 900 de la
+    fenêtre, et l'overlay ne masquait plus rien.
+
+    Un portail règle le cas partout et pour toujours, plutôt que d'interdire aux
+    pages de placer un bouton de réservation dans un conteneur animé. C'est
+    aussi ce que fait toute bibliothèque de dialogues, pour cette raison.
+  */
+  const overlay = (
+    <AnimatePresence>
+      {open && (
+        <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -153,10 +181,24 @@ export function BookingCtaButton({ label, children, className, locale = "fr" }: 
                 context="modal"
                 locale={locale}
               />
-            </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  return (
+    <>
+      <button type="button" onClick={openModal} className={className}>
+        {content}
+      </button>
+
+      {/*
+        `AnimatePresence` reste dans le portail, pas autour : sinon l'animation
+        de sortie n'aurait plus rien à jouer, l'arbre entier disparaissant d'un
+        coup à la fermeture.
+      */}
+      {isClient ? createPortal(overlay, document.body) : null}
     </>
   );
 }
