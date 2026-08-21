@@ -136,11 +136,11 @@ export const UI_FR = {
     "Deux clics. Rien n'est envoyé nulle part, et vous pouvez fermer.",
   profileStepOf: (i: number, total: number) => `Question ${i} sur ${total}`,
   profileDoneTitle: "Voilà par où commencer",
-  profileSkipAll: "Passer les deux questions",
+  profileSkipStep: "Passer cette question",
+  profileSeeAllDays: "Voir les trente jours",
   profileLevelQuestion: "Vous avez utilisé Claude Code à quel point ?",
   profileRoleQuestion: "Vous êtes dans quel service ?",
   profileStartAt: (day: number) => `Commencez au jour ${day}.`,
-  profileGo: (day: number) => `Ouvrir le jour ${day}`,
   profileDayLabel: (day: number) => `jour ${day}`,
   profileAnsweredPrefix: "On vous a orienté vers le",
   profileDismissed:
@@ -198,6 +198,7 @@ export const UI_FR = {
     `${answered} sur ${total} répondues. Terminez-les pour compléter ce jour.`,
   dayNotStarted: "Répondez aux questions ci-dessus pour compléter ce jour.",
 } satisfies ChallengeUI;
+
 
 
 

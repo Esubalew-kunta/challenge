@@ -20,12 +20,10 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { ArrowRight, X } from "lucide-react";
 import { track } from "@vercel/analytics";
 import { CONSENT_CHANGE_EVENT, getConsent } from "@/lib/consent";
-import { uiFor, baseFor } from "@/lib/challenge/locale";
-import { dayByNumberIn, dayHrefIn } from "@/lib/challenge/nav";
+import { uiFor } from "@/lib/challenge/locale";
 import {
   levelOptionIn,
   levelOptionsFor,
@@ -101,6 +99,16 @@ export function ProfileModal({
   }, [consentSettled]);
 
   /**
+   * Closed by hand, this visit.
+   *
+   * Needed because the result step keeps the popup open on its own. Without
+   * this, pressing See the thirty days marked the answers as done but left the
+   * box sitting there, since `step === 2` was still true. It only disappeared
+   * on the next page load. Caught by clicking the button in a browser.
+   */
+  const [hidden, setHidden] = useState(false);
+
+  /**
    * Open while there is still something to ask, and then for one more step.
    *
    * That second half is not optional. `shouldAsk` goes false the instant the
@@ -110,12 +118,47 @@ export function ProfileModal({
    * a real browser rather than by reading it.
    */
   const open =
-    hydrated && consentSettled && (shouldAsk(profile) || step === 2);
+    hydrated &&
+    consentSettled &&
+    !hidden &&
+    (shouldAsk(profile) || step === 2);
 
+  /**
+   * Closes the popup for good.
+   *
+   * `dismiss` is what makes it permanent. Without it the popup would come back
+   * on the next visit, which turns a polite question into a nag.
+   */
   const close = useCallback(() => {
     dismiss();
+    setHidden(true);
     track("challenge_profile_dismissed", { step });
   }, [dismiss, step]);
+
+  /** Both answered. Same permanence, but nothing was refused. */
+  const finish = useCallback(() => {
+    dismiss();
+    setHidden(true);
+    track("challenge_profile_finished", {});
+  }, [dismiss]);
+
+  /**
+   * Skips the question on screen, and only that one.
+   *
+   * The first question hands over to the second with the department left
+   * unset. The second has nothing after it, so skipping there ends the popup.
+   * In both cases whatever they did answer is kept.
+   */
+  const skipStep = useCallback(() => {
+    if (step === 0) {
+      setStep(1);
+      track("challenge_profile_skipped", { question: "department" });
+      return;
+    }
+    track("challenge_profile_skipped", { question: "level" });
+    dismiss();
+    setHidden(true);
+  }, [step, dismiss]);
 
   // Escape closes it, like every other dialog on the web. Bound only while it
   // is open, so it cannot swallow the key on the rest of the page.
@@ -218,17 +261,22 @@ export function ProfileModal({
                 {chosen.because}
               </p>
             </div>
-            <Link
-              href={
-                dayByNumberIn(locale, chosen.startDay)
-                  ? dayHrefIn(locale, dayByNumberIn(locale, chosen.startDay)!)
-                  : baseFor(locale)
-              }
+            {/*
+              This closes the popup rather than opening the day.
+
+              Owner's call: a reader who has just been told where to start
+              should land on the list of thirty, not be thrown straight into
+              one page. The day number stays on screen behind this, in the line
+              under the score card, so it is one click away rather than forced.
+            */}
+            <button
+              type="button"
+              onClick={finish}
               className="inline-flex w-full items-center justify-center gap-2 rounded-sm border border-primary bg-primary px-5 py-3 text-[0.9375rem] font-semibold text-primary-foreground transition-colors hover:border-primary-dark hover:bg-primary-dark"
             >
-              {UI.profileGo(chosen.startDay)}
+              {UI.profileSeeAllDays}
               <ArrowRight className="size-4" aria-hidden />
-            </Link>
+            </button>
           </div>
         ) : null}
 
@@ -236,17 +284,26 @@ export function ProfileModal({
           {step === 2 ? UI.profileFineprint : UI.profileBody}
         </p>
 
+        {/*
+          Skips this question only, not both.
+
+          On the first it moves to the second with the department left unset.
+          On the second there is nothing after it, so skipping ends the popup.
+          Either way the answer they did give is kept.
+        */}
         {step < TOTAL_STEPS ? (
           <button
             type="button"
-            onClick={close}
+            onClick={skipStep}
             className="text-[0.8125rem] font-semibold text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
           >
-            {UI.profileSkipAll}
+            {UI.profileSkipStep}
           </button>
         ) : null}
       </div>
     </div>
   );
 }
+
+
 
