@@ -223,35 +223,38 @@ export const UI_FR = {
   costTag: "À calculer",
   costTitle: "Ça vous coûte quoi, aujourd'hui ?",
   costBody:
-    "Listez les travaux que vous refaites sans arrêt. Pas les intéressants, les ennuyeux de chaque semaine. Le chiffre en bas, c'est ce qu'ils vous coûtent dans l'année.",
-  costJobLabel: "Le travail",
-  costJobPlaceholder: "Le point client hebdomadaire",
-  costTimesLabel: "Fois par mois",
-  costMinutesLabel: "Minutes à chaque fois",
-  costAddRow: "Ajouter un travail",
-  costRemoveRow: "Enlever cette ligne",
-  costEmpty: "Remplissez un travail et les chiffres apparaissent ici.",
+    "Trois clics, rien à taper. Cochez les travaux qui sont les vôtres, dites à peu près à quelle fréquence et combien de temps, et le panneau vous dit ce qu'ils prennent dans votre année.",
+  costPickJobs: "Lesquels de ces travaux refaites-vous sans arrêt ?",
+  costPickHint: "Cochez ceux qui sont les vôtres. Autant que vous voulez.",
+  costHowOften: "À quelle fréquence",
+  costHowLong: "Combien de temps",
+  costFrequency: {
+    daily: "Tous les jours",
+    fewWeekly: "Plusieurs fois par semaine",
+    weekly: "Une fois par semaine",
+    monthly: "Une ou deux fois par mois",
+  },
+  costDuration: {
+    short: "Moins de 15 min",
+    halfHour: "Environ 30 min",
+    hour: "Environ une heure",
+    halfDay: "Une demi-journée",
+  },
+  costResultTag: "Ce que ça représente",
+  costEmpty: "Cochez un travail au-dessus et les chiffres apparaissent ici.",
   costAMonth: "par mois",
   costAYear: "par an",
   costWorkingDays: (n: string) => `${n} jours de travail par an`,
-  costWorkingDayNote: "En comptant une journée de travail à sept heures.",
-  costRateLabel: "Ce que coûte une heure de votre temps, en euros",
-  costRateHint: "Facultatif. Votre propre chiffre, une estimation suffit.",
-  costMoneyLine: (amount: string) => `${amount} de votre temps, chaque année`,
+  costWorkingDayNote:
+    "En comptant une journée de travail à sept heures, et chaque réponse arrondie vers le bas. Le vrai chiffre est en général plus gros.",
+  costCtaLine: (days: string) =>
+    `Ça fait ${days} jours de travail par an. Vous voulez de l'aide pour les récupérer ?`,
+  costCtaButton: "Parlons-en avec AI Makers",
+  costCtaNote: "Une conversation gratuite. Aucun discours commercial.",
   costPricesElsewhere:
     "Nous n'imprimons pas ce que coûte une offre Claude : un chiffre posé dans une page devient faux sans que personne ne le remarque. Les offres du moment sont sur la page tarifs d'Anthropic, et ce jour vous dit laquelle vous convient.",
-  costCopyButton: "Copier les trois lignes pour mon manager",
-  costCopied: "Copié",
   costLocal:
     "Gardé dans ce navigateur uniquement. Rien ne nous est envoyé, et vider votre navigateur l'efface.",
-  costManagerText: (hours: string, days: string, money: string | null) =>
-    [
-      `Ces travaux répétés me prennent ${hours} par an.`,
-      `Ça fait ${days} jours de travail.`,
-      money
-        ? `Au coût horaire de mon temps, ça fait ${money} par an, avant même de regarder ce que coûte un outil.`
-        : "Et c'est avant même de regarder ce que coûte un outil.",
-    ].join("\n"),
 } satisfies ChallengeUI;
 
 

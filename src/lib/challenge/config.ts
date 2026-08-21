@@ -205,36 +205,38 @@ export const UI = {
   costTag: "Work it out",
   costTitle: "What is this costing you now?",
   costBody:
-    "List the jobs you do again and again. Not the interesting ones, the boring weekly ones. The number at the bottom is what they cost you in a year.",
-  costJobLabel: "The job",
-  costJobPlaceholder: "The weekly client update",
-  costTimesLabel: "Times a month",
-  costMinutesLabel: "Minutes each",
-  costAddRow: "Add another job",
-  costRemoveRow: "Remove this row",
-  costEmpty: "Fill in one job and the numbers appear here.",
+    "Three taps, no typing. Pick the jobs that are yours, say roughly how often and how long, and the panel tells you what they take out of your year.",
+  costPickJobs: "Which of these do you do again and again?",
+  costPickHint: "Tap the ones that are yours. Pick as many as fit.",
+  costHowOften: "How often",
+  costHowLong: "How long",
+  costFrequency: {
+    daily: "Every day",
+    fewWeekly: "A few times a week",
+    weekly: "Once a week",
+    monthly: "Once or twice a month",
+  },
+  costDuration: {
+    short: "Under 15 min",
+    halfHour: "About 30 min",
+    hour: "About an hour",
+    halfDay: "Half a day",
+  },
+  costResultTag: "What that comes to",
+  costEmpty: "Pick a job above and the numbers appear here.",
   costAMonth: "a month",
   costAYear: "a year",
   costWorkingDays: (n: string) => `${n} working days a year`,
-  costWorkingDayNote: "Counting a working day as seven hours.",
-  costRateLabel: "What an hour of your time costs, in euros",
-  costRateHint: "Optional. Your own number, rough is fine.",
-  costMoneyLine: (amount: string) => `${amount} of your time, every year`,
+  costWorkingDayNote:
+    "Counting a working day as seven hours, and every answer rounded down. The real number is usually bigger.",
+  costCtaLine: (days: string) =>
+    `That is ${days} working days a year. Want help getting them back?`,
+  costCtaButton: "Talk to AI Makers",
+  costCtaNote: "A free conversation. No pitch.",
   costPricesElsewhere:
     "We do not print what a Claude plan costs, because a number in a page goes stale without anybody noticing. The current plans are on the Anthropic pricing page, and this day tells you which one fits.",
-  costCopyButton: "Copy the three lines for my manager",
-  costCopied: "Copied",
   costLocal:
     "Kept in this browser only. Nothing is sent to us, and clearing your browser clears it.",
-  /** The three lines that get pasted into an email. Plain text, no markdown. */
-  costManagerText: (hours: string, days: string, money: string | null) =>
-    [
-      `These repeated jobs take me ${hours} a year.`,
-      `That is ${days} working days.`,
-      money
-        ? `At my hourly cost that is ${money} a year, before we look at what a tool costs.`
-        : "That is before we look at what a tool costs.",
-    ].join("\n"),
 } as const;
 
 /**
