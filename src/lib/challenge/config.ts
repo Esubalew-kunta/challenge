@@ -22,8 +22,19 @@ export const PHASES: PhaseMeta[] = [
     id: 1,
     label: "Phase 1",
     title: "Get it working",
+    /*
+      This used to end "Plenty of people stop here, and that is fine."
+
+      It was meant to take the pressure off. On the list of thirty, read by
+      somebody still deciding whether to start, it does the opposite: it hands
+      them permission to quit at day 10 before they have opened day 1, and it
+      makes the two phases under it look optional. Owner's call, 21 August 2026.
+
+      What replaces it says what they walk out of phase 1 holding, which is the
+      thing that actually takes the pressure off.
+    */
     promise:
-      "A complete, safe, working setup. Plenty of people stop here, and that is fine.",
+      "Installed, working on your real files, with a guard that refuses to touch what you cannot lose.",
     range: [1, 10],
   },
   {

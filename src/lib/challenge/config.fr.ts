@@ -38,8 +38,16 @@ export const PHASES_FR: PhaseMeta[] = [
     ...PHASES[0],
     label: "Phase 1",
     title: "Le faire fonctionner",
+    /*
+      Finissait par « Beaucoup de gens s'arrêtent là, et c'est très bien ».
+
+      C'était censé enlever la pression. Sur la liste des trente, lue par
+      quelqu'un qui hésite encore à commencer, ça fait l'inverse : ça donne
+      l'autorisation d'abandonner au jour 10 avant même d'avoir ouvert le jour
+      1, et ça fait passer les deux phases suivantes pour facultatives.
+    */
     promise:
-      "Une installation complète, sûre, qui marche. Beaucoup de gens s'arrêtent là, et c'est très bien.",
+      "Installé, au travail sur vos vrais fichiers, avec un garde-fou qui refuse de toucher ce que vous ne pouvez pas perdre.",
   },
   {
     ...PHASES[1],
