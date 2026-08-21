@@ -22,7 +22,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 import { track } from "@vercel/analytics";
-import { CONSENT_CHANGE_EVENT, getConsent } from "@/lib/consent";
+import { CONSENT_CHANGE_EVENT } from "@/lib/consent";
 import { uiFor } from "@/lib/challenge/locale";
 import {
   levelOptionIn,
@@ -36,15 +36,8 @@ import { useProfile } from "./use-profile";
 
 const TOTAL_STEPS = 2;
 
-/** True once the visitor has accepted or declined cookies. */
-function hasConsentDecision(): boolean {
-  try {
-    return getConsent() !== null;
-  } catch {
-    // Storage can be blocked. Treat that as decided rather than never showing.
-    return true;
-  }
-}
+/** Breathing room between the popup and the cookie banner under it. */
+const BANNER_GAP = 16;
 
 function Choice({ label, onClick }: { label: string; onClick: () => void }) {
   return (
@@ -78,25 +71,22 @@ export function ProfileModal({
   const [step, setStep] = useState<0 | 1 | 2>(0);
 
   /**
-   * The cookie banner goes first.
+   * How tall the cookie banner is right now, or 0 when it is not on screen.
    *
-   * Both are anchored to the bottom of a phone screen, and on a 375 wide
-   * viewport the banner sat straight over the last two answers, so nobody could
-   * pick them or close the popup. Found by opening it at phone width, not by
-   * reading the CSS.
+   * This popup used to wait for the cookie decision instead. That fixed a real
+   * collision, on a 375 wide viewport the banner sat straight over the last two
+   * answers, and created a worse problem: a reader who ignored the banner and
+   * started reading never got asked, and then the popup ambushed them minutes
+   * later, on whatever page they happened to be on, the moment the banner was
+   * finally answered. Owner saw exactly that on a first visit in incognito.
    *
-   * Waiting is also the right order regardless of the collision. The banner is
-   * a legal notice the visitor has to be able to answer. Ours is an optional
-   * question. Ours waits.
+   * So both are on screen together now, and the popup simply gets out of the
+   * way. The banner is rendered after the page in the layout, so at the same
+   * z-index it stays on top and stays clickable, which is what a legal notice
+   * has to be. Measuring it beats guessing a padding: the banner is one row on
+   * a desktop and three stacked on a phone.
    */
-  const [consentSettled, setConsentSettled] = useState(() => hasConsentDecision());
-
-  useEffect(() => {
-    if (consentSettled) return;
-    const onChange = () => setConsentSettled(hasConsentDecision());
-    window.addEventListener(CONSENT_CHANGE_EVENT, onChange);
-    return () => window.removeEventListener(CONSENT_CHANGE_EVENT, onChange);
-  }, [consentSettled]);
+  const [bannerHeight, setBannerHeight] = useState(0);
 
   /**
    * Closed by hand, this visit.
@@ -117,11 +107,31 @@ export function ProfileModal({
    * never sees the day number they just earned. Found by clicking through it in
    * a real browser rather than by reading it.
    */
-  const open =
-    hydrated &&
-    consentSettled &&
-    !hidden &&
-    (shouldAsk(profile) || step === 2);
+  const open = hydrated && !hidden && (shouldAsk(profile) || step === 2);
+
+  // Measured only while the popup is up, which is once in a reader's life. The
+  // observer catches the banner mounting a tick after this effect runs, which
+  // it does, because it decides whether to show itself inside its own effect.
+  useEffect(() => {
+    if (!open) return;
+
+    const measure = () => {
+      const el = document.querySelector<HTMLElement>("[data-cookie-banner]");
+      setBannerHeight(el ? el.getBoundingClientRect().height : 0);
+    };
+    measure();
+
+    const observer = new MutationObserver(measure);
+    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener("resize", measure);
+    window.addEventListener(CONSENT_CHANGE_EVENT, measure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+      window.removeEventListener(CONSENT_CHANGE_EVENT, measure);
+    };
+  }, [open]);
 
   /**
    * Closes the popup for good.
@@ -184,6 +194,13 @@ export function ProfileModal({
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-foreground/40 p-4 backdrop-blur-sm"
+      // Sits above the cookie banner rather than under it. Zero when there is
+      // no banner, which is every visit after the first.
+      style={
+        bannerHeight
+          ? { paddingBottom: `${bannerHeight + BANNER_GAP}px` }
+          : undefined
+      }
       onClick={close}
     >
       <div

@@ -888,6 +888,9 @@ n'en valent pas la peine.`,
   {
     day: 6,
     slug: "jour-6",
+    // L'outil de calcul du jour 6. Voir `cost-tool.tsx` : il n'imprime aucun
+    // prix, seulement les chiffres que le lecteur saisit lui-même.
+    tool: "cost",
     title: "Les offres et ce que ça coûte",
     phase: 1,
     minutes: 8,

@@ -20,7 +20,9 @@ import { baseFor, uiFor } from "@/lib/challenge/locale";
 import { dayHrefIn, neighboursIn, phaseIn, totalDaysFor } from "@/lib/challenge/nav";
 import type { ChallengeLocale } from "@/lib/challenge/types";
 import type { Day, Step, TeachSection } from "@/lib/challenge/types";
+import { Celebrate } from "./celebrate";
 import { CodeBlock } from "./code-block";
+import { CostTool } from "./cost-tool";
 import { DayStatus } from "./day-status";
 import { PlatformTabs } from "./platform-tabs";
 import { Quiz } from "./quiz";
@@ -160,22 +162,38 @@ export function DayView({
 
   return (
     <article className="mx-auto w-full max-w-[52rem] px-5 pb-20">
-      {/* Hero */}
-      <ScrollReveal className="border-b border-border pb-8 pt-12">
-        <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-accent px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-primary-dark">
+      {/*
+        The level and phase rewards. Mounted here rather than on the index
+        because this is where a milestone is actually crossed: it happens on
+        the click that answers the last question of a day.
+      */}
+      <Celebrate locale={locale} />
+
+      {/*
+        Hero.
+
+        Centred, and no longer squeezed into a narrow column. It used to be
+        left aligned inside `max-w-[20ch]`, which forced a five word title onto
+        three lines while two thirds of the page sat empty beside it. Owner's
+        call: centre it, let it use the width it has, and give it room to
+        breathe. The lesson itself stays left aligned, because centred body
+        text is genuinely harder to read line after line.
+      */}
+      <ScrollReveal className="flex flex-col items-center border-b border-border pb-10 pt-14 text-center">
+        <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-accent px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-primary-dark">
           {phase.label} · {phase.title}
         </span>
-        <h1 className="max-w-[20ch] text-[clamp(2.1rem,5vw,3rem)] font-bold leading-[1.1] tracking-tight">
+        <h1 className="max-w-[30ch] text-[clamp(2.35rem,5.2vw,3.25rem)] font-bold leading-[1.15] tracking-tight text-balance">
           {day.title}
           {day.term ? (
             <span className="font-medium text-muted-foreground"> ({day.term})</span>
           ) : null}
         </h1>
-        <p className="mt-5 max-w-[56ch] text-[1.1875rem] leading-relaxed text-muted-foreground">
+        <p className="mt-6 max-w-[56ch] text-[1.1875rem] leading-relaxed text-muted-foreground text-pretty">
           {day.promise}
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-7 flex flex-wrap justify-center gap-2">
           <span className="inline-flex items-center gap-2 rounded-sm border border-border bg-card px-3 py-2 text-[0.8125rem] font-semibold text-muted-foreground">
             <Timer className="size-3.5" aria-hidden />
             <b className="font-mono font-bold text-foreground">
@@ -217,6 +235,21 @@ export function DayView({
           ))}
         </div>
       </ScrollReveal>
+
+      {/*
+        The day's tool, if it has one. Placed after the teaching and before
+        "Do this now", because it is the thing the reader works out for
+        themselves once they understand the idea and before they act on it.
+
+        A `switch` on a name rather than a component stored in the data: the day
+        records are plain data, read by the sitemap and by scripts that have no
+        business importing React.
+      */}
+      {day.tool === "cost" ? (
+        <ScrollReveal className="mt-12">
+          <CostTool locale={locale} />
+        </ScrollReveal>
+      ) : null}
 
       {/* Steps */}
       <ScrollReveal className="mt-12">

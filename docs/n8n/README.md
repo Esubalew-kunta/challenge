@@ -49,13 +49,21 @@ purpose:
 - It always appends a French Cal.com booking button, whatever you pass it
 - Its unsubscribe line is French
 
-This course is in English. Sending an English reader a French footer and a
-French booking button is worse than sending them plain text. `Build the email`
-uses the same colours, the same card, the same 600 pixel table, in English,
-with no booking button.
+The course exists in both languages, and the reader's language arrives in the
+request as `locale`. The shared renderer cannot honour that: it is French
+whatever you pass it, so an English reader would get a French footer and a
+French booking button, which is worse than sending them plain text.
+`Build the email` uses the same colours, the same card and the same 600 pixel
+table, in whichever of the two languages was asked for, with no booking button.
 
 If the brand renderer ever takes a language input, this node should be deleted
 and replaced with a call to it. Until then, two templates is the honest cost.
+
+**The email needed no change when the French sheets landed.** It reads
+`sheetTitle` from the row the site looked up, and a French reader is looked up
+against the `-fr` row, so the French title, the French PDF and the French day
+link all follow by themselves. Proved on 21 August 2026: execution `21391`
+sent `Votre fiche : La fiche Quel outil` linking to `sheet-which-tool-fr.pdf`.
 
 ## One thing the 502 cannot do
 
@@ -72,9 +80,15 @@ execution list, which is where anyone debugging it would look anyway.
   "email": "someone@company.com",
   "sheetTitle": "The Setup Sheet",
   "sheetDay": 1,
-  "fileUrl": "https://.../sheet-setup.pdf"
+  "fileUrl": "https://.../sheet-setup.pdf",
+  "locale": "en",
+  "siteUrl": "https://challenge-nine-ochre.vercel.app"
 }
 ```
+
+`locale` is `en` or `fr` and decides the whole email. `siteUrl` is the address
+the reader is actually on, sent rather than configured in n8n so the links
+inside the email follow the domain by themselves on the day it moves.
 
 Sent by `src/app/api/challenge-sheet/route.ts`, only after the lead row is
 safely written to Supabase.

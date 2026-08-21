@@ -111,6 +111,18 @@ export interface SuccessGate {
   failBody: string[];
 }
 
+/**
+ * An interactive tool this day carries, beyond the standard blocks.
+ *
+ * A union of names rather than a component, because the day records are plain
+ * data read by the sitemap and by scripts that have no business importing
+ * React. The layout maps the name to a component in one place.
+ *
+ * `cost` is Day 6: what the repeated work costs, worked out from the reader's
+ * own numbers. Deliberately not a plan price calculator, see `cost-tool.tsx`.
+ */
+export type DayTool = "cost";
+
 export interface Day {
   day: number;
   /** URL segment. `day-1` through `day-30`, so a reader can type one. */
@@ -135,6 +147,8 @@ export interface Day {
   quiz: Question[];
   sheet?: Sheet;
   gate?: SuccessGate;
+  /** Shown under the three sections, before "Do this now". */
+  tool?: DayTool;
   /** Names the payoff of the next day, never just its number. */
   nextTeaser: string;
 }

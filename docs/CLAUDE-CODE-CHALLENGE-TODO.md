@@ -1,12 +1,98 @@
-# 30 Days of Claude Code — what is left
+# 30 Days of Claude Code: what is left
 
-Live at `/en/claude-code-challenge`. English only. Thirty day pages, all
-written, all building, linked from the English menu and footer.
+Live at `/en/claude-code-challenge` in English and `/challenge-claude-code` in
+French. Thirty day pages in each, all written, all building, linked from both
+menus and footers, with eleven downloadable sheets in each language.
 
 Content lives in `src/lib/challenge/`. One layout renders all thirty days, so a
 fact exists in exactly one place and two pages cannot disagree with each other.
 
-Last updated: 20 August 2026.
+Last updated: 21 August 2026.
+
+---
+
+## Done, 21 August 2026
+
+### Seven things a real first visit found
+
+Opened in incognito as a new reader. All seven fixed.
+
+1. **The popup was chained to the cookie banner.** It waited for the cookie
+   decision, so a reader who ignored the banner was never asked, and then the
+   popup ambushed them minutes later when the banner was finally answered. The
+   wait is gone. The collision it was hiding, the banner covering the last two
+   answers at 375 wide, is solved by measuring the banner and sitting above it.
+   `data-cookie-banner` is the handle. The banner stays clickable.
+2. **There was no celebration.** `celebrate.tsx` now marks a new level, a
+   finished phase, and all thirty. Five seconds of confetti, once per milestone
+   ever, silent about anything earned before it shipped, no dependency, reduced
+   motion respected. Not celebrated: finishing a single day.
+3. **Titles were squeezed and left aligned.** Day heroes are centred, widened
+   from 20 to 30 characters, slightly larger, with more room. Index heroes went
+   from 16 to 24. The lesson body stays left aligned on purpose.
+4. **The sheet footers printed dead links.** `aimakers.fr/en/claude-code-challenge`
+   does not exist; the course is on Vercel. Every sheet now prints `aimakers.fr`
+   and nothing else. All 22 rebuilt and re-uploaded.
+5. **A local address could reach a real email.** `/api/challenge-sheet` now
+   swaps localhost, 127.0.0.1, `.local` and home wifi ranges for
+   `CHALLENGE_PUBLIC_URL`, then Vercel's production hostname, then site config.
+6. **Day 6 has a cost tool.** `cost-tool.tsx`, both languages, attached through
+   a new optional `tool` field on the day record. It prints no price of ours:
+   every number is the reader's own, so it cannot go stale. Its output is three
+   lines copied to the clipboard for whoever approves the spend.
+
+### The eleven sheets exist in French
+
+A French reader now gets French pages, a French email and a French PDF. That
+was the last seam where English showed through.
+
+- Content: `src/lib/challenge/sheets.fr.ts`, eleven records mirroring
+  `sheets.ts` block for block. Commands are not translated: `INSTALL` and
+  `SETTINGS_PATHS` come from `registry.ts` and are the same in both languages
+- Layout: the same `sheet-doc.tsx`, which now takes a `locale`. The six strings
+  the layout itself owns live in that file rather than in `config.ts`, because
+  they only ever appear on a printed sheet
+- Pages: `src/app/(print-fr)/challenge-claude-code/fiches/[id]`, a fourth root
+  layout. A root layout cannot change its `lang` per route, and a French sheet
+  served as `lang="en"` is wrong for a screen reader and for hyphenation
+- Ids: `sheet-setup-fr` and so on. The rule lives once, in `sheetIdFor` in
+  `registry.ts`. **The French day records deliberately keep the English id**,
+  so no content file had to be renamed
+- Delivery: `/api/challenge-sheet` asks for both ids in one query and prefers
+  the French row, falling back to the English one. A row with no file is
+  skipped, so a French sheet that exists but was never uploaded cannot beat an
+  English PDF that is ready
+- The email needed no change. It reads the title from the row that was looked
+  up, so the French title, PDF and day link follow by themselves
+
+**Why two ids and not a second column.** Adding a column changes an existing
+table; adding a row does not. The id then carries the language into the PDF
+name, the storage path and the lead row without anything else having to know.
+The cost, stated once: `claude_code_leads.sheet_id` now splits by language, so
+any count by sheet has to strip the suffix. That is the only place it shows.
+
+**`claude_code_sheets.slot` is unique**, so the French rows took slots 12 to 22.
+Nothing reads `slot` out of the database; the sheet's own `slot` in the code is
+still 1 to 11 and is what prints on the page.
+
+### The one page rule is now enforced, not remembered
+
+`scripts/lib/pdf-a4.mjs` counts `/Type /Page` and reads the `MediaBox`. The
+build refuses anything that is not exactly one A4 page, and so does the upload,
+because a file that failed the build stays on disk and the upload used to take
+every PDF in the folder. Proved against a deliberately long page: 11 pages, US
+Letter, both flagged.
+
+`sheets:upload` now takes ids, so a French pass no longer rewrites the eleven
+English files and rows that nobody asked it to touch.
+
+Verified on 21 August 2026, in a real browser and against the live tables: all
+eleven French PDFs are one A4 page, all eleven download over the public URL,
+the French form on `/challenge-claude-code/jour-5` returns
+`sheet-which-tool-fr.pdf`, the English form on `/en/claude-code-challenge/day-5`
+still returns `sheet-which-tool.pdf`, and n8n execution `21391` sent the French
+email. Build clean, 236 static pages. Sitemap still 193 URLs, 193 unique, with
+no sheet route in it.
 
 ---
 
@@ -82,16 +168,6 @@ would ideally carry the day number.
 ---
 
 ## Deliberately not done
-
-**No French version.** The architecture is ready for it: FR at the root, EN
-under `/en`, and `ROUTE_MAP` in `src/lib/i18n.ts` pairs them. A French build is
-a second data file plus a second set of UI strings in
-`src/lib/challenge/config.ts`, not a second set of components.
-
-Until it exists, `/en/claude-code-challenge` is deliberately absent from
-`ROUTE_MAP`: a hreflang pointing at a page that does not exist is an indexing
-error, not an ignored link. The index is in `EN_PUBLISHED` so it reaches the
-sitemap; the thirty day pages are added to the sitemap from the data.
 
 **The old French `/challenge-30-jours` is untouched.** It is a different
 product: a weekly email course about Claude the chat app, run through n8n.

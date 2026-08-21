@@ -1,5 +1,5 @@
 /**
- * 30 Days of Claude Code — a reader asks for one of the ten sheets.
+ * 30 Days of Claude Code: a reader asks for one of the sheets.
  *
  * Two jobs, in this order, and nothing else:
  *
@@ -23,8 +23,9 @@
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { LEAD_SOURCE } from "@/lib/challenge/registry";
+import { LEAD_SOURCE, sheetIdFor } from "@/lib/challenge/registry";
 import { companyEmail } from "@/lib/schemas/identity";
+import { siteConfig } from "@/lib/site-config";
 
 const SUPABASE_URL = process.env.SUPABASE_URL?.replace(/\/$/, "");
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -70,6 +71,37 @@ function withTimeout(ms: number) {
 }
 
 /**
+ * The public address of the course, for anything that has to survive the trip
+ * into somebody's inbox.
+ *
+ * `CHALLENGE_PUBLIC_URL` first so a developer can point local sends at the live
+ * site, then Vercel's own production hostname, then the site config. Never the
+ * request host as a last resort: that is the thing this exists to override.
+ */
+function publicUrl(): string {
+  const configured = process.env.CHALLENGE_PUBLIC_URL?.trim();
+  if (configured) return configured.replace(/\/$/, "");
+
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (vercel) return `https://${vercel.replace(/^https?:\/\//, "").replace(/\/$/, "")}`;
+
+  return siteConfig.url.replace(/\/$/, "");
+}
+
+/** localhost, 127.0.0.1, and the `.local` names a phone on the wifi resolves. */
+function isLocal(host: string): boolean {
+  const name = host.split(":")[0].toLowerCase();
+  return (
+    name === "localhost" ||
+    name === "127.0.0.1" ||
+    name === "[::1]" ||
+    name === "0.0.0.0" ||
+    name.endsWith(".local") ||
+    /^192\.168\.|^10\.|^172\.(1[6-9]|2\d|3[01])\./.test(name)
+  );
+}
+
+/**
  * The address the reader is actually on.
  *
  * Read from the forwarded headers rather than `request.url`, because behind a
@@ -77,12 +109,22 @@ function withTimeout(ms: number) {
  * not the one in the visitor's address bar. The email links are built from
  * this, so getting it wrong sends people to a URL that only exists inside a
  * data centre.
+ *
+ * **A local host never reaches the email.** Testing the form on
+ * `http://localhost:3000` used to put `http://localhost:3000` into a real email
+ * sent from the real Gmail account, so every link in it was dead for the person
+ * who received it. Owner caught that on the first French send. A developer
+ * machine is not an address anybody else can open, so it is swapped for the
+ * public one here rather than being remembered by whoever runs the test.
  */
 function originOf(request: Request): string {
   const host =
     request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  if (!host) return publicUrl();
+  if (isLocal(host)) return publicUrl();
+
   const proto = request.headers.get("x-forwarded-proto") ?? "https";
-  return host ? `${proto}://${host}` : new URL(request.url).origin;
+  return `${proto}://${host}`;
 }
 
 export async function POST(request: Request) {
@@ -110,18 +152,41 @@ export async function POST(request: Request) {
   const data = parsed.data;
   const siteUrl = originOf(request);
 
-  // The sheet is looked up rather than trusted from the request. Otherwise
-  // anyone could post any title and any file URL, and we would email a link of
-  // their choosing from our address.
+  /*
+    Which file this reader should get.
+
+    A sheet exists twice in the table: `sheet-setup` and `sheet-setup-fr`. The
+    page always posts the English id, because the French day records keep it,
+    so the language decision is made here and nowhere else.
+
+    Both ids are asked for in one request rather than two, and the French one
+    is preferred when it came back. The English row is the fallback, on
+    purpose: while a French sheet is still being written, a French reader gets
+    the English PDF, which is worth far more to them than a page saying the
+    sheet is not ready.
+  */
+  const wanted = sheetIdFor(data.sheetId, data.locale ?? "en");
+  const candidates = wanted === data.sheetId ? [data.sheetId] : [wanted, data.sheetId];
+
   let sheet: SheetRow | undefined;
   try {
+    const list = candidates
+      .map((id) => `%22${encodeURIComponent(id)}%22`)
+      .join(",");
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/claude_code_sheets` +
-        `?id=eq.${encodeURIComponent(data.sheetId)}&select=id,day,title,file_url&limit=1`,
+        `?id=in.(${list})&select=id,day,title,file_url&limit=2`,
       { headers: supabaseHeaders, signal: withTimeout(5000) },
     );
     if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
-    sheet = ((await res.json()) as SheetRow[])[0];
+    const rows = (await res.json()) as SheetRow[];
+
+    // The order of `candidates` is the preference order, so there is no second
+    // rule to keep in step with it. A row with no file is skipped on the first
+    // pass: a French row that exists but has never been uploaded should not
+    // beat an English PDF that is sitting there ready.
+    const found = candidates.map((id) => rows.find((r) => r.id === id));
+    sheet = found.find((r) => r?.file_url) ?? found.find(Boolean);
   } catch (error) {
     console.error("[challenge-sheet] sheet lookup failed:", error);
     return NextResponse.json({ error: "Indisponible pour le moment." }, { status: 502 });

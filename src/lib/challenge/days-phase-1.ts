@@ -865,6 +865,9 @@ automated it, and why. Be blunt if some of them are not worth it.`,
   {
     day: 6,
     slug: "day-6",
+    // The Day 6 tool. See cost-tool.tsx: it prints no price of ours, only
+    // the numbers the reader types in.
+    tool: "cost",
     title: "Plans and what it costs",
     phase: 1,
     minutes: 8,

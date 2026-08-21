@@ -18,9 +18,38 @@
  */
 
 import { RichText } from "./rich-text";
-import { CHALLENGE_ROUTES } from "@/lib/challenge/registry";
 import { siteConfig } from "@/lib/site-config";
 import type { SheetBlock, SheetDoc } from "@/lib/challenge/sheets";
+import type { ChallengeLocale } from "@/lib/challenge/types";
+
+/**
+ * The handful of strings the layout itself owns, in both languages.
+ *
+ * Kept here rather than in `config.ts` on purpose. These lines only ever appear
+ * on a printed sheet, and `ChallengeUI` is read by around fifteen components
+ * that will never show any of them. Putting print-only copy in the shared
+ * object would ship it in every page's bundle for no reason.
+ *
+ * Only the eyebrow reaches paper. The other three are the screen-only line
+ * above the sheet, which is hidden by the print rules and never makes it into
+ * a PDF.
+ */
+const SHEET_STRINGS = {
+  en: {
+    eyebrow: "30 Days of Claude Code",
+    fromDay: (slot: number, day: number) => `Sheet ${slot} of 10, from Day ${day}.`,
+    earned: "The earned sheet. Not on any day page.",
+    keepIt:
+      "Print this page, or save it as PDF, to keep it. This line is not on the printed sheet.",
+  },
+  fr: {
+    eyebrow: "Claude Code en 30 jours",
+    fromDay: (slot: number, day: number) => `Fiche ${slot} sur 10, du jour ${day}.`,
+    earned: "La fiche méritée. Sur aucune page de jour.",
+    keepIt:
+      "Imprimez cette page, ou enregistrez-la en PDF, pour la garder. Cette ligne n'est pas sur la fiche imprimée.",
+  },
+} as const;
 
 const INK = "#0f172a";
 const MUTED = "#475569";
@@ -303,17 +332,21 @@ function Block({ block }: { block: SheetBlock }) {
 
 /* ------------------------------------------------------------------- page */
 
-export function SheetDocView({ doc }: { doc: SheetDoc }) {
+export function SheetDocView({
+  doc,
+  locale = "en",
+}: {
+  doc: SheetDoc;
+  locale?: ChallengeLocale;
+}) {
   /*
     `day: 0` means the sheet belongs to no single day. That is the earned
     sheet, which is never offered on a lesson page, so there is no lesson to
     send the reader back to. Both places that name a day branch on this rather
     than printing "from Day 0" and linking to a page that does not exist.
   */
+  const T = SHEET_STRINGS[locale];
   const fromADay = doc.day > 0;
-  const dayPath = fromADay
-    ? `${CHALLENGE_ROUTES.en}/day-${doc.day}`
-    : CHALLENGE_ROUTES.en;
 
   return (
     <>
@@ -358,11 +391,7 @@ export function SheetDocView({ doc }: { doc: SheetDoc }) {
             color: MUTED,
           }}
         >
-          {fromADay
-            ? `Sheet ${doc.slot} of 10, from Day ${doc.day}.`
-            : "The earned sheet. Not on any day page."}{" "}
-          Print this page, or save it as PDF, to keep it. This line is not on
-          the printed sheet.
+          {fromADay ? T.fromDay(doc.slot, doc.day) : T.earned} {T.keepIt}
         </div>
 
         <div
@@ -435,7 +464,7 @@ export function SheetDocView({ doc }: { doc: SheetDoc }) {
                   color: BLUE_DARK,
                 }}
               >
-                30 Days of Claude Code
+                {T.eyebrow}
               </span>
             </div>
 
@@ -481,41 +510,35 @@ export function SheetDocView({ doc }: { doc: SheetDoc }) {
           {/*
             Footer.
 
-            Two links out and nothing else. The verification date is
-            deliberately NOT printed (owner's call, 20 August 2026), so the
-            sheet points back at the site instead, which is the version that
-            cannot go stale in somebody's inbox. `VERIFIED_AGAINST` still
-            governs when WE re-check the content; it is simply not shown.
+            The site address, and nothing else.
+
+            It used to print two deep links, `aimakers.fr/en/claude-code-challenge`
+            and the day page under it. Both were dead: the course is not on
+            aimakers.fr yet, it is on the Vercel address, so every sheet already
+            in somebody's inbox pointed at a 404. Owner's call, 21 August 2026,
+            and the right one. A printed link cannot be corrected once it is on
+            paper, so the only safe thing to print is the address that will
+            still resolve in a year.
+
+            The verification date is deliberately not printed either (owner's
+            call, 20 August 2026). `VERIFIED_AGAINST` still governs when WE
+            re-check the content; it is simply not shown.
           */}
           <footer
             style={{
               borderTop: `0.4mm solid ${LINE}`,
               padding: "4mm 12mm 6mm",
-              display: "flex",
-              justifyContent: "space-between",
-              gap: "4mm",
-              fontSize: "2.4mm",
+              textAlign: "center",
+              fontSize: "2.6mm",
               color: MUTED,
             }}
           >
-            <span>
-              {fromADay ? "The full lesson: " : "Earned on: "}
-              <a
-                href={`${siteConfig.url}${dayPath}`}
-                style={{ color: BLUE_DARK, fontWeight: 700, textDecoration: "none" }}
-              >
-                aimakers.fr{dayPath}
-              </a>
-            </span>
-            <span>
-              All thirty days:{" "}
-              <a
-                href={`${siteConfig.url}${CHALLENGE_ROUTES.en}`}
-                style={{ color: BLUE_DARK, fontWeight: 700, textDecoration: "none" }}
-              >
-                aimakers.fr{CHALLENGE_ROUTES.en}
-              </a>
-            </span>
+            <a
+              href={siteConfig.url}
+              style={{ color: BLUE_DARK, fontWeight: 700, textDecoration: "none" }}
+            >
+              aimakers.fr
+            </a>
           </footer>
         </div>
       </div>

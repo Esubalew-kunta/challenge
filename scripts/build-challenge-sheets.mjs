@@ -22,6 +22,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { inspectPdf } from "./lib/pdf-a4.mjs";
 
 const ORIGIN = process.env.SHEETS_ORIGIN ?? "http://localhost:3000";
 const OUT_DIR = resolve("public/sheets");
@@ -54,8 +55,21 @@ function findBrowser() {
   return found;
 }
 
+/**
+ * The page that renders this sheet.
+ *
+ * The `-fr` suffix on the id is the only thing that decides the language, so
+ * there is no second list to keep in step with the first. A French sheet has a
+ * French id, a French route, its own PDF and its own row in Supabase.
+ */
+function urlFor(id) {
+  return id.endsWith("-fr")
+    ? `${ORIGIN}/challenge-claude-code/fiches/${id}`
+    : `${ORIGIN}/en/claude-code-challenge/sheets/${id}`;
+}
+
 function build(browser, id) {
-  const url = `${ORIGIN}/en/claude-code-challenge/sheets/${id}`;
+  const url = urlFor(id);
   const out = join(OUT_DIR, `${id}.pdf`);
 
   execFileSync(
@@ -78,6 +92,14 @@ function build(browser, id) {
   );
 
   if (!existsSync(out)) throw new Error(`No file produced for ${id}`);
+
+  // One page, A4, every time. French runs longer than English at equal content,
+  // so a sheet that fitted in one language can spill onto a second page in the
+  // other, and a two page cheat sheet is not a cheat sheet. This used to be
+  // checked by hand, which means it was checked once and never again.
+  const { problems } = inspectPdf(out);
+  if (problems.length) throw new Error(problems.join("; "));
+
   return { out, bytes: statSync(out).size };
 }
 

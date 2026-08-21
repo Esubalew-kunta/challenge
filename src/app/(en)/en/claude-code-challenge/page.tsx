@@ -86,11 +86,11 @@ export default function ChallengeIndexPage() {
             Free · No account needed
           </span>
 
-          <h1 className="max-w-[16ch] text-[clamp(2.4rem,6vw,3.75rem)] font-bold leading-[1.05] tracking-tight text-balance">
+          <h1 className="max-w-[24ch] text-[clamp(2.5rem,6vw,3.75rem)] font-bold leading-[1.12] tracking-tight text-balance">
             {UI.challengeName}
           </h1>
 
-          <p className="mt-5 max-w-[52ch] text-lg text-muted-foreground">
+          <p className="mt-6 max-w-[56ch] text-lg leading-relaxed text-muted-foreground text-pretty">
             {UI.tagline}
           </p>
 

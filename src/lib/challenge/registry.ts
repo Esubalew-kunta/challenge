@@ -82,3 +82,24 @@ export const CHALLENGE_ROUTES = {
 
 /** Lead source tag sent to /api/lead for every sheet on the challenge. */
 export const LEAD_SOURCE = "claude-code-challenge" as const;
+
+/**
+ * How a French sheet is named, in one place.
+ *
+ * A sheet exists twice: `sheet-setup` in English and `sheet-setup-fr` in
+ * French. Two ids rather than one row with two file columns, because adding a
+ * column changes an existing table while adding a row does not, and because
+ * the id then carries the language into the PDF name, the storage path and the
+ * lead row without anything else having to know.
+ *
+ * The French day records deliberately keep the English id in their `sheet`
+ * field, so nothing in the content had to be renamed. This function is where
+ * the translation happens, and it is called in exactly two places: the French
+ * sheet data, and `/api/challenge-sheet` when it looks the file up.
+ */
+export const FR_SHEET_SUFFIX = "-fr" as const;
+
+export function sheetIdFor(id: string, locale: "en" | "fr"): string {
+  if (locale !== "fr") return id;
+  return id.endsWith(FR_SHEET_SUFFIX) ? id : `${id}${FR_SHEET_SUFFIX}`;
+}

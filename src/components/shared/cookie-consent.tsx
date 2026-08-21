@@ -64,6 +64,14 @@ export function CookieConsent({ locale = "fr" }: { locale?: Locale }) {
       role="dialog"
       aria-live="polite"
       aria-label={s.consentAria}
+      /*
+        `data-cookie-banner` est un point d'accroche, pas du style. Les deux
+        questions du challenge s'ouvrent en même temps que cette bannière et
+        doivent se placer AU-DESSUS d'elle : elles mesurent cet élément pour
+        savoir de combien se décaler. Un sélecteur sur la classe ou sur le
+        libellé casserait au premier changement de design ou de traduction.
+      */
+      data-cookie-banner=""
       className="fixed inset-x-0 bottom-0 z-[100] border-t border-black/10 bg-white/95 p-4 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] backdrop-blur-xl sm:p-6"
     >
       <div className="mx-auto flex max-w-5xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

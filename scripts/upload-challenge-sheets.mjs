@@ -4,7 +4,8 @@
  * Run `node scripts/build-challenge-sheets.mjs` first. This script only moves
  * files; it never renders one, so a stale PDF stays stale until it is rebuilt.
  *
- *   node scripts/upload-challenge-sheets.mjs
+ *   node scripts/upload-challenge-sheets.mjs                 # everything built
+ *   node scripts/upload-challenge-sheets.mjs sheet-setup-fr  # only these
  *
  * Needs SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env.local. The service
  * role key bypasses every row level security rule, which is exactly why it is
@@ -25,6 +26,7 @@
 
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { inspectPdf } from "./lib/pdf-a4.mjs";
 
 const BUCKET = "challenge-sheets";
 const PDF_DIR = resolve("public/sheets");
@@ -92,6 +94,14 @@ async function ensureBucket() {
 
 async function upload(id) {
   const file = join(PDF_DIR, `${id}.pdf`);
+
+  // The last gate before a file reaches a reader. The build script checks the
+  // same thing, but a sheet that failed the build stays on disk, and this
+  // script uploads every PDF in the folder. Without this, one bad file would
+  // go live on the next upload with nobody having asked for it.
+  const { problems } = inspectPdf(file);
+  if (problems.length) throw new Error(`not one A4 page: ${problems.join("; ")}`);
+
   const body = readFileSync(file);
 
   const res = await fetch(`${URL_BASE}/storage/v1/object/${BUCKET}/${id}.pdf`, {
@@ -113,17 +123,38 @@ async function upload(id) {
   return `${URL_BASE}/storage/v1/object/public/${BUCKET}/${id}.pdf`;
 }
 
-/** Points the sheets table at the file that was just uploaded. */
+/**
+ * Points the sheets table at the file that was just uploaded.
+ *
+ * `return=representation` rather than `return=minimal`, so an update that
+ * matched no row can be seen. A PATCH on an id that does not exist is a
+ * perfectly successful request that changes nothing, and with `minimal` it
+ * reads as a clean upload: the file is in storage, the table still says the
+ * sheet has no file, and the page politely tells readers it is not ready yet.
+ * That is exactly the shape of bug that survives a launch.
+ */
 async function recordUrl(id, url) {
   const res = await fetch(
-    `${URL_BASE}/rest/v1/claude_code_sheets?id=eq.${encodeURIComponent(id)}`,
+    `${URL_BASE}/rest/v1/claude_code_sheets?id=eq.${encodeURIComponent(id)}&select=id`,
     {
       method: "PATCH",
-      headers: { ...auth, "Content-Type": "application/json", Prefer: "return=minimal" },
+      headers: {
+        ...auth,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
       body: JSON.stringify({ file_url: url, updated_at: new Date().toISOString() }),
     },
   );
   if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+
+  const rows = await res.json();
+  if (!Array.isArray(rows) || rows.length === 0) {
+    throw new Error(
+      `no row with id "${id}" in claude_code_sheets, so nothing points at the file. ` +
+        "Create the row first, then run this again.",
+    );
+  }
 }
 
 /* ----------------------------------------------------------------- main */
@@ -133,9 +164,27 @@ if (!existsSync(PDF_DIR)) {
   process.exit(1);
 }
 
-const ids = readdirSync(PDF_DIR)
+const onDisk = readdirSync(PDF_DIR)
   .filter((f) => f.endsWith(".pdf"))
   .map((f) => f.replace(/\.pdf$/, ""));
+
+/*
+  Named sheets only, when names are given.
+
+  Without this the script uploads every PDF in the folder, which quietly
+  rewrites files and rows that nobody asked to touch. That was harmless while
+  there were ten sheets in one language and every run was a full rebuild. It
+  stopped being harmless the moment half the folder belonged to a language the
+  current change has nothing to do with.
+*/
+const asked = process.argv.slice(2);
+const missing = asked.filter((id) => !onDisk.includes(id));
+if (missing.length) {
+  console.error(`No PDF built for: ${missing.join(", ")}`);
+  process.exit(1);
+}
+
+const ids = asked.length ? asked : onDisk;
 
 if (!ids.length) {
   console.error("No PDFs in public/sheets. Run build-challenge-sheets.mjs first.");

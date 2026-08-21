@@ -176,6 +176,54 @@ export const UI = {
   dayPartLine: (answered: number, total: number) =>
     `${answered} of ${total} answered. Finish them to complete this day.`,
   dayNotStarted: "Answer the questions above to complete this day.",
+
+  /* --------------------------------------------------------- celebration */
+
+  celebrateLevelTag: "New level",
+  celebrateLevelTitle: (name: string) => `You are ${name} now`,
+  celebratePhaseTag: "Phase done",
+  celebratePhaseTitle: (label: string) => `${label} finished`,
+  celebrateFinishedTag: "All thirty",
+  celebrateFinishedTitle: "You finished the thirty days",
+  celebrateFinishedBody:
+    "Every day answered. The only thing left is to keep using it on real work.",
+  celebrateClose: "Nice",
+
+  /* ------------------------------------------------------ the cost tool */
+
+  costTag: "Work it out",
+  costTitle: "What is this costing you now?",
+  costBody:
+    "List the jobs you do again and again. Not the interesting ones, the boring weekly ones. The number at the bottom is what they cost you in a year.",
+  costJobLabel: "The job",
+  costJobPlaceholder: "The weekly client update",
+  costTimesLabel: "Times a month",
+  costMinutesLabel: "Minutes each",
+  costAddRow: "Add another job",
+  costRemoveRow: "Remove this row",
+  costEmpty: "Fill in one job and the numbers appear here.",
+  costAMonth: "a month",
+  costAYear: "a year",
+  costWorkingDays: (n: string) => `${n} working days a year`,
+  costWorkingDayNote: "Counting a working day as seven hours.",
+  costRateLabel: "What an hour of your time costs, in euros",
+  costRateHint: "Optional. Your own number, rough is fine.",
+  costMoneyLine: (amount: string) => `${amount} of your time, every year`,
+  costPricesElsewhere:
+    "We do not print what a Claude plan costs, because a number in a page goes stale without anybody noticing. The current plans are on the Anthropic pricing page, and this day tells you which one fits.",
+  costCopyButton: "Copy the three lines for my manager",
+  costCopied: "Copied",
+  costLocal:
+    "Kept in this browser only. Nothing is sent to us, and clearing your browser clears it.",
+  /** The three lines that get pasted into an email. Plain text, no markdown. */
+  costManagerText: (hours: string, days: string, money: string | null) =>
+    [
+      `These repeated jobs take me ${hours} a year.`,
+      `That is ${days} working days.`,
+      money
+        ? `At my hourly cost that is ${money} a year, before we look at what a tool costs.`
+        : "That is before we look at what a tool costs.",
+    ].join("\n"),
 } as const;
 
 /**
