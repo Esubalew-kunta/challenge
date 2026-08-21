@@ -115,9 +115,12 @@ export const UI = {
   profileTag: "Before you start",
   profileTitle: "Thirty days is a lot. Which of them do you need?",
   profileBody:
-    "Two taps and this page tells you where to open, instead of you guessing. Nothing is sent anywhere, and you can close it.",
+    "Two taps. Nothing is sent anywhere, and you can close this.",
+  profileStepOf: (i: number, total: number) => `Question ${i} of ${total}`,
+  profileDoneTitle: "Here is where to start",
+  profileSkipAll: "Skip both questions",
   profileLevelQuestion: "How much Claude Code have you used?",
-  profileRoleQuestion: "And what do you do? Optional.",
+  profileRoleQuestion: "Which part of the business are you in?",
   profileStartAt: (day: number) => `Start at Day ${day}.`,
   profileGo: (day: number) => `Open Day ${day}`,
   profileDayLabel: (day: number) => `Day ${day}`,
@@ -198,5 +201,6 @@ type Widen<T> = T extends (...args: infer A) => infer R
         : { -readonly [K in keyof T]: Widen<T[K]> };
 
 export type ChallengeUI = Widen<typeof UI>;
+
 
 

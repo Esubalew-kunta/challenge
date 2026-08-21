@@ -25,8 +25,17 @@
 /** How much Claude Code the reader has actually used. */
 export type ClaudeLevel = "new" | "some" | "daily";
 
-/** What they do. Kept coarse: this is a menu, not a survey. */
-export type Role = "developer" | "technical" | "lead" | "other";
+/**
+ * Which part of the business they sit in.
+ *
+ * Departments and not job titles, because a title is a free text field nobody
+ * can group afterwards, and "Head of Growth" and "Marketing Manager" are the
+ * same row to anybody reading this table.
+ *
+ * It is stored in the `role` column, which is the name that column already had.
+ * Renaming a live column to match a label would cost more than the mismatch.
+ */
+export type Department = "sales" | "marketing" | "operations" | "technical" | "other";
 
 export interface LevelOption {
   id: ClaudeLevel;
@@ -38,7 +47,7 @@ export interface LevelOption {
 }
 
 export interface RoleOption {
-  id: Role;
+  id: Department;
   label: string;
 }
 
@@ -73,10 +82,18 @@ export const LEVEL_OPTIONS: LevelOption[] = [
   },
 ];
 
+/**
+ * Four departments and an Other.
+ *
+ * The brief said three or four plus Other. This is four, because dropping
+ * Operations pushes exactly the people who sign the training budget into the
+ * Other bucket, where they cannot be counted.
+ */
 export const ROLE_OPTIONS: RoleOption[] = [
-  { id: "developer", label: "I write code" },
-  { id: "technical", label: "Technical, but not a developer" },
-  { id: "lead", label: "I lead a team" },
+  { id: "sales", label: "Sales" },
+  { id: "marketing", label: "Marketing" },
+  { id: "operations", label: "Operations or management" },
+  { id: "technical", label: "Engineering or IT" },
   { id: "other", label: "Something else" },
 ];
 
@@ -108,10 +125,11 @@ export const LEVEL_OPTIONS_FR: LevelOption[] = [
 ];
 
 export const ROLE_OPTIONS_FR: RoleOption[] = [
-  { ...ROLE_OPTIONS[0], label: "J'écris du code" },
-  { ...ROLE_OPTIONS[1], label: "Technique, mais pas développeur" },
-  { ...ROLE_OPTIONS[2], label: "Je dirige une équipe" },
-  { ...ROLE_OPTIONS[3], label: "Autre chose" },
+  { ...ROLE_OPTIONS[0], label: "Commercial" },
+  { ...ROLE_OPTIONS[1], label: "Marketing" },
+  { ...ROLE_OPTIONS[2], label: "Direction ou opérations" },
+  { ...ROLE_OPTIONS[3], label: "Technique ou informatique" },
+  { ...ROLE_OPTIONS[4], label: "Autre chose" },
 ];
 
 /** The options for a page in this language. */
@@ -141,7 +159,7 @@ export function levelOptionIn(
 export interface ProfileState {
   v: 1;
   level: ClaudeLevel | null;
-  role: Role | null;
+  role: Department | null;
   dismissed: boolean;
 }
 
@@ -170,7 +188,7 @@ export function parseProfile(raw: string | null | undefined): ProfileState {
           ? (p.level as ClaudeLevel)
           : null,
       role:
-        typeof p.role === "string" && ROLE_IDS.has(p.role) ? (p.role as Role) : null,
+        typeof p.role === "string" && ROLE_IDS.has(p.role) ? (p.role as Department) : null,
       dismissed: p.dismissed === true,
     };
   } catch {
@@ -186,7 +204,7 @@ export function levelOption(id: ClaudeLevel | null): LevelOption | null {
   return LEVEL_OPTIONS.find((o) => o.id === id) ?? null;
 }
 
-export function roleOption(id: Role | null): RoleOption | null {
+export function roleOption(id: Department | null): RoleOption | null {
   return ROLE_OPTIONS.find((o) => o.id === id) ?? null;
 }
 
@@ -200,3 +218,4 @@ export function roleOption(id: Role | null): RoleOption | null {
 export function shouldAsk(state: ProfileState): boolean {
   return !state.dismissed && state.level === null;
 }
+

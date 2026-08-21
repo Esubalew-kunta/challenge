@@ -19,17 +19,24 @@ import {
   parseProfile,
   serialiseProfile,
   type ClaudeLevel,
+  type Department,
   type ProfileState,
-  type Role,
 } from "@/lib/challenge/profile";
 
-/** Namespaced so it cannot collide with anything else the site stores. */
-export const PROFILE_KEY = "aim.challenge.profile.v1";
+/**
+ * Namespaced so it cannot collide with anything else the site stores.
+ *
+ * v2 because the second question changed from a job role to a department, and
+ * the two sets of answers do not map onto each other. Bumping the key means an
+ * early tester is asked once more rather than carrying an answer that no longer
+ * means anything.
+ */
+export const PROFILE_KEY = "aim.challenge.profile.v2";
 
 export function useProfile(): {
   profile: ProfileState;
   setLevel: (level: ClaudeLevel) => void;
-  setRole: (role: Role) => void;
+  setRole: (role: Department) => void;
   dismiss: () => void;
   reopen: () => void;
 } {
@@ -51,7 +58,7 @@ export function useProfile(): {
     (level: ClaudeLevel) => patch({ level }),
     [patch],
   );
-  const setRole = useCallback((role: Role) => patch({ role }), [patch]);
+  const setRole = useCallback((role: Department) => patch({ role }), [patch]);
   const dismiss = useCallback(() => patch({ dismissed: true }), [patch]);
   const reopen = useCallback(
     () => patch({ dismissed: false, level: null }),
@@ -60,3 +67,4 @@ export function useProfile(): {
 
   return { profile, setLevel, setRole, dismiss, reopen };
 }
+

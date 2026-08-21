@@ -54,6 +54,28 @@ export function writeStored(key: string, value: string) {
  * Returns the stored string for `key`, or `fallback` when nothing is stored,
  * storage is unavailable, or we are rendering on the server.
  */
+/**
+ * False while rendering on the server and on the very first client pass, true
+ * afterwards.
+ *
+ * Anything that must not appear in the static HTML needs this. The popup is the
+ * clearest case: storage is empty on the server, so without a guard every
+ * prerendered page would contain an open dialog, and a reader who answered it
+ * weeks ago would see it flash and vanish on every visit.
+ *
+ * `useSyncExternalStore` rather than an effect and a setState, to match the
+ * rest of this folder and to avoid the cascading render the linter rejects.
+ */
+const NEVER_CHANGES = () => () => {};
+
+export function useHydrated(): boolean {
+  return useSyncExternalStore(
+    NEVER_CHANGES,
+    () => true,
+    () => false,
+  );
+}
+
 export function useStored(key: string, fallback: string): string {
   const getSnapshot = useCallback(
     () => readStored(key) ?? fallback,

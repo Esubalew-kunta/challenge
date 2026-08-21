@@ -12,6 +12,7 @@ import { constructMetadata } from "@/lib/metadata";
 import { JsonLd } from "@/components/shared/json-ld";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { DayTick } from "@/components/challenge/day-status";
+import { ProfileModal } from "@/components/challenge/profile-modal";
 import { ProfileQuestions } from "@/components/challenge/profile-questions";
 import { ScoreCard } from "@/components/challenge/score-card";
 import { siteConfig } from "@/lib/site-config";
@@ -67,6 +68,13 @@ export default function ChallengeIndexPageFr() {
     <>
       <JsonLd data={breadcrumb} />
       <JsonLd data={course} />
+
+      {/*
+        Les deux questions, en popup, à la première visite seulement. Elle
+        n'affiche rien une fois répondues ou fermées, et rien du tout dans le
+        HTML statique.
+      */}
+      <ProfileModal locale={LOCALE} />
 
       <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-16 sm:pt-24">
         <ScrollReveal className="flex flex-col items-center border-b border-border pb-12 pt-16 text-center">
@@ -203,3 +211,4 @@ function Stat({ value, label }: { value: string; label: string }) {
     </div>
   );
 }
+

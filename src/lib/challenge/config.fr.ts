@@ -133,9 +133,12 @@ export const UI_FR = {
   profileTag: "Avant de commencer",
   profileTitle: "Trente jours, c'est beaucoup. Lesquels vous faut-il ?",
   profileBody:
-    "Deux clics et cette page vous dit par où ouvrir, au lieu de vous laisser deviner. Rien n'est envoyé nulle part, et vous pouvez fermer.",
+    "Deux clics. Rien n'est envoyé nulle part, et vous pouvez fermer.",
+  profileStepOf: (i: number, total: number) => `Question ${i} sur ${total}`,
+  profileDoneTitle: "Voilà par où commencer",
+  profileSkipAll: "Passer les deux questions",
   profileLevelQuestion: "Vous avez utilisé Claude Code à quel point ?",
-  profileRoleQuestion: "Et vous faites quoi ? Facultatif.",
+  profileRoleQuestion: "Vous êtes dans quel service ?",
   profileStartAt: (day: number) => `Commencez au jour ${day}.`,
   profileGo: (day: number) => `Ouvrir le jour ${day}`,
   profileDayLabel: (day: number) => `jour ${day}`,
@@ -195,6 +198,7 @@ export const UI_FR = {
     `${answered} sur ${total} répondues. Terminez-les pour compléter ce jour.`,
   dayNotStarted: "Répondez aux questions ci-dessus pour compléter ce jour.",
 } satisfies ChallengeUI;
+
 
 
 
