@@ -93,6 +93,10 @@ function parsePicks(raw: string): Picks {
  *
  * Two columns on a phone, four on anything wider. The label sits above the grid
  * rather than beside it, so both rows in a card start at the same left edge.
+ *
+ * `items-stretch` and `h-full` matter more than they look: "Once or twice a
+ * month" wraps onto two lines while "Every day" does not, and without them one
+ * cell in the row is visibly shorter than its neighbours.
  */
 function OptionGrid<T extends string>({
   label,
@@ -106,11 +110,11 @@ function OptionGrid<T extends string>({
   onPick: (id: T) => void;
 }) {
   return (
-    <div role="group" aria-label={label} className="flex flex-col gap-1.5">
-      <span className="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-muted-foreground">
+    <div role="group" aria-label={label} className="flex flex-col gap-2">
+      <span className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-muted-foreground">
         {label}
       </span>
-      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+      <div className="grid grid-cols-2 items-stretch gap-2 sm:grid-cols-4">
         {options.map((option) => {
           const on = option.id === value;
           return (
@@ -121,14 +125,42 @@ function OptionGrid<T extends string>({
               onClick={() => onPick(option.id)}
               className={
                 on
-                  ? "rounded-sm border border-primary bg-primary px-3 py-2 text-center text-[0.8125rem] font-semibold leading-snug text-primary-foreground transition-colors"
-                  : "rounded-sm border border-input bg-card px-3 py-2 text-center text-[0.8125rem] font-medium leading-snug text-foreground transition-colors hover:border-primary hover:bg-accent"
+                  ? "h-full rounded-lg border border-primary bg-primary px-3 py-2.5 text-center text-[0.8125rem] font-semibold leading-snug text-primary-foreground shadow-sm transition-colors"
+                  : "h-full rounded-lg border border-input bg-card px-3 py-2.5 text-center text-[0.8125rem] font-medium leading-snug text-foreground transition-colors hover:border-primary/60 hover:bg-accent/60"
               }
             >
               {option.label}
             </button>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+/** One figure in the dark panel, set the way every AI Makers result is. */
+function Stat({
+  value,
+  caption,
+  hero = false,
+}: {
+  value: string;
+  caption: string;
+  hero?: boolean;
+}) {
+  return (
+    <div>
+      <div
+        className={
+          hero
+            ? "text-[3.25rem] font-bold leading-none tabular-nums text-blue-400"
+            : "text-2xl font-bold leading-none tabular-nums text-blue-400"
+        }
+      >
+        {value}
+      </div>
+      <div className={hero ? "mt-2.5 text-sm opacity-70" : "mt-1.5 text-sm opacity-70"}>
+        {caption}
       </div>
     </div>
   );
@@ -224,28 +256,45 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
   const hasNumbers = hydrated && minutesPerMonth > 0;
 
   return (
-    <div className="flex flex-col gap-6 rounded-md border border-l-[3px] border-border border-l-primary bg-card px-6 py-5 shadow-sm">
-      <div className="flex flex-col gap-2">
+    /*
+      A tool, not a callout.
+
+      It used to be a card with a thick blue left bar, which is the exact
+      treatment every day page gives to "Why this matters". A pull quote and an
+      interactive tool reading as the same object is why this looked unfinished
+      next to the rest of the site.
+
+      What it wears now is the house calculator: a full border, a tinted header
+      strip that names it, and the dark `bg-foreground` result panel with blue
+      figures that `/outils/calculateur-roi-ia` uses. Anybody who has seen one
+      AI Makers calculator recognises this one on sight.
+    */
+    <section className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+      <div className="border-b border-border bg-secondary/50 px-5 py-5 sm:px-7">
         <span className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-primary-dark">
           {UI.costTag}
         </span>
-        <h3 className="text-lg font-semibold tracking-tight">{UI.costTitle}</h3>
-        <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">
+        <h3 className="mt-2 text-xl font-bold tracking-tight">{UI.costTitle}</h3>
+        <p className="mt-2 max-w-[52ch] text-[0.9375rem] leading-relaxed text-muted-foreground">
           {UI.costBody}
         </p>
       </div>
 
-      {/*
-        One list, not two blocks.
+      <div className="flex flex-col gap-5 px-5 py-6 sm:px-7">
+        {/*
+          One list, not two blocks.
 
-        The first version had a bag of pills at the top and a separate stack of
-        cards underneath, which meant the job title was printed twice and the
-        reader had to work out which card belonged to which pill. Ticking a job
-        now opens its two questions directly underneath it, so cause and effect
-        sit together and nothing is repeated.
-      */}
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-1">
+          An earlier version had a bag of pills at the top and a separate stack
+          of cards underneath, which meant the job title was printed twice and
+          the reader had to work out which card belonged to which pill. Ticking
+          a job now opens its two questions directly underneath it, so cause and
+          effect sit together and nothing is repeated.
+
+          The instruction and its hint share one line rather than stacking, so
+          the list starts higher and the header above is not followed by four
+          separate blocks of text before anything can be tapped.
+        */}
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <span className="text-[0.9375rem] font-semibold">{UI.costPickJobs}</span>
           <span className="text-[0.8125rem] text-muted-foreground">
             {UI.costPickHint}
@@ -261,8 +310,8 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
                 key={job.id}
                 className={
                   on
-                    ? "overflow-hidden rounded-md border border-primary bg-accent/50"
-                    : "overflow-hidden rounded-md border border-border bg-background transition-colors hover:border-primary/60"
+                    ? "overflow-hidden rounded-xl border border-primary bg-accent/40 shadow-sm"
+                    : "overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-primary/50 hover:bg-accent/25"
                 }
               >
                 <button
@@ -301,7 +350,7 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
                 </button>
 
                 {on ? (
-                  <div className="flex flex-col gap-3 border-t border-primary/25 px-4 pb-4 pt-3">
+                  <div className="flex flex-col gap-4 border-t border-primary/20 bg-card px-4 pb-4 pt-4">
                     <OptionGrid
                       label={UI.costHowOften}
                       options={COST_FREQUENCIES.map((f) => ({
@@ -326,60 +375,63 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
             );
           })}
         </ul>
-      </div>
 
-      {/*
-        3. The answer, in the dark panel the rest of the AI Makers site uses for
-        a result. Ends in the same booking button as every other calculator, so
-        a reader who wants help does not navigate away from their own numbers.
-      */}
-      <div className="flex flex-col gap-4 rounded-md bg-foreground px-6 py-5 text-background">
-        <span className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] opacity-60">
-          {UI.costResultTag}
-        </span>
+        {/*
+          The answer.
 
-        {!hasNumbers ? (
-          <p className="text-[0.9375rem] opacity-70">{UI.costEmpty}</p>
-        ) : (
-          <>
-            <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
-              <span className="font-mono text-[1.75rem] font-bold leading-none tabular-nums text-blue-400">
-                {asDuration(minutesPerMonth)}
-                <span className="ml-2 font-sans text-[0.8125rem] font-semibold opacity-70">
-                  {UI.costAMonth}
-                </span>
-              </span>
-              <span className="font-mono text-[2.25rem] font-bold leading-none tabular-nums text-blue-400">
-                {nf.format(Math.round(hoursPerYear))}h
-                <span className="ml-2 font-sans text-[0.8125rem] font-semibold opacity-70">
-                  {UI.costAYear}
-                </span>
-              </span>
-            </div>
+          One figure leads and two support it. The previous version set three
+          numbers at three different sizes with no reason behind any of them,
+          and the one that actually lands, the working days, was the smallest of
+          the three. Working days is the sentence somebody repeats to a
+          colleague, so it is the one set large.
 
-            <p className="text-[1.0625rem] font-bold">
-              {UI.costWorkingDays(nf.format(workingDays))}
+          Same dark panel, blue figures and full width button as
+          `/outils/calculateur-roi-ia`, on purpose.
+        */}
+        <div className="flex flex-col rounded-2xl bg-foreground p-6 text-background sm:p-8">
+          <span className="text-xs font-semibold uppercase tracking-wide opacity-60">
+            {UI.costResultTag}
+          </span>
+
+          {!hasNumbers ? (
+            <p className="mt-4 text-[0.9375rem] leading-relaxed opacity-70">
+              {UI.costEmpty}
             </p>
-            <p className="text-[0.8125rem] leading-relaxed opacity-60">
-              {UI.costWorkingDayNote}
-            </p>
+          ) : (
+            <>
+              <div className="mt-5">
+                <Stat hero value={nf.format(workingDays)} caption={UI.costWorkingDays} />
+              </div>
 
-            <div className="mt-1 flex flex-col gap-2 border-t border-white/15 pt-4">
-              <p className="text-[0.9375rem] font-semibold">
-                {UI.costCtaLine(nf.format(workingDays))}
+              <div className="mt-6 grid grid-cols-2 gap-5 border-t border-white/10 pt-5">
+                <Stat value={asDuration(minutesPerMonth)} caption={UI.costAMonth} />
+                <Stat
+                  value={`${nf.format(Math.round(hoursPerYear))}h`}
+                  caption={UI.costAYear}
+                />
+              </div>
+
+              <p className="mt-5 text-xs leading-relaxed opacity-60">
+                {UI.costWorkingDayNote}
               </p>
-              <BookingCtaButton
-                locale={locale}
-                className="inline-flex w-fit items-center gap-2 rounded-sm bg-primary px-5 py-2.5 text-[0.9375rem] font-semibold text-primary-foreground transition-colors hover:opacity-90"
-              >
-                {UI.costCtaButton}
-                <ArrowRight className="size-4" aria-hidden />
-              </BookingCtaButton>
-              <p className="text-[0.8125rem] opacity-60">{UI.costCtaNote}</p>
-            </div>
-          </>
-        )}
+
+              <div className="mt-7 border-t border-white/10 pt-6">
+                <p className="text-[0.9375rem] font-semibold">{UI.costCtaLine}</p>
+                <BookingCtaButton
+                  locale={locale}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  {UI.costCtaButton}
+                  <ArrowRight className="size-4" aria-hidden />
+                </BookingCtaButton>
+                <p className="mt-3 text-center text-xs opacity-60">
+                  {UI.costCtaNote}
+                </p>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

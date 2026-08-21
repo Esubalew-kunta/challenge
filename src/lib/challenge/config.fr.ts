@@ -223,9 +223,9 @@ export const UI_FR = {
   costTag: "À calculer",
   costTitle: "Ça vous coûte quoi, aujourd'hui ?",
   costBody:
-    "Trois clics, rien à taper. Cochez les travaux qui sont les vôtres, dites à peu près à quelle fréquence et combien de temps, et le panneau vous dit ce qu'ils prennent dans votre année.",
-  costPickJobs: "Lesquels de ces travaux refaites-vous sans arrêt ?",
-  costPickHint: "Cochez ceux qui sont les vôtres. Autant que vous voulez.",
+    "Trois clics, rien à taper. Cochez ce que vous refaites sans arrêt, dites à peu près à quelle fréquence et combien de temps, le panneau fait le reste.",
+  costPickJobs: "Cochez les travaux qui sont les vôtres",
+  costPickHint: "Autant que vous voulez",
   costHowOften: "À quelle fréquence",
   costHowLong: "Combien de temps",
   costFrequency: {
@@ -244,11 +244,12 @@ export const UI_FR = {
   costEmpty: "Cochez un travail au-dessus et les chiffres apparaissent ici.",
   costAMonth: "par mois",
   costAYear: "par an",
-  costWorkingDays: (n: string) => `${n} jours de travail par an`,
+  /* Une légende, pas une phrase. Le chiffre est affiché au-dessus, en grand. */
+  costWorkingDays: "jours de travail par an",
   costWorkingDayNote:
     "En comptant une journée de travail à sept heures, et chaque réponse arrondie vers le bas. Le vrai chiffre est en général plus gros.",
-  costCtaLine: (days: string) =>
-    `Ça fait ${days} jours de travail par an. Vous voulez de l'aide pour les récupérer ?`,
+  /* Ne répète volontairement pas le chiffre affiché juste au-dessus. */
+  costCtaLine: "Vous voulez les récupérer ?",
   costCtaButton: "Parlons-en avec AI Makers",
   costCtaNote: "Une conversation gratuite. Aucun discours commercial.",
   /* Plus de mentions sous l'outil. Voir la raison dans `config.ts`. */

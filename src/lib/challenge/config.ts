@@ -226,11 +226,18 @@ export const UI = {
   costEmpty: "Pick a job above and the numbers appear here.",
   costAMonth: "a month",
   costAYear: "a year",
-  costWorkingDays: (n: string) => `${n} working days a year`,
+  /*
+    A caption, not a sentence.
+
+    The result panel now leads with the number itself, set large, the way every
+    figure on the AI Makers calculators is. A string that carried the number
+    inside it would print it twice on the same line.
+  */
+  costWorkingDays: "working days a year",
   costWorkingDayNote:
     "Counting a working day as seven hours, and every answer rounded down. The real number is usually bigger.",
-  costCtaLine: (days: string) =>
-    `That is ${days} working days a year. Want help getting them back?`,
+  /* Deliberately does not repeat the figure sitting directly above it. */
+  costCtaLine: "Want those days back?",
   costCtaButton: "Talk to AI Makers",
   costCtaNote: "A free conversation. No pitch.",
   /*
