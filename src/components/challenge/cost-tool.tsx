@@ -31,7 +31,7 @@
  */
 
 import { useCallback, useMemo } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { BookingCtaButton } from "@/components/shared/booking-modal";
 import { uiFor } from "@/lib/challenge/locale";
 import {
@@ -82,28 +82,55 @@ function parsePicks(raw: string): Picks {
 
 /* ------------------------------------------------------------------ atoms */
 
-function Chip({
+/**
+ * One choice out of four, laid out on a fixed grid.
+ *
+ * A grid rather than a row of pills, because pills of different widths wrap
+ * wherever they run out of room. The first version put the label inline and let
+ * four pills flow after it, so "Once or twice a month" dropped onto a second
+ * line underneath the label and the two rows of the same card no longer lined
+ * up with each other. Equal cells cannot do that.
+ *
+ * Two columns on a phone, four on anything wider. The label sits above the grid
+ * rather than beside it, so both rows in a card start at the same left edge.
+ */
+function OptionGrid<T extends string>({
   label,
-  on,
-  onClick,
+  options,
+  value,
+  onPick,
 }: {
   label: string;
-  on: boolean;
-  onClick: () => void;
+  options: readonly { id: T; label: string }[];
+  value: T;
+  onPick: (id: T) => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={on}
-      className={
-        on
-          ? "rounded-full border border-primary bg-primary px-3.5 py-2 text-left text-[0.875rem] font-semibold text-primary-foreground transition-colors"
-          : "rounded-full border border-input bg-background px-3.5 py-2 text-left text-[0.875rem] font-medium text-foreground transition-colors hover:border-primary hover:bg-accent"
-      }
-    >
-      {label}
-    </button>
+    <div role="group" aria-label={label} className="flex flex-col gap-1.5">
+      <span className="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-muted-foreground">
+        {label}
+      </span>
+      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+        {options.map((option) => {
+          const on = option.id === value;
+          return (
+            <button
+              key={option.id}
+              type="button"
+              aria-pressed={on}
+              onClick={() => onPick(option.id)}
+              className={
+                on
+                  ? "rounded-sm border border-primary bg-primary px-3 py-2 text-center text-[0.8125rem] font-semibold leading-snug text-primary-foreground transition-colors"
+                  : "rounded-sm border border-input bg-card px-3 py-2 text-center text-[0.8125rem] font-medium leading-snug text-foreground transition-colors hover:border-primary hover:bg-accent"
+              }
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -208,7 +235,15 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
         </p>
       </div>
 
-      {/* 1. Which jobs */}
+      {/*
+        One list, not two blocks.
+
+        The first version had a bag of pills at the top and a separate stack of
+        cards underneath, which meant the job title was printed twice and the
+        reader had to work out which card belonged to which pill. Ticking a job
+        now opens its two questions directly underneath it, so cause and effect
+        sit together and nothing is repeated.
+      */}
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
           <span className="text-[0.9375rem] font-semibold">{UI.costPickJobs}</span>
@@ -216,67 +251,82 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
             {UI.costPickHint}
           </span>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {jobs.map((job) => (
-            <Chip
-              key={job.id}
-              label={job.label}
-              on={Boolean(picks[job.id])}
-              onClick={() => toggleJob(job.id)}
-            />
-          ))}
-        </div>
-      </div>
 
-      {/*
-        2. Two taps for each one picked.
-
-        Only the jobs they chose get these rows. Showing frequency and length
-        for eight jobs at once is a wall, and seven of them are not theirs.
-      */}
-      {chosen.length ? (
-        <div className="flex flex-col gap-4">
-          {chosen.map((job) => {
+        <ul className="flex list-none flex-col gap-2 p-0">
+          {jobs.map((job) => {
             const pick = picks[job.id];
+            const on = Boolean(pick);
             return (
-              <div
+              <li
                 key={job.id}
-                className="flex flex-col gap-2.5 rounded-md border border-border bg-background px-4 py-3.5"
+                className={
+                  on
+                    ? "overflow-hidden rounded-md border border-primary bg-accent/50"
+                    : "overflow-hidden rounded-md border border-border bg-background transition-colors hover:border-primary/60"
+                }
               >
-                <span className="text-[0.9375rem] font-semibold">{job.label}</span>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="w-full text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:w-auto sm:min-w-[7.5rem]">
-                    {UI.costHowOften}
+                <button
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => toggleJob(job.id)}
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left"
+                >
+                  {/*
+                    A tick box, not a coloured pill. Eight pills of eight
+                    different widths read as a pinball table, and a filled pill
+                    is the same signal this tool uses for "this is the value I
+                    chose" two lines below. A box that is either ticked or not
+                    says multi-select on sight and keeps the loud blue for the
+                    one place it means something.
+                  */}
+                  <span
+                    aria-hidden
+                    className={
+                      on
+                        ? "grid size-5 shrink-0 place-items-center rounded-[4px] border border-primary bg-primary text-primary-foreground"
+                        : "size-5 shrink-0 rounded-[4px] border border-input bg-card"
+                    }
+                  >
+                    {on ? <Check className="size-3.5" /> : null}
                   </span>
-                  {COST_FREQUENCIES.map((f) => (
-                    <Chip
-                      key={f.id}
-                      label={UI.costFrequency[f.id]}
-                      on={pick.often === f.id}
-                      onClick={() => setOften(job.id, f.id)}
-                    />
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="w-full text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:w-auto sm:min-w-[7.5rem]">
-                    {UI.costHowLong}
+                  <span
+                    className={
+                      on
+                        ? "text-[0.9375rem] font-semibold"
+                        : "text-[0.9375rem] font-medium text-foreground"
+                    }
+                  >
+                    {job.label}
                   </span>
-                  {COST_DURATIONS.map((d) => (
-                    <Chip
-                      key={d.id}
-                      label={UI.costDuration[d.id]}
-                      on={pick.long === d.id}
-                      onClick={() => setLong(job.id, d.id)}
+                </button>
+
+                {on ? (
+                  <div className="flex flex-col gap-3 border-t border-primary/25 px-4 pb-4 pt-3">
+                    <OptionGrid
+                      label={UI.costHowOften}
+                      options={COST_FREQUENCIES.map((f) => ({
+                        id: f.id,
+                        label: UI.costFrequency[f.id],
+                      }))}
+                      value={pick.often}
+                      onPick={(id) => setOften(job.id, id)}
                     />
-                  ))}
-                </div>
-              </div>
+                    <OptionGrid
+                      label={UI.costHowLong}
+                      options={COST_DURATIONS.map((d) => ({
+                        id: d.id,
+                        label: UI.costDuration[d.id],
+                      }))}
+                      value={pick.long}
+                      onPick={(id) => setLong(job.id, id)}
+                    />
+                  </div>
+                ) : null}
+              </li>
             );
           })}
-        </div>
-      ) : null}
+        </ul>
+      </div>
 
       {/*
         3. The answer, in the dark panel the rest of the AI Makers site uses for
@@ -330,10 +380,6 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
           </>
         )}
       </div>
-
-      <p className="text-[0.8125rem] leading-relaxed text-muted-foreground">
-        {UI.costPricesElsewhere} {UI.costLocal}
-      </p>
     </div>
   );
 }

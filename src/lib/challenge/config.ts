@@ -205,9 +205,9 @@ export const UI = {
   costTag: "Work it out",
   costTitle: "What is this costing you now?",
   costBody:
-    "Three taps, no typing. Pick the jobs that are yours, say roughly how often and how long, and the panel tells you what they take out of your year.",
-  costPickJobs: "Which of these do you do again and again?",
-  costPickHint: "Tap the ones that are yours. Pick as many as fit.",
+    "Three taps and no typing. Tick what you do again and again, say roughly how often and how long, and the panel does the rest.",
+  costPickJobs: "Tick the jobs that are yours",
+  costPickHint: "As many as fit",
   costHowOften: "How often",
   costHowLong: "How long",
   costFrequency: {
@@ -233,10 +233,16 @@ export const UI = {
     `That is ${days} working days a year. Want help getting them back?`,
   costCtaButton: "Talk to AI Makers",
   costCtaNote: "A free conversation. No pitch.",
-  costPricesElsewhere:
-    "We do not print what a Claude plan costs, because a number in a page goes stale without anybody noticing. The current plans are on the Anthropic pricing page, and this day tells you which one fits.",
-  costLocal:
-    "Kept in this browser only. Nothing is sent to us, and clearing your browser clears it.",
+  /*
+    There is no fine print under this tool any more.
+
+    It used to close with a paragraph explaining that we do not print plan
+    prices, and another saying the answers stay in the browser. The first
+    repeated the callout a few blocks above it on the same page, which already
+    says exactly that under its own heading. The second is true of everything
+    on this course and is already stated on the score card. Two paragraphs of
+    small grey text under a result is where a reader stops reading.
+  */
 } as const;
 
 /**

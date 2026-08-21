@@ -251,10 +251,7 @@ export const UI_FR = {
     `Ça fait ${days} jours de travail par an. Vous voulez de l'aide pour les récupérer ?`,
   costCtaButton: "Parlons-en avec AI Makers",
   costCtaNote: "Une conversation gratuite. Aucun discours commercial.",
-  costPricesElsewhere:
-    "Nous n'imprimons pas ce que coûte une offre Claude : un chiffre posé dans une page devient faux sans que personne ne le remarque. Les offres du moment sont sur la page tarifs d'Anthropic, et ce jour vous dit laquelle vous convient.",
-  costLocal:
-    "Gardé dans ce navigateur uniquement. Rien ne nous est envoyé, et vider votre navigateur l'efface.",
+  /* Plus de mentions sous l'outil. Voir la raison dans `config.ts`. */
 } satisfies ChallengeUI;
 
 
