@@ -64,6 +64,17 @@ const legacyBlogRedirects: Record<string, string> = {
 };
 
 const nextConfig: NextConfig = {
+  /*
+    Paquets natifs, laisses en dehors du bundle serveur.
+
+    `@resvg/resvg-js` rasterise le SVG du badge en PNG pour les cartes
+    sociales. Il charge un binaire natif par plateforme
+    (`@resvg/resvg-js-win32-x64-msvc` en local, `-linux-x64-gnu` sur Vercel)
+    par un require dynamique. Le bundler ne sait pas resoudre ca et echoue au
+    chargement du module avec « could not resolve into a module ». Le declarer
+    ici le fait charger au moment de l'execution, sur la bonne plateforme.
+  */
+  serverExternalPackages: ["@resvg/resvg-js"],
   // Serveur Node autonome : le build produit .next/standalone, que l'image
   // Docker recopie telle quelle. Sans ça, l'étape runner devrait embarquer
   // tout node_modules — plusieurs centaines de Mo sur une machine à 80% de

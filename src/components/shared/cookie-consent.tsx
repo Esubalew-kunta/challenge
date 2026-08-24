@@ -10,7 +10,8 @@ import {
 } from "@/lib/consent";
 import { denyGtm, loadGtm } from "@/lib/gtm";
 import { t } from "@/lib/ui-strings";
-import { alternateFor, type Locale } from "@/lib/i18n";
+import { type Locale } from "@/lib/i18n";
+import { PRIVACY_URL } from "@/lib/privacy-href";
 
 /**
  * Bannière de consentement cookies (CNIL).
@@ -28,11 +29,10 @@ import { alternateFor, type Locale } from "@/lib/i18n";
 export function CookieConsent({ locale = "fr" }: { locale?: Locale }) {
   const [visible, setVisible] = useState(false);
   const s = t(locale);
-  // La politique n'existe qu'en FR pour l'instant : on ne fabrique pas un lien
-  // /en/privacy qui renverrait un 404.
-  const policyHref =
-    (locale === "en" ? alternateFor("/confidentialite", "en") : null) ??
-    "/confidentialite";
+  // Une seule politique, sur le domaine principal, pour les deux langues.
+  // Decision du proprietaire, 24 aout 2026. La regle vit dans lib/privacy-href
+  // avec le raisonnement complet.
+  const policyHref = PRIVACY_URL;
 
   useEffect(() => {
     const stored = getConsent();

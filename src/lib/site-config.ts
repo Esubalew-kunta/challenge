@@ -1,5 +1,7 @@
 export const bookingUrl = "https://cal.com/othmane-halim-5lo7uc/30min";
 /** @deprecated utiliser bookingUrl */
+import { PRIVACY_URL } from "@/lib/privacy-href";
+
 export const calendlyUrl = bookingUrl;
 
 export const siteConfig = {
@@ -383,7 +385,7 @@ export const footerNav = {
   ],
   legal: [
     { label: "Mentions légales", href: "/mentions-legales" },
-    { label: "Politique de confidentialité", href: "/confidentialite" },
+    { label: "Politique de confidentialité", href: PRIVACY_URL },
     { label: "CGV", href: "/cgv" },
   ],
 } as const;

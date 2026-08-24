@@ -20,6 +20,8 @@
  */
 
 /** Liens simples de la barre (les menus déroulants sont dans megaMenuEn). */
+import { PRIVACY_URL } from "@/lib/privacy-href";
+
 export const navItemsEn = [
   { label: "Contact", href: "/en/contact" },
 ] as const;
@@ -395,7 +397,7 @@ export const footerNavEn = {
   ],
   legal: [
     { label: "Legal notice", href: "/en/legal-notice" },
-    { label: "Privacy policy", href: "/en/privacy" },
+    { label: "Privacy policy", href: PRIVACY_URL },
     { label: "Terms of sale", href: "/en/terms" },
   ],
 } as const;

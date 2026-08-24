@@ -89,11 +89,11 @@ export function BadgeView({
       */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={badgeImagePath(locale, name, tier)}
+        src={badgeImagePath(locale, name, tier, { svg: true })}
         alt={`${UI.badgePageTitle(tier)}, ${name}`}
         width={1200}
         height={630}
-        className="w-full rounded-lg border border-border shadow-sm"
+        className="w-full rounded-lg shadow-sm"
       />
 
       <div className="flex flex-wrap gap-3">

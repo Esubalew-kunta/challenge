@@ -124,11 +124,15 @@ export function badgeImagePath(
   locale: ChallengeLocale,
   name: string,
   tier: BadgeTier,
-  opts: { square?: boolean; download?: boolean } = {},
+  opts: { square?: boolean; download?: boolean; svg?: boolean } = {},
 ): string {
   const params = new URLSearchParams({ n: name, p: String(tier), lang: locale });
   if (opts.square) params.set("shape", "square");
   if (opts.download) params.set("download", "1");
+  // SVG on the page, PNG everywhere it leaves the site. It is a few kilobytes
+  // and stays sharp on any screen. LinkedIn cannot read it, which is why the
+  // social card and the save button ask for PNG instead.
+  if (opts.svg) params.set("format", "svg");
   return `/api/badge-image?${params.toString()}`;
 }
 
