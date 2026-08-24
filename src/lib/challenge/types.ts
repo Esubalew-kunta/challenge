@@ -1,5 +1,5 @@
 /**
- * 30 Days of Claude Code — content model.
+ * Claude Code in 30 Days. The content model.
  *
  * Every day is a data record, never a hand-built page. One layout renders all
  * thirty. Shared facts (install commands, plan requirements, verification date)

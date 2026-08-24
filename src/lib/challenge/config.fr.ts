@@ -10,7 +10,7 @@
  * anglais sur une page française trois semaines plus tard.
  *
  * `ChallengeUI` et pas `typeof UI` parce que `UI` est déclaré `as const` : son
- * type dit que `challengeName` vaut exactement « 30 Days of Claude Code », ce
+ * type dit que `challengeName` vaut exactement « Claude Code in 30 Days », ce
  * qu'aucune traduction ne peut satisfaire. `ChallengeUI` élargit les littéraux
  * et garde les noms de champs, qui sont la seule chose à vérifier ici.
  *
@@ -96,6 +96,20 @@ export const UI_FR = {
   sheetBadEmail: "Vérifiez votre adresse email",
   sheetNoPrices:
     "Aucun prix ni détail d'abonnement n'est imprimé dessus. Ils renvoient vers notre site, donc la fiche ne peut pas devenir fausse dans votre boîte mail.",
+  /* ------------------------------------------------------ jour 1, bloqué */
+
+  helpButton: "Faites-vous aider par quelqu'un",
+  helpTitle: "On vous aide à démarrer",
+  helpBody:
+    "Dites-nous où vous joindre et quelqu'un ici vous aidera à l'installer. C'est gratuit, et il n'y a pas de discours commercial au bout.",
+  helpCta: "Demander de l'aide",
+  helpClose: "Fermer",
+  helpDoneTitle: "C'est noté. On vous recontacte.",
+  helpDoneBody:
+    "Quelqu'un vous contactera au sujet de votre installation. En attendant, les étapes ci-dessus valent un dernier essai dans une fenêtre de terminal toute neuve.",
+  helpPrivacy: "Nous nous en servons uniquement pour vous recontacter à ce sujet.",
+  helpPrivacyLink: "Politique de confidentialité",
+
   dayLabel: (n: number) => `Jour ${n}`,
   beforeNextDay: (n: number) => `Avant de passer au jour ${n}`,
   thatIsAllThirty: "Et voilà les trente",

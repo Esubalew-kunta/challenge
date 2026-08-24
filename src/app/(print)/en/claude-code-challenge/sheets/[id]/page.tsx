@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
 
   return {
     ...constructMetadata({
-      title: `${doc.title} — 30 Days of Claude Code`,
+      title: `${doc.title}, Claude Code in 30 Days`,
       description: doc.strapline,
       path: `${BASE}/sheets/${doc.id}`,
     }),

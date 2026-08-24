@@ -56,7 +56,7 @@ export const PHASES: PhaseMeta[] = [
 ];
 
 export const UI = {
-  challengeName: "30 Days of Claude Code",
+  challengeName: "Claude Code in 30 Days",
   tagline:
     "One short page a day. By the end you have Claude Code doing real work, on your real files, without you watching.",
   allDays: "All days",
@@ -86,6 +86,26 @@ export const UI = {
   sheetBadEmail: "Please check your email address",
   sheetNoPrices:
     "No prices or plan details are printed on it. Those link back to our site, so it cannot go out of date in your inbox.",
+  /* ----------------------------------------------------- day 1, stuck */
+
+  /*
+    Shown under the help text on Day 1, and only after the reader says the
+    install failed. It is a button, never a form: the help is given first and
+    asks for nothing, and the form only exists for somebody who chose to ask
+    for a person.
+  */
+  helpButton: "Get someone to help you",
+  helpTitle: "Let us get you running",
+  helpBody:
+    "Tell us where to reach you and somebody here will help you get it installed. It is free, and there is no pitch at the end of it.",
+  helpCta: "Ask for help",
+  helpClose: "Close",
+  helpDoneTitle: "Got it. We will be in touch.",
+  helpDoneBody:
+    "Somebody will contact you about your install. In the meantime, the steps above are worth one more try on a fresh terminal window.",
+  helpPrivacy: "We use this only to contact you about your install.",
+  helpPrivacyLink: "Privacy policy",
+
   dayLabel: (n: number) => `Day ${n}`,
   beforeNextDay: (n: number) => `Before you go to Day ${n}`,
   thatIsAllThirty: "That is all thirty",
@@ -256,7 +276,7 @@ export const UI = {
  * The shape of a language's string table, with the literals widened.
  *
  * `UI` is `as const`, so `typeof UI` says `challengeName` is the exact string
- * "30 Days of Claude Code" and nothing else. That is useful here and useless
+ * "Claude Code in 30 Days" and nothing else. That is useful here and useless
  * for the French table, which would fail to be that exact string.
  *
  * This walks the object and turns every literal back into its plain type,

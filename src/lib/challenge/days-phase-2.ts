@@ -1,5 +1,5 @@
 /**
- * Phase 2 — Make it yours. Days 11 to 20.
+ * Phase 2. Make it yours. Days 11 to 20.
  *
  * Phase 1 got it working. This phase shapes it around the reader's actual
  * work: what loads, what it costs, what it connects to, and what it refuses

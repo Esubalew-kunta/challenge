@@ -270,7 +270,7 @@ export const megaMenuEn = {
           },
           {
             // Le seul contenu EN natif du site : écrit en anglais, pas traduit.
-            label: "30 Days of Claude Code",
+            label: "Claude Code in 30 Days",
             description: "Free course, one short page a day",
             href: "/en/claude-code-challenge",
           },
@@ -378,7 +378,7 @@ export const footerNavEn = {
     { label: "Free tools", href: "/en/ai-tools" },
     { label: "All industries", href: "/en/ai-by-industry" },
     { label: "AI-First Playbook (PDF)", href: "/en/ai-playbook" },
-    { label: "30 Days of Claude Code", href: "/en/claude-code-challenge" },
+    { label: "Claude Code in 30 Days", href: "/en/claude-code-challenge" },
     { label: "Why now", href: "/en/why-now" },
     { label: "Blog", href: "/en/blog" },
     { label: "AI glossary", href: "/en/ai-glossary" },

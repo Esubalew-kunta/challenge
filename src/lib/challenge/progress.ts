@@ -12,7 +12,7 @@
  * reader clears their browser, it is gone, and that is the accepted trade.
  *
  * What counts as doing a day: answering all of its questions. Not a button
- * saying "I did this" — a button like that is worth nothing, because thirty
+ * saying "I did this". A button like that is worth nothing, because thirty
  * clicks take two minutes. Answering is a real action and needs no policing.
  *
  * What is deliberately NOT here: any gate. A wrong answer still counts the

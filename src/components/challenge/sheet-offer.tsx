@@ -22,7 +22,7 @@
  * form on the site fires. Read `claude_code_leads` to see them.
  */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight, Check, Download, Loader2 } from "lucide-react";
 import { track } from "@vercel/analytics";
 import { uiFor } from "@/lib/challenge/locale";
@@ -33,6 +33,8 @@ import { summarise } from "@/lib/challenge/progress";
 import { leadSubmissionSchema } from "@/lib/schemas/lead";
 import type { Sheet } from "@/lib/challenge/types";
 import { RichText } from "./rich-text";
+import { knownEmail, rememberEmail } from "./known-contact";
+import { useHydrated } from "./use-stored";
 import { useProfile } from "./use-profile";
 import { useProgress } from "./use-progress";
 
@@ -49,7 +51,25 @@ export function SheetOffer({
   locale?: ChallengeLocale;
 }) {
   const UI = uiFor(locale);
-  const [email, setEmail] = useState("");
+  /*
+    The address we already know, filled in for them.
+
+    Three things had to be true at once, and this is the shape that gets all
+    three:
+
+    • The static HTML has no address in it. These pages are prerendered and
+      shared by every reader, so a value baked into the file would be somebody
+      else's. `useHydrated` is false on the server and on the first client
+      pass, so the box starts empty exactly as the HTML says.
+    • It is not read in an effect. An effect runs after the paint and would
+      overwrite an address the reader had already started typing.
+    • Typing always wins. `typed` stays null until they touch the box, and from
+      then on it is the only thing that matters.
+  */
+  const hydrated = useHydrated();
+  const known = useMemo(() => (hydrated ? knownEmail() : ""), [hydrated]);
+  const [typed, setTyped] = useState<string | null>(null);
+  const email = typed ?? known;
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -108,6 +128,9 @@ export function SheetOffer({
       const result = (await response.json()) as { fileUrl?: string | null };
 
       setFileUrl(result.fileUrl ?? null);
+      // Remembered only now, after the server accepted it, so a typo the
+      // reader went on to correct is never the address we fill in next time.
+      rememberEmail(parsed.data.email as string);
       track("challenge_sheet", { sheet: sheet.id, day });
       setSent(true);
     } catch {
@@ -176,7 +199,7 @@ export function SheetOffer({
               type="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setTyped(e.target.value)}
               placeholder={UI.sheetEmailPlaceholder}
               className="min-w-0 flex-1 basis-60 rounded-sm border border-input bg-background px-3.5 py-2.5 text-[0.9375rem] outline-none transition-colors focus:border-primary"
             />

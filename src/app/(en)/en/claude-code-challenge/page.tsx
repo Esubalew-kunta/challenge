@@ -28,7 +28,7 @@ import {
 import type { Day } from "@/lib/challenge/types";
 
 export const metadata = constructMetadata({
-  title: "30 Days of Claude Code",
+  title: "Claude Code in 30 Days",
   description:
     "A free thirty day course. One short page a day. By the end you have Claude Code doing real work on your real files, without you watching. By AI Makers.",
   path: BASE,

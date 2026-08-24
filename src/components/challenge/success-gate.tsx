@@ -7,11 +7,17 @@
  * If it failed they get help and no email box at all. Asking somebody for
  * their address immediately after they have failed is the worst moment on the
  * whole site, and it is the moment most lead capture is placed.
+ *
+ * That still holds, and `HelpButton` does not break it. The help text appears
+ * first, in full, asking for nothing. Under it sits a button the reader has to
+ * choose to press, and the form only exists behind that press. Nobody is shown
+ * a form for failing; somebody stuck is offered a person.
  */
 
 import { useState } from "react";
 import { CheckCircle2, LifeBuoy, XCircle } from "lucide-react";
 import type { ChallengeLocale, Sheet, SuccessGate as GateData } from "@/lib/challenge/types";
+import { HelpButton } from "./help-modal";
 import { SheetOffer } from "./sheet-offer";
 import { Paragraphs } from "./rich-text";
 
@@ -74,6 +80,7 @@ export function SuccessGate({
             {gate.failTag}
           </span>
           <Paragraphs items={gate.failBody} className="text-foreground" />
+          <HelpButton locale={locale} />
         </div>
       ) : null}
     </div>

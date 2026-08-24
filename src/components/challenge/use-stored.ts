@@ -16,6 +16,54 @@
 
 import { useCallback, useSyncExternalStore } from "react";
 
+/**
+ * The stored text is scrambled. This is NOT security.
+ *
+ * It is base64 and nothing else. The function that unscrambles it ships to the
+ * reader inside this very file, so anybody who wants to read their own stored
+ * data still can, in about two minutes. Nothing here should ever be described
+ * as protection, and nothing should ever be built on top of it as though it
+ * were: the reader owns their browser, and that is not fixable from inside it.
+ *
+ * What it does buy, and the only thing it was asked for: the blob is no longer
+ * sitting in readable English in developer tools.
+ *
+ * localStorage is already walled off per site and per browser, so no other
+ * site and no server could read this either way.
+ */
+const SCRAMBLE_PREFIX = "b64.";
+
+/**
+ * The prefix is the whole reason this can be rolled out safely.
+ *
+ * Every reader who already has progress has it stored as plain text, written
+ * before this existed. A value with no prefix is read exactly as it is and
+ * quietly rewritten scrambled on the next write. Without that, shipping this
+ * would wipe the score of every reader mid-course, silently, and arrive as
+ * "the site deleted my progress".
+ */
+function scramble(value: string): string {
+  try {
+    // encodeURIComponent first: btoa throws on any character above U+00FF, and
+    // the French side of this course is full of accents.
+    return SCRAMBLE_PREFIX + btoa(encodeURIComponent(value));
+  } catch {
+    // Better a readable value than a lost one.
+    return value;
+  }
+}
+
+function unscramble(raw: string): string {
+  if (!raw.startsWith(SCRAMBLE_PREFIX)) return raw;
+  try {
+    return decodeURIComponent(atob(raw.slice(SCRAMBLE_PREFIX.length)));
+  } catch {
+    // Corrupted or hand-edited. Treat it as nothing stored rather than letting
+    // a broken string reach a parser that expects JSON.
+    return "";
+  }
+}
+
 const listeners = new Set<() => void>();
 
 function notify() {
@@ -34,7 +82,8 @@ function subscribe(listener: () => void) {
 
 export function readStored(key: string): string | null {
   try {
-    return window.localStorage.getItem(key);
+    const raw = window.localStorage.getItem(key);
+    return raw === null ? null : unscramble(raw);
   } catch {
     // Storage can be disabled or full. Treat it as simply not set.
     return null;
@@ -43,7 +92,7 @@ export function readStored(key: string): string | null {
 
 export function writeStored(key: string, value: string) {
   try {
-    window.localStorage.setItem(key, value);
+    window.localStorage.setItem(key, scramble(value));
   } catch {
     // Not being able to remember a preference is not worth an error.
   }

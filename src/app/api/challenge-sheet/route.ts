@@ -1,5 +1,5 @@
 /**
- * 30 Days of Claude Code: a reader asks for one of the sheets.
+ * Claude Code in 30 Days: a reader asks for one of the sheets.
  *
  * Two jobs, in this order, and nothing else:
  *

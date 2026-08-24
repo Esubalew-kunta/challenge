@@ -112,8 +112,15 @@ type LeadGateProps = {
    * est un cul-de-sac juste après le moment de plus forte intention.
    */
   successCta?: { label: string; href: string };
-  /** Note sous le bouton. */
-  privacyNote?: string;
+  /**
+   * Note sous le bouton.
+   *
+   * `ReactNode` et pas `string` : la note doit pouvoir porter un lien vers la
+   * politique de confidentialité. Discrete, oui. Illisible, non : le RGPD
+   * exige une information « facilement accessible », et une mention rendue
+   * volontairement invisible invalide le consentement au lieu de le fonder.
+   */
+  privacyNote?: React.ReactNode;
   /**
    * Langue du formulaire. Le pied de page et les CTA de réservation sont rendus
    * sur les pages EN aussi : sans ce fil, /en/capacity affiche un formulaire

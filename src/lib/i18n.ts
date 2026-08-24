@@ -212,7 +212,7 @@ export const EN_PUBLISHED = new Set<string>([
   "/en/ai-training-for-teams/microsoft-copilot",
   "/en/ai-training-for-teams/vibe-coding",
 
-  // 30 Days of Claude Code. L'index, plus les trente pages de jour.
+  // Claude Code in 30 Days. L'index, plus les trente pages de jour.
   //
   // Les jours étaient volontairement absents tant que la version française
   // n'existait pas : un hreflang vers une page absente est une erreur

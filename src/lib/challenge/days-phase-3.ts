@@ -1,5 +1,5 @@
 /**
- * Phase 3 — Make it work without you. Days 21 to 30.
+ * Phase 3. Make it work without you. Days 21 to 30.
  *
  * Days 28 and 29 are additions to the original draft. Day 28 exists because
  * most people in a company do not write code, and without it the finance or

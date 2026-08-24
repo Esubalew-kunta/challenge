@@ -1,5 +1,5 @@
 /**
- * Phase 1 — Get it working. Days 1 to 10.
+ * Phase 1. Get it working. Days 1 to 10.
  *
  * By Day 10 the reader has a complete, safe, working setup. Plenty stop here.
  * That is why Day 10 carries the Manager Pack: it is the commercial peak, not

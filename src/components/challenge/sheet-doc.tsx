@@ -36,7 +36,7 @@ import type { ChallengeLocale } from "@/lib/challenge/types";
  */
 const SHEET_STRINGS = {
   en: {
-    eyebrow: "30 Days of Claude Code",
+    eyebrow: "Claude Code in 30 Days",
     fromDay: (slot: number, day: number) => `Sheet ${slot} of 10, from Day ${day}.`,
     earned: "The earned sheet. Not on any day page.",
     keepIt:

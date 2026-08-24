@@ -46,10 +46,18 @@ export const LEAD_SOURCES = [
   // Blog et glossaire — surfaces organiques, jusqu'ici sans aucune capture.
   "blog",
   "glossaire",
-  // 30 Days of Claude Code : les dix fiches du challenge. La source est unique,
+  // Claude Code in 30 Days : les dix fiches du challenge. La source est unique,
   // la fiche demandée voyage dans `sheetId` — c'est elle qui dit ce qui
   // intéresse le lecteur, et c'est le seul signal que ce challenge produit.
   "claude-code-challenge",
+  // Jour 1 du challenge : le lecteur dit que l'installation a échoué et demande
+  // qu'on l'aide. Source distincte de "claude-code-challenge", et c'est le
+  // point : celle-ci n'est PAS un téléchargement, c'est quelqu'un de bloqué qui
+  // attend un humain. Identité complète exigée, donc absente de
+  // IDENTITY_OPTIONAL_SOURCES, et absente aussi de FORM_BY_SOURCE, où une
+  // valeur inconnue côté base ferait échouer l'insertion. Elle retombe sur le
+  // form générique "lead" et voyage verbatim dans la colonne `source`.
+  "claude-code-help",
 ] as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[number];
