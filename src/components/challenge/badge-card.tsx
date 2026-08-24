@@ -17,7 +17,18 @@
  * second form here.
  *
  * **Asking for the name is honest here in a way it usually is not.** The badge
- * has their name printed on it. We cannot draw it without asking.
+ * has their name printed on it. We cannot draw it without asking. The box
+ * arrives empty unless the reader has already given us their name elsewhere on
+ * the site, in which case it is filled in and editable. Nothing is ever
+ * guessed, and nothing is ever printed that they did not confirm.
+ *
+ * **It posts to `/api/challenge-badge`, not to `/api/lead`, and that matters.**
+ * The site-wide capture route needs the AI Makers OS and answers 502 when it
+ * cannot reach it, so a reader who had finished ten days was told "your request
+ * could not be sent" and got nothing. The badge is already earned by the time
+ * this form appears: handing it over must not depend on a CRM being up. The
+ * badge route writes the row and relays the lead onwards afterwards, allowed to
+ * fail.
  *
  * It renders into `document.body`. Day pages sit inside `ScrollReveal`, which
  * finishes on `filter: blur(0px)`, and a filter that is not `none` traps every
@@ -36,6 +47,7 @@ import { PRIVACY_URL } from "@/lib/privacy-href";
 import { uiFor } from "@/lib/challenge/locale";
 import { answerKeyFor, totalDaysFor } from "@/lib/challenge/nav";
 import { summarise } from "@/lib/challenge/progress";
+import { badgeSubmissionSchema } from "@/lib/schemas/challenge-badge";
 import type { ProgressState } from "@/lib/challenge/progress";
 import type { ChallengeLocale } from "@/lib/challenge/types";
 import { useProfile } from "./use-profile";
@@ -80,41 +92,24 @@ export function BadgeCard({
   }, []);
 
   /**
-   * Records the badge, and is never allowed to cost the reader their badge.
+   * The score, sent with the form so the row knows how engaged the lead is.
    *
-   * `LeadGate` has already written the lead through `/api/lead` by the time
-   * this runs. This second write is the challenge's own record of who earned
-   * which badge, which is where the team looks for challenge data. If it
-   * fails, the reader still gets the thing they just earned. A row is worth
-   * less than the moment.
+   * Computed on every render rather than inside the submit handler, because
+   * `LeadGate` owns the submit and only gives us a payload to attach.
+   */
+  const score = summarise(state, KEYS[locale], totalDaysFor());
+
+  /**
+   * Runs once the badge route has accepted the form.
+   *
+   * All it does is read back the name that was just stored and put it on the
+   * button, so the badge link carries the name the reader actually typed. The
+   * row and the lead relay are both the route's job now.
    */
   const captured = useCallback(() => {
-    const lead = getCapturedLead();
-    const name = lead?.name?.trim() ?? "";
-    setReadyName(name);
+    setReadyName(getCapturedLead()?.name?.trim() ?? "");
     track("challenge_badge", { tier, locale });
-
-    if (!lead) return;
-    const score = summarise(state, KEYS[locale], totalDaysFor());
-    void fetch("/api/challenge-badge", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: lead.name,
-        email: lead.email,
-        phone: lead.phone,
-        tier,
-        points: score.points,
-        daysDone: score.daysDone,
-        levelId: score.levelId,
-        role: profile.role ?? undefined,
-        claudeLevel: profile.level ?? undefined,
-        locale,
-      }),
-    }).catch(() => {
-      // Deliberately silent. See above.
-    });
-  }, [state, locale, tier, profile.role, profile.level]);
+  }, [tier, locale]);
 
   return createPortal(
     <div
@@ -141,12 +136,22 @@ export function BadgeCard({
 
         <LeadGate
           source="claude-code-badge"
+          endpoint="/api/challenge-badge"
+          schema={badgeSubmissionSchema}
           context="challenge-badge"
           locale={locale}
           title={UI.badgeCardTitle(tier)}
           subtitle={UI.badgeCardBody}
           ctaLabel={UI.badgeCardCta}
-          extraPayload={{ badgeTier: tier }}
+          extraPayload={{
+            tier,
+            points: score.points,
+            daysDone: score.daysDone,
+            levelId: score.levelId,
+            role: profile.role ?? undefined,
+            claudeLevel: profile.level ?? undefined,
+            locale,
+          }}
           onCaptured={captured}
           privacyNote={
             <>
