@@ -95,6 +95,42 @@ export function cleanName(raw: string | null | undefined): string {
   return out;
 }
 
+/**
+ * Every badge tier this reader has earned, in order.
+ *
+ * A tier is earned by finishing every day of its phase, which is the same
+ * definition the celebration card uses. No calendar rule: the owner decided on
+ * 24 August 2026 that somebody doing thirty days in one evening still earns
+ * them.
+ *
+ * Takes a "is this day finished" function rather than the progress blob, so
+ * this file stays pure and free of any import that would tie it to the browser
+ * or to the day content.
+ */
+export function earnedTiers(isDayDone: (day: number) => boolean): BadgeTier[] {
+  const out: BadgeTier[] = [];
+  for (const tier of BADGE_TIERS) {
+    const last = BADGE_DAYS[tier];
+    const first = last - 9;
+    let all = true;
+    for (let day = first; day <= last; day += 1) {
+      if (!isDayDone(day)) {
+        all = false;
+        break;
+      }
+    }
+    if (!all) break;
+    out.push(tier);
+  }
+  return out;
+}
+
+/** The best badge this reader holds, or null. */
+export function highestTier(isDayDone: (day: number) => boolean): BadgeTier | null {
+  const tiers = earnedTiers(isDayDone);
+  return tiers.length ? tiers[tiers.length - 1] : null;
+}
+
 /** The path of the badge page, per language. Query string added by the caller. */
 export function badgeBasePath(locale: ChallengeLocale): string {
   return locale === "fr"

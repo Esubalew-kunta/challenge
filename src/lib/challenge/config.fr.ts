@@ -103,6 +103,8 @@ export const UI_FR = {
   badgeSub: (days: number) =>
     days === 30 ? "Les 30 jours" : `${days} jours sur 30`,
   badgeMarkUnit: "JOURS",
+  badgeOfferButton: (tier: number) =>
+    tier === 3 ? "Récupérer votre badge de fin" : `Récupérer votre badge phase ${tier}`,
   badgeCardTag: "Vous avez gagné un badge",
   badgeCardTitle: (tier: number) =>
     tier === 3 ? "Vous avez fini les trente" : `Phase ${tier} terminée`,

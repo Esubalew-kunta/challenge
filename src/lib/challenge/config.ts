@@ -102,6 +102,14 @@ export const UI = {
     days === 30 ? "All 30 days" : `${days} days of 30`,
   /** Under the big number inside the emblem. One word, and it is read small. */
   badgeMarkUnit: "DAYS",
+  /**
+   * The always-open door to a badge already earned, under the score.
+   *
+   * Names the badge rather than saying "your badge", because a reader who has
+   * two of them should be told which one this opens.
+   */
+  badgeOfferButton: (tier: number) =>
+    tier === 3 ? "Get your completion badge" : `Get your phase ${tier} badge`,
   badgeCardTag: "You earned a badge",
   badgeCardTitle: (tier: number) =>
     tier === 3 ? "You finished all thirty" : `Phase ${tier} done`,

@@ -20,6 +20,7 @@ import { uiFor } from "@/lib/challenge/locale";
 import { answerKeyFor, totalDaysFor } from "@/lib/challenge/nav";
 import type { ChallengeLocale } from "@/lib/challenge/types";
 import { summarise } from "@/lib/challenge/progress";
+import { BadgeOffer } from "./badge-offer";
 import { EarnedOffer } from "./earned-offer";
 import { useProgress } from "./use-progress";
 
@@ -124,6 +125,15 @@ export function ScoreCard({ locale = "en" }: { locale?: ChallengeLocale }) {
       <p className="text-[0.8125rem] leading-relaxed text-muted-foreground">
         {level.blurb} {UI.scoreLocal}
       </p>
+
+      {/*
+        The way back to a badge already earned.
+
+        Not decoration: the celebration card fires once ever, so before this
+        existed, closing it took the badge away permanently. Renders nothing
+        until a phase is finished.
+      */}
+      <BadgeOffer state={state} locale={locale} />
 
       {/*
         The earned sheet. It renders nothing at all for a reader who is too
