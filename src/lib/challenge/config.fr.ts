@@ -96,6 +96,40 @@ export const UI_FR = {
   sheetBadEmail: "Vérifiez votre adresse email",
   sheetNoPrices:
     "Aucun prix ni détail d'abonnement n'est imprimé dessus. Ils renvoient vers notre site, donc la fiche ne peut pas devenir fausse dans votre boîte mail.",
+  /* ------------------------------------------------------------- badges */
+
+  badgeName: (tier: number) =>
+    tier === 3 ? "Parcours terminé" : `Phase ${tier} terminée`,
+  badgeSub: (days: number) =>
+    days === 30 ? "Les 30 jours" : `${days} jours sur 30`,
+  badgeCardTag: "Vous avez gagné un badge",
+  badgeCardTitle: (tier: number) =>
+    tier === 3 ? "Vous avez fini les trente" : `Phase ${tier} terminée`,
+  badgeCardBody:
+    "Votre nom sera dessus, il faut donc savoir quoi écrire. Vérifiez ce qui est déjà là et complétez ce qui manque.",
+  badgeCardCta: "Créer mon badge",
+  badgeCardClose: "Pas maintenant",
+  badgePrivacy:
+    "Nous nous en servons pour vous envoyer votre badge et pour vous recontacter.",
+  badgePrivacyLink: "Politique de confidentialité",
+  badgeReadyTitle: "Votre badge est prêt",
+  badgeReadyBody: "Ouvrez-le, puis publiez-le où vous voulez.",
+  badgeOpen: "Ouvrir mon badge",
+
+  /* la page du badge */
+  badgePageTitle: (tier: number) =>
+    tier === 3 ? "Claude Code en 30 jours, terminé" : `Phase ${tier} terminée`,
+  badgeShare: "Partager sur LinkedIn",
+  badgeDownload: "Enregistrer l'image",
+  badgeBackToCourse: "Voir les trente jours",
+  badgeShareNote:
+    "L'image s'enregistre au format carré, celui que réclament la plupart des réseaux.",
+  badgeHonest:
+    "Ceci atteste d'un parcours suivi, pas d'un examen réussi. Personne ne l'a corrigé, et rien n'était verrouillé.",
+  badgeBrokenTitle: "Ce lien de badge est incomplet",
+  badgeBrokenBody:
+    "Un lien de badge porte un nom et le numéro du badge. Il en manque un ici. Terminez une phase du parcours et vous recevrez un lien tout neuf.",
+
   /* ------------------------------------------------------ jour 1, bloqué */
 
   helpButton: "Faites-vous aider par quelqu'un",

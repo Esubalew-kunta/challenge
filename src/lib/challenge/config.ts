@@ -86,6 +86,47 @@ export const UI = {
   sheetBadEmail: "Please check your email address",
   sheetNoPrices:
     "No prices or plan details are printed on it. Those link back to our site, so it cannot go out of date in your inbox.",
+  /* ------------------------------------------------------------- badges */
+
+  /*
+    Tiers 1 and 2 are progress. Tier 3 is the only one that says completed.
+
+    Nothing here says certified, qualified or passed, and it must stay that
+    way. The score lives in the reader's own browser, so a claim about the
+    person is one we cannot stand behind. A claim about a thing they did is
+    one we can.
+  */
+  badgeName: (tier: number) =>
+    tier === 3 ? "Course complete" : `Phase ${tier} complete`,
+  badgeSub: (days: number) =>
+    days === 30 ? "All 30 days" : `${days} days of 30`,
+  badgeCardTag: "You earned a badge",
+  badgeCardTitle: (tier: number) =>
+    tier === 3 ? "You finished all thirty" : `Phase ${tier} done`,
+  badgeCardBody:
+    "Your name goes on it, so we need to know what to write. Check what is here and add anything missing.",
+  badgeCardCta: "Make my badge",
+  badgeCardClose: "Not now",
+  badgePrivacy: "We use this to send your badge and to contact you.",
+  badgePrivacyLink: "Privacy policy",
+  badgeReadyTitle: "Your badge is ready",
+  badgeReadyBody: "Open it, then post it wherever you like.",
+  badgeOpen: "Open my badge",
+
+  /* the badge page itself */
+  badgePageTitle: (tier: number) =>
+    tier === 3 ? "Claude Code in 30 Days, completed" : `Phase ${tier} completed`,
+  badgeShare: "Share on LinkedIn",
+  badgeDownload: "Save the picture",
+  badgeBackToCourse: "See the thirty days",
+  badgeShareNote:
+    "The picture saves as a square, which is the shape most social apps want.",
+  badgeHonest:
+    "This records a course finished, not an exam passed. Nobody marked it, and nothing was gated.",
+  badgeBrokenTitle: "This badge link is incomplete",
+  badgeBrokenBody:
+    "A badge link carries a name and which badge it is. This one is missing one of them. Finish a phase on the course and you will get a fresh link.",
+
   /* ----------------------------------------------------- day 1, stuck */
 
   /*

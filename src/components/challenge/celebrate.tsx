@@ -43,6 +43,8 @@ import { answerKeyFor, totalDaysFor } from "@/lib/challenge/nav";
 import { dayProgress, levelFor, summarise } from "@/lib/challenge/progress";
 import type { ProgressState } from "@/lib/challenge/progress";
 import type { ChallengeLocale } from "@/lib/challenge/types";
+import type { BadgeTier } from "@/lib/challenge/badge";
+import { BadgeCard } from "./badge-card";
 import { useHydrated, useStored, writeStored } from "./use-stored";
 import { useProgress } from "./use-progress";
 
@@ -66,6 +68,14 @@ interface Milestone {
   tag: string;
   title: string;
   body: string;
+  /**
+   * The shareable badge this milestone earns, if any.
+   *
+   * Only three milestones carry one: phase 1, phase 2, and all thirty. The
+   * badge is attached to `finished` rather than to phase 3 because those two
+   * always land together, and two badge cards for one click would be absurd.
+   */
+  badge?: BadgeTier;
 }
 
 function parseSeen(raw: string): Set<string> {
@@ -111,6 +121,9 @@ function earned(state: ProgressState, locale: ChallengeLocale): Milestone[] {
         tag: UI.celebratePhaseTag,
         title: UI.celebratePhaseTitle(phase.label),
         body: phase.title,
+        // Phase 3 gets none: finishing it and finishing all thirty are the
+        // same click, and the badge belongs on the second.
+        badge: phase.id === 1 ? 1 : phase.id === 2 ? 2 : undefined,
       });
     }
   });
@@ -132,6 +145,7 @@ function earned(state: ProgressState, locale: ChallengeLocale): Milestone[] {
       tag: UI.celebrateFinishedTag,
       title: UI.celebrateFinishedTitle,
       body: UI.celebrateFinishedBody,
+      badge: 3,
     });
   }
 
@@ -229,9 +243,15 @@ export function Celebrate({ locale = "en" }: { locale?: ChallengeLocale }) {
     setDismissed(showing.id);
   }, [showing, raw]);
 
-  // Takes itself away. A reward that has to be closed by hand is a chore.
+  /*
+    Takes itself away. A reward that has to be closed by hand is a chore.
+
+    Except when it carries a badge. That card holds a form, and a form that
+    disappears after five seconds while somebody is typing their phone number
+    into it is not a reward, it is a bug report.
+  */
   useEffect(() => {
-    if (!showing) return;
+    if (!showing || showing.badge) return;
     const timer = window.setTimeout(finish, VISIBLE_MS);
     return () => window.clearTimeout(timer);
   }, [showing, finish]);
@@ -250,6 +270,24 @@ export function Celebrate({ locale = "en" }: { locale?: ChallengeLocale }) {
   }, [showing]);
 
   if (!showing) return null;
+
+  /*
+    A badge replaces the toast rather than sitting next to it.
+
+    One card, one form. Day 10 already fires a celebration and already carries
+    a cheat sheet offer with its own email box; a third thing on top would ask
+    the same person for the same address twice in a minute.
+  */
+  if (showing.badge) {
+    return (
+      <BadgeCard
+        tier={showing.badge}
+        locale={locale}
+        state={state}
+        onClose={finish}
+      />
+    );
+  }
 
   return (
     /*

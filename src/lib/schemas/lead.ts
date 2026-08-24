@@ -58,6 +58,11 @@ export const LEAD_SOURCES = [
   // valeur inconnue côté base ferait échouer l'insertion. Elle retombe sur le
   // form générique "lead" et voyage verbatim dans la colonne `source`.
   "claude-code-help",
+  // Le badge partageable, gagné aux jours 10, 20 et 30. Identité complète : le
+  // nom est littéralement imprimé sur l'image, donc le demander n'a rien d'un
+  // prétexte. Hors de FORM_BY_SOURCE pour la même raison que les autres : une
+  // valeur inconnue côté base ferait échouer l'insertion et perdrait le lead.
+  "claude-code-badge",
 ] as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[number];

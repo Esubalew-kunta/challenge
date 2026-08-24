@@ -25,7 +25,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { LEAD_SOURCE, sheetIdFor } from "@/lib/challenge/registry";
 import { companyEmail } from "@/lib/schemas/identity";
-import { siteConfig } from "@/lib/site-config";
+import { challengePublicUrl } from "@/lib/challenge/public-url";
 
 const SUPABASE_URL = process.env.SUPABASE_URL?.replace(/\/$/, "");
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -70,24 +70,6 @@ function withTimeout(ms: number) {
   return AbortSignal.timeout(ms);
 }
 
-/**
- * The public address of the course, for anything that has to survive the trip
- * into somebody's inbox.
- *
- * `CHALLENGE_PUBLIC_URL` first so a developer can point local sends at the live
- * site, then Vercel's own production hostname, then the site config. Never the
- * request host as a last resort: that is the thing this exists to override.
- */
-function publicUrl(): string {
-  const configured = process.env.CHALLENGE_PUBLIC_URL?.trim();
-  if (configured) return configured.replace(/\/$/, "");
-
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
-  if (vercel) return `https://${vercel.replace(/^https?:\/\//, "").replace(/\/$/, "")}`;
-
-  return siteConfig.url.replace(/\/$/, "");
-}
-
 /** localhost, 127.0.0.1, and the `.local` names a phone on the wifi resolves. */
 function isLocal(host: string): boolean {
   const name = host.split(":")[0].toLowerCase();
@@ -120,8 +102,8 @@ function isLocal(host: string): boolean {
 function originOf(request: Request): string {
   const host =
     request.headers.get("x-forwarded-host") ?? request.headers.get("host");
-  if (!host) return publicUrl();
-  if (isLocal(host)) return publicUrl();
+  if (!host) return challengePublicUrl();
+  if (isLocal(host)) return challengePublicUrl();
 
   const proto = request.headers.get("x-forwarded-proto") ?? "https";
   return `${proto}://${host}`;
