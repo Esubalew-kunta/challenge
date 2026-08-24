@@ -30,19 +30,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import { LifeBuoy, X } from "lucide-react";
 import { track } from "@vercel/analytics";
 import { LeadGate } from "@/components/shared/lead-gate";
+import { PRIVACY_URL } from "@/lib/privacy-href";
 import { uiFor } from "@/lib/challenge/locale";
 import type { ChallengeLocale } from "@/lib/challenge/types";
 import { useHydrated } from "./use-stored";
-
-/** The policy the note links to, per language. */
-const PRIVACY_HREF: Record<ChallengeLocale, string> = {
-  en: "/en/privacy",
-  fr: "/confidentialite",
-};
 
 export function HelpButton({ locale = "en" }: { locale?: ChallengeLocale }) {
   const UI = uiFor(locale);
@@ -147,12 +141,14 @@ export function HelpButton({ locale = "en" }: { locale?: ChallengeLocale }) {
                   privacyNote={
                     <>
                       {UI.helpPrivacy}{" "}
-                      <Link
-                        href={PRIVACY_HREF[locale]}
+                      <a
+                        href={PRIVACY_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="underline underline-offset-2 hover:text-foreground"
                       >
                         {UI.helpPrivacyLink}
-                      </Link>
+                      </a>
                     </>
                   }
                 />

@@ -27,12 +27,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import { ArrowRight, PartyPopper, X } from "lucide-react";
 import { track } from "@vercel/analytics";
 import { LeadGate } from "@/components/shared/lead-gate";
 import { getCapturedLead } from "@/lib/lead-capture-state";
 import { badgePath, type BadgeTier } from "@/lib/challenge/badge";
+import { PRIVACY_URL } from "@/lib/privacy-href";
 import { uiFor } from "@/lib/challenge/locale";
 import { answerKeyFor, totalDaysFor } from "@/lib/challenge/nav";
 import { summarise } from "@/lib/challenge/progress";
@@ -41,11 +41,6 @@ import type { ChallengeLocale } from "@/lib/challenge/types";
 import { useProfile } from "./use-profile";
 
 const KEYS = { en: answerKeyFor("en"), fr: answerKeyFor("fr") } as const;
-
-const PRIVACY_HREF: Record<ChallengeLocale, string> = {
-  en: "/en/privacy",
-  fr: "/confidentialite",
-};
 
 export function BadgeCard({
   tier,
@@ -156,12 +151,14 @@ export function BadgeCard({
           privacyNote={
             <>
               {UI.badgePrivacy}{" "}
-              <Link
-                href={PRIVACY_HREF[locale]}
+              <a
+                href={PRIVACY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="underline underline-offset-2 hover:text-foreground"
               >
                 {UI.badgePrivacyLink}
-              </Link>
+              </a>
             </>
           }
         >

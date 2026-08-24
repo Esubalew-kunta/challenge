@@ -100,6 +100,8 @@ export const UI = {
     tier === 3 ? "Course complete" : `Phase ${tier} complete`,
   badgeSub: (days: number) =>
     days === 30 ? "All 30 days" : `${days} days of 30`,
+  /** Under the big number inside the emblem. One word, and it is read small. */
+  badgeMarkUnit: "DAYS",
   badgeCardTag: "You earned a badge",
   badgeCardTitle: (tier: number) =>
     tier === 3 ? "You finished all thirty" : `Phase ${tier} done`,
