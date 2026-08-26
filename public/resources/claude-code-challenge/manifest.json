@@ -1,0 +1,358 @@
+{
+    "version":  1,
+    "reviewDate":  "2026-08-26",
+    "archives":  [
+                     {
+                         "id":  "company-kit",
+                         "locale":  "en",
+                         "path":  "en/company-kit.zip",
+                         "topFolder":  "claude-code-company-kit",
+                         "files":  [
+                                       "claude-code-company-kit/.claude/rules/company-safety.md",
+                                       "claude-code-company-kit/.claude/skills/team-handoff/SKILL.md",
+                                       "claude-code-company-kit/ADOPTION-ROADMAP.md",
+                                       "claude-code-company-kit/COMPANY-CLAUDE-TEMPLATE.md",
+                                       "claude-code-company-kit/OWNERSHIP-AND-REVIEW.md",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-complete-guide.pdf",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-instructions.pdf",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-team.pdf",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-unattended.pdf",
+                                       "claude-code-company-kit/QUICK-GUIDE.pdf",
+                                       "claude-code-company-kit/SECURITY-CHECKLIST.md",
+                                       "claude-code-company-kit/START-HERE.md",
+                                       "claude-code-company-kit/TEAM-HANDOFF-TEMPLATE.md",
+                                       "claude-code-company-kit/TEAM-ONBOARDING.md",
+                                       "claude-code-company-kit/TEAM-SCORE.md",
+                                       "claude-code-company-kit/UNATTENDED-WORK.md",
+                                       "claude-code-company-kit/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "second-brain",
+                         "locale":  "en",
+                         "path":  "en/second-brain.zip",
+                         "topFolder":  "claude-code-second-brain",
+                         "files":  [
+                                       "claude-code-second-brain/.claude/rules/safe-work.md",
+                                       "claude-code-second-brain/.claude/skills/weekly-review/SKILL.md",
+                                       "claude-code-second-brain/00_Index.md",
+                                       "claude-code-second-brain/00-Inbox/QUICK-CAPTURE.md",
+                                       "claude-code-second-brain/01-Projects/PROJECT-TEMPLATE.md",
+                                       "claude-code-second-brain/02-Resources/RESOURCE-NOTE-TEMPLATE.md",
+                                       "claude-code-second-brain/03-Routines/DAILY-RESET.md",
+                                       "claude-code-second-brain/03-Routines/LOOPS-AND-SCHEDULES.md",
+                                       "claude-code-second-brain/03-Routines/WEEKLY-REVIEW.md",
+                                       "claude-code-second-brain/04-Archive/README.md",
+                                       "claude-code-second-brain/CLAUDE.md",
+                                       "claude-code-second-brain/MEMORY.md",
+                                       "claude-code-second-brain/START-HERE.md",
+                                       "claude-code-second-brain/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "consultant-skills",
+                         "locale":  "en",
+                         "path":  "en/skills/consultant-skills.zip",
+                         "topFolder":  "consultant-skills-pack",
+                         "files":  [
+                                       "consultant-skills-pack/.claude/skills/discovery-brief/SKILL.md",
+                                       "consultant-skills-pack/.claude/skills/meeting-to-action-plan/SKILL.md",
+                                       "consultant-skills-pack/.claude/skills/proposal-builder/SKILL.md",
+                                       "consultant-skills-pack/EXAMPLES.md",
+                                       "consultant-skills-pack/INSTALL.md",
+                                       "consultant-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "consultant-skills-pack/START-HERE.md",
+                                       "consultant-skills-pack/TIPS.md",
+                                       "consultant-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "developer-skills",
+                         "locale":  "en",
+                         "path":  "en/skills/developer-skills.zip",
+                         "topFolder":  "developer-skills-pack",
+                         "files":  [
+                                       "developer-skills-pack/.claude/skills/codebase-mapper/SKILL.md",
+                                       "developer-skills-pack/.claude/skills/code-reviewer/SKILL.md",
+                                       "developer-skills-pack/.claude/skills/safe-change/SKILL.md",
+                                       "developer-skills-pack/EXAMPLES.md",
+                                       "developer-skills-pack/INSTALL.md",
+                                       "developer-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "developer-skills-pack/START-HERE.md",
+                                       "developer-skills-pack/TIPS.md",
+                                       "developer-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "founder-skills",
+                         "locale":  "en",
+                         "path":  "en/skills/founder-skills.zip",
+                         "topFolder":  "founder-skills-pack",
+                         "files":  [
+                                       "founder-skills-pack/.claude/skills/decision-memo/SKILL.md",
+                                       "founder-skills-pack/.claude/skills/founder-weekly-review/SKILL.md",
+                                       "founder-skills-pack/.claude/skills/idea-validator/SKILL.md",
+                                       "founder-skills-pack/EXAMPLES.md",
+                                       "founder-skills-pack/INSTALL.md",
+                                       "founder-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "founder-skills-pack/START-HERE.md",
+                                       "founder-skills-pack/TIPS.md",
+                                       "founder-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "marketing-skills",
+                         "locale":  "en",
+                         "path":  "en/skills/marketing-skills.zip",
+                         "topFolder":  "marketing-skills-pack",
+                         "files":  [
+                                       "marketing-skills-pack/.claude/skills/campaign-brief/SKILL.md",
+                                       "marketing-skills-pack/.claude/skills/content-repurposer/SKILL.md",
+                                       "marketing-skills-pack/.claude/skills/performance-review/SKILL.md",
+                                       "marketing-skills-pack/EXAMPLES.md",
+                                       "marketing-skills-pack/INSTALL.md",
+                                       "marketing-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "marketing-skills-pack/START-HERE.md",
+                                       "marketing-skills-pack/TIPS.md",
+                                       "marketing-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "operations-skills",
+                         "locale":  "en",
+                         "path":  "en/skills/operations-skills.zip",
+                         "topFolder":  "operations-skills-pack",
+                         "files":  [
+                                       "operations-skills-pack/.claude/skills/process-auditor/SKILL.md",
+                                       "operations-skills-pack/.claude/skills/sop-builder/SKILL.md",
+                                       "operations-skills-pack/.claude/skills/weekly-operations-report/SKILL.md",
+                                       "operations-skills-pack/EXAMPLES.md",
+                                       "operations-skills-pack/INSTALL.md",
+                                       "operations-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "operations-skills-pack/START-HERE.md",
+                                       "operations-skills-pack/TIPS.md",
+                                       "operations-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "starter-kit",
+                         "locale":  "en",
+                         "path":  "en/starter-kit.zip",
+                         "topFolder":  "claude-code-starter-kit",
+                         "files":  [
+                                       "claude-code-starter-kit/.claude/rules/safe-start.md",
+                                       "claude-code-starter-kit/.claude/skills/task-clarifier/SKILL.md",
+                                       "claude-code-starter-kit/CLAUDE-TEMPLATE.md",
+                                       "claude-code-starter-kit/INSTALL.md",
+                                       "claude-code-starter-kit/MEMORY-GUIDE.md",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-hooks.pdf",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-manager.pdf",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-setup.pdf",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-which-tool.pdf",
+                                       "claude-code-starter-kit/QUICK-GUIDE.pdf",
+                                       "claude-code-starter-kit/SETUP-SCORE.md",
+                                       "claude-code-starter-kit/SHORTCUTS.md",
+                                       "claude-code-starter-kit/START-HERE.md",
+                                       "claude-code-starter-kit/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "workflow-kit",
+                         "locale":  "en",
+                         "path":  "en/workflow-kit.zip",
+                         "topFolder":  "claude-code-workflow-kit",
+                         "files":  [
+                                       "claude-code-workflow-kit/.claude/skills/compound-review/SKILL.md",
+                                       "claude-code-workflow-kit/COMPOUNDING-GUIDE.md",
+                                       "claude-code-workflow-kit/CONTEXT-AND-COST.md",
+                                       "claude-code-workflow-kit/DECISION-GUIDE.md",
+                                       "claude-code-workflow-kit/PDF-GUIDES/sheet-connections.pdf",
+                                       "claude-code-workflow-kit/PDF-GUIDES/sheet-context.pdf",
+                                       "claude-code-workflow-kit/PDF-GUIDES/sheet-skills.pdf",
+                                       "claude-code-workflow-kit/QUICK-GUIDE.pdf",
+                                       "claude-code-workflow-kit/ROUTINE-LOOPS.md",
+                                       "claude-code-workflow-kit/SAFE-CONNECTIONS.md",
+                                       "claude-code-workflow-kit/START-HERE.md",
+                                       "claude-code-workflow-kit/VERIFIED-RESOURCES.md",
+                                       "claude-code-workflow-kit/WORKFLOW-REVIEW.md",
+                                       "claude-code-workflow-kit/WORKFLOW-SCORE.md"
+                                   ]
+                     },
+                     {
+                         "id":  "company-kit",
+                         "locale":  "fr",
+                         "path":  "fr/company-kit.zip",
+                         "topFolder":  "claude-code-company-kit",
+                         "files":  [
+                                       "claude-code-company-kit/.claude/rules/company-safety.md",
+                                       "claude-code-company-kit/.claude/skills/team-handoff/SKILL.md",
+                                       "claude-code-company-kit/ADOPTION-ROADMAP.md",
+                                       "claude-code-company-kit/COMPANY-CLAUDE-TEMPLATE.md",
+                                       "claude-code-company-kit/OWNERSHIP-AND-REVIEW.md",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-complete-guide-fr.pdf",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-instructions-fr.pdf",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-team-fr.pdf",
+                                       "claude-code-company-kit/PDF-GUIDES/sheet-unattended-fr.pdf",
+                                       "claude-code-company-kit/QUICK-GUIDE.pdf",
+                                       "claude-code-company-kit/SECURITY-CHECKLIST.md",
+                                       "claude-code-company-kit/START-HERE.md",
+                                       "claude-code-company-kit/TEAM-HANDOFF-TEMPLATE.md",
+                                       "claude-code-company-kit/TEAM-ONBOARDING.md",
+                                       "claude-code-company-kit/TEAM-SCORE.md",
+                                       "claude-code-company-kit/UNATTENDED-WORK.md",
+                                       "claude-code-company-kit/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "second-brain",
+                         "locale":  "fr",
+                         "path":  "fr/second-brain.zip",
+                         "topFolder":  "claude-code-second-brain",
+                         "files":  [
+                                       "claude-code-second-brain/.claude/rules/safe-work.md",
+                                       "claude-code-second-brain/.claude/skills/weekly-review/SKILL.md",
+                                       "claude-code-second-brain/00_Index.md",
+                                       "claude-code-second-brain/00-Inbox/QUICK-CAPTURE.md",
+                                       "claude-code-second-brain/01-Projects/PROJECT-TEMPLATE.md",
+                                       "claude-code-second-brain/02-Resources/RESOURCE-NOTE-TEMPLATE.md",
+                                       "claude-code-second-brain/03-Routines/DAILY-RESET.md",
+                                       "claude-code-second-brain/03-Routines/LOOPS-AND-SCHEDULES.md",
+                                       "claude-code-second-brain/03-Routines/WEEKLY-REVIEW.md",
+                                       "claude-code-second-brain/04-Archive/README.md",
+                                       "claude-code-second-brain/CLAUDE.md",
+                                       "claude-code-second-brain/MEMORY.md",
+                                       "claude-code-second-brain/START-HERE.md",
+                                       "claude-code-second-brain/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "consultant-skills",
+                         "locale":  "fr",
+                         "path":  "fr/skills/consultant-skills.zip",
+                         "topFolder":  "consultant-skills-pack",
+                         "files":  [
+                                       "consultant-skills-pack/.claude/skills/discovery-brief/SKILL.md",
+                                       "consultant-skills-pack/.claude/skills/meeting-to-action-plan/SKILL.md",
+                                       "consultant-skills-pack/.claude/skills/proposal-builder/SKILL.md",
+                                       "consultant-skills-pack/EXAMPLES.md",
+                                       "consultant-skills-pack/INSTALL.md",
+                                       "consultant-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "consultant-skills-pack/START-HERE.md",
+                                       "consultant-skills-pack/TIPS.md",
+                                       "consultant-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "developer-skills",
+                         "locale":  "fr",
+                         "path":  "fr/skills/developer-skills.zip",
+                         "topFolder":  "developer-skills-pack",
+                         "files":  [
+                                       "developer-skills-pack/.claude/skills/codebase-mapper/SKILL.md",
+                                       "developer-skills-pack/.claude/skills/code-reviewer/SKILL.md",
+                                       "developer-skills-pack/.claude/skills/safe-change/SKILL.md",
+                                       "developer-skills-pack/EXAMPLES.md",
+                                       "developer-skills-pack/INSTALL.md",
+                                       "developer-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "developer-skills-pack/START-HERE.md",
+                                       "developer-skills-pack/TIPS.md",
+                                       "developer-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "founder-skills",
+                         "locale":  "fr",
+                         "path":  "fr/skills/founder-skills.zip",
+                         "topFolder":  "founder-skills-pack",
+                         "files":  [
+                                       "founder-skills-pack/.claude/skills/decision-memo/SKILL.md",
+                                       "founder-skills-pack/.claude/skills/founder-weekly-review/SKILL.md",
+                                       "founder-skills-pack/.claude/skills/idea-validator/SKILL.md",
+                                       "founder-skills-pack/EXAMPLES.md",
+                                       "founder-skills-pack/INSTALL.md",
+                                       "founder-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "founder-skills-pack/START-HERE.md",
+                                       "founder-skills-pack/TIPS.md",
+                                       "founder-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "marketing-skills",
+                         "locale":  "fr",
+                         "path":  "fr/skills/marketing-skills.zip",
+                         "topFolder":  "marketing-skills-pack",
+                         "files":  [
+                                       "marketing-skills-pack/.claude/skills/campaign-brief/SKILL.md",
+                                       "marketing-skills-pack/.claude/skills/content-repurposer/SKILL.md",
+                                       "marketing-skills-pack/.claude/skills/performance-review/SKILL.md",
+                                       "marketing-skills-pack/EXAMPLES.md",
+                                       "marketing-skills-pack/INSTALL.md",
+                                       "marketing-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "marketing-skills-pack/START-HERE.md",
+                                       "marketing-skills-pack/TIPS.md",
+                                       "marketing-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "operations-skills",
+                         "locale":  "fr",
+                         "path":  "fr/skills/operations-skills.zip",
+                         "topFolder":  "operations-skills-pack",
+                         "files":  [
+                                       "operations-skills-pack/.claude/skills/process-auditor/SKILL.md",
+                                       "operations-skills-pack/.claude/skills/sop-builder/SKILL.md",
+                                       "operations-skills-pack/.claude/skills/weekly-operations-report/SKILL.md",
+                                       "operations-skills-pack/EXAMPLES.md",
+                                       "operations-skills-pack/INSTALL.md",
+                                       "operations-skills-pack/RECOMMENDED-RESOURCES.md",
+                                       "operations-skills-pack/START-HERE.md",
+                                       "operations-skills-pack/TIPS.md",
+                                       "operations-skills-pack/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "starter-kit",
+                         "locale":  "fr",
+                         "path":  "fr/starter-kit.zip",
+                         "topFolder":  "claude-code-starter-kit",
+                         "files":  [
+                                       "claude-code-starter-kit/.claude/rules/safe-start.md",
+                                       "claude-code-starter-kit/.claude/skills/task-clarifier/SKILL.md",
+                                       "claude-code-starter-kit/CLAUDE-TEMPLATE.md",
+                                       "claude-code-starter-kit/INSTALL.md",
+                                       "claude-code-starter-kit/MEMORY-GUIDE.md",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-hooks-fr.pdf",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-manager-fr.pdf",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-setup-fr.pdf",
+                                       "claude-code-starter-kit/PDF-GUIDES/sheet-which-tool-fr.pdf",
+                                       "claude-code-starter-kit/QUICK-GUIDE.pdf",
+                                       "claude-code-starter-kit/SETUP-SCORE.md",
+                                       "claude-code-starter-kit/SHORTCUTS.md",
+                                       "claude-code-starter-kit/START-HERE.md",
+                                       "claude-code-starter-kit/VERIFIED-RESOURCES.md"
+                                   ]
+                     },
+                     {
+                         "id":  "workflow-kit",
+                         "locale":  "fr",
+                         "path":  "fr/workflow-kit.zip",
+                         "topFolder":  "claude-code-workflow-kit",
+                         "files":  [
+                                       "claude-code-workflow-kit/.claude/skills/compound-review/SKILL.md",
+                                       "claude-code-workflow-kit/COMPOUNDING-GUIDE.md",
+                                       "claude-code-workflow-kit/CONTEXT-AND-COST.md",
+                                       "claude-code-workflow-kit/DECISION-GUIDE.md",
+                                       "claude-code-workflow-kit/PDF-GUIDES/sheet-connections-fr.pdf",
+                                       "claude-code-workflow-kit/PDF-GUIDES/sheet-context-fr.pdf",
+                                       "claude-code-workflow-kit/PDF-GUIDES/sheet-skills-fr.pdf",
+                                       "claude-code-workflow-kit/QUICK-GUIDE.pdf",
+                                       "claude-code-workflow-kit/ROUTINE-LOOPS.md",
+                                       "claude-code-workflow-kit/SAFE-CONNECTIONS.md",
+                                       "claude-code-workflow-kit/START-HERE.md",
+                                       "claude-code-workflow-kit/VERIFIED-RESOURCES.md",
+                                       "claude-code-workflow-kit/WORKFLOW-REVIEW.md",
+                                       "claude-code-workflow-kit/WORKFLOW-SCORE.md"
+                                   ]
+                     }
+                 ]
+}

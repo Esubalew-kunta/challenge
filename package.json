@@ -11,7 +11,9 @@
     "test": "node --experimental-strip-types --test \"tests/**/*.test.ts\"",
     "check:generated": "node scripts/check-generated.mjs",
     "sheets:build": "node scripts/build-challenge-sheets.mjs",
-    "sheets:upload": "node scripts/upload-challenge-sheets.mjs"
+    "sheets:upload": "node scripts/upload-challenge-sheets.mjs",
+    "resources:build": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-challenge-resources.ps1",
+    "resources:validate": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-challenge-resources.ps1"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
