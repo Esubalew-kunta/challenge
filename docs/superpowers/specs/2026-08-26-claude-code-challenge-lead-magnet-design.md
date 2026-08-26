@@ -72,7 +72,7 @@ Writing style: calm expert coach. Use plain language, real problems, short expla
 
 ## 6. Second Brain workspace
 
-The Second Brain is optional but strongly recommended and introduced on Day 2. It is one shared starter ZIP for both paths. Obsidian is optional; the underlying Markdown files work in Claude Code, VS Code, Cursor, Obsidian, or a normal editor.
+The Second Brain is optional but strongly recommended and introduced on Day 2. It has separate English and French ZIPs shared by both paths. Obsidian is optional; the underlying Markdown files work in Claude Code, VS Code, Cursor, Obsidian, or a normal editor. Its download requires a company email, while the lesson remains public.
 
 Starter structure:
 
@@ -84,26 +84,27 @@ My-Claude-Workspace/
 ├── 00-Inbox/
 ├── 01-Projects/
 ├── 02-Resources/
-├── 03-Archive/
+├── 03-Routines/
+├── 04-Archive/
 └── .claude/
     ├── skills/
-    ├── rules/
-    └── routines/
+    └── rules/
 ```
 
 The workspace grows through the lessons, but no badge depends on downloading or using it.
 
 ## 7. Resources and lead capture
 
-Public lessons remain readable without an email. Email gates are limited to three high-value bundles:
+Public lessons remain readable without an email. Download gates are limited to four high-value resource moments:
 
-- Day 10: Starter Kit PDF + ZIP: shortcuts, `CLAUDE.md`, `MEMORY.md`, setup guides, and starter skills.
+- Day 2: Second Brain ZIP: workspace folders, `CLAUDE.md`, manual project `MEMORY.md`, safe rules, and starter routines.
+- Day 10: Starter Kit PDF + ZIP plus the selected category Skills Pack: shortcuts, `CLAUDE.md`, memory guidance, setup guides, and ready-to-use skills.
 - Day 20: Workflow Kit PDF + ZIP: skills, routines, loops, rules, hooks, context, and cost checklists.
 - Day 30: Company Claude Kit PDF + ZIP: company `CLAUDE.md`, team rules, shared skills, safety checklist, routines, and handoff guide.
 
 Small worksheets may appear on selected lesson days, but they are grouped into the three milestone bundles and do not create repeated email friction.
 
-Cheat-sheet request fields: email only.
+Resource request field: company email only. Category, level, goal, locale, and path come from the optional local profile. If category is missing, the visitor chooses one before the email field.
 
 Badge request fields: display name and email. Display name can be a first name, full name, company name, or nickname.
 
