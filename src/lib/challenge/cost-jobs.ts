@@ -9,7 +9,7 @@
  * selection, because what is stored is `weeklyUpdate`, not a French sentence.
  * The same rule the quiz answers follow.
  *
- * **The list is filtered by the department the reader already gave** in the two
+ * **The list is filtered by the resource category the reader already gave** in the
  * questions popup on the index. Nothing extra is asked. Somebody who skipped
  * that question, or who came straight to Day 6 from a search, gets the general
  * list, which is eight real jobs rather than a shrug.
@@ -20,7 +20,7 @@
  * the AI Makers ROI calculator, which describes its own default as prudent.
  */
 
-import type { Department } from "./profile";
+import type { ResourceCategory } from "./profile";
 import type { ChallengeLocale } from "./types";
 import { COST_JOBS_FR } from "./cost-jobs.fr";
 
@@ -30,8 +30,21 @@ export interface CostJob {
   label: string;
 }
 
-/** Which list a reader sees. `general` is the fallback and the "other" answer. */
-export type CostJobGroup = Department | "general";
+/** Stable content groups used by the calculator, independent of profile labels. */
+export type CostJobGroup =
+  | "general"
+  | "sales"
+  | "marketing"
+  | "operations"
+  | "technical";
+
+const COST_GROUP_FOR_CATEGORY: Record<ResourceCategory, CostJobGroup> = {
+  developer: "technical",
+  consultant: "sales",
+  operations: "operations",
+  founder: "general",
+  marketing: "marketing",
+};
 
 /* -------------------------------------------------------------- how often */
 
@@ -117,27 +130,21 @@ export const COST_JOBS: Record<CostJobGroup, CostJob[]> = {
     { id: "ticketToPlan", label: "Turning a ticket into a plan before touching anything" },
   ],
 
-  /*
-    "Something else" gets the general list rather than a list of its own. It is
-    the answer people pick when none of the four fit, so a fifth invented set
-    of jobs would fit them even less.
-  */
-  other: [],
 };
 
 /**
  * The list this reader should see.
  *
- * Falls back to the general list for `other`, for a department we have no list
- * for, and for anybody who never answered the question. Never returns empty:
+ * Falls back to the general list for anybody who never answered the question.
+ * Never returns empty:
  * an empty tool looks broken, and the general jobs are true for everybody.
  */
 export function costJobsFor(
   locale: ChallengeLocale,
-  department: Department | null,
+  category: ResourceCategory | null,
 ): CostJob[] {
   const table = locale === "fr" ? COST_JOBS_FR : COST_JOBS;
-  const picked = department ? table[department] : undefined;
+  const picked = category ? table[COST_GROUP_FOR_CATEGORY[category]] : undefined;
   return picked && picked.length ? picked : table.general;
 }
 

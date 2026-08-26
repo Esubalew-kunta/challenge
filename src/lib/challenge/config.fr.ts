@@ -199,7 +199,7 @@ export const UI_FR = {
   profileSeeAllDays: "Voir les trente jours",
   profileLevelQuestion: "Vous avez utilisé Claude Code à quel point ?",
   profileGoalQuestion: "Qu'aimeriez-vous améliorer en premier ?",
-  profileRoleQuestion: "Vous êtes dans quel service ?",
+  profileRoleQuestion: "Quel profil vous correspond le mieux ?",
   profileStartAt: (day: number) => `Commencez au jour ${day}.`,
   profileDayLabel: (day: number) => `jour ${day}`,
   profileAnsweredPrefix: "On vous a orienté vers le",

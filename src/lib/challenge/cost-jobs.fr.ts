@@ -60,7 +60,4 @@ export const COST_JOBS_FR: Record<CostJobGroup, CostJob[]> = {
     { id: "sameTest", label: "Réécrire le même genre de test" },
     { id: "ticketToPlan", label: "Transformer un ticket en plan avant de toucher au code" },
   ],
-
-  /* « Autre chose » retombe sur la liste générale. Voir `cost-jobs.ts`. */
-  other: [],
 };

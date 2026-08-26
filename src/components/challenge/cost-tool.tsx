@@ -17,7 +17,7 @@
  * answer.
  *
  * **The list already knows who they are.** The two questions popup on the index
- * asked which department they are in, and that answer picks the list of jobs
+ * asked which resource category fits them, and that answer picks the list of jobs
  * shown here. Nothing extra is asked. Somebody who skipped that question, or
  * who arrived on Day 6 from a search, gets the general list.
  *
@@ -176,7 +176,7 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
   const raw = useStored(COST_KEY, "");
   const picks = useMemo(() => parsePicks(raw), [raw]);
 
-  // The department they gave on the index decides the list. Before hydration
+  // The category they gave on the index decides the list. Before hydration
   // there is no stored profile, so the general list is what the static HTML
   // carries, which is also the correct list for most readers.
   const jobs = useMemo(
@@ -223,7 +223,7 @@ export function CostTool({ locale = "en" }: { locale?: ChallengeLocale }) {
    * Minutes a month.
    *
    * Only jobs from the list on screen are counted. Somebody who picked three
-   * sales jobs and then answered the department question again would otherwise
+   * client jobs and then answered the category question again would otherwise
    * carry an invisible total from a list they can no longer see.
    */
   const minutesPerMonth = useMemo(

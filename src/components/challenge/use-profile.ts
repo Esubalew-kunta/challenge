@@ -21,22 +21,22 @@ import {
   type ChallengeGoal,
   type ChallengePath,
   type ClaudeLevel,
-  type Department,
+  type ResourceCategory,
   type ProfileState,
 } from "@/lib/challenge/profile";
 
 /**
  * Namespaced so it cannot collide with anything else the site stores.
  *
- * v3 adds the reader's goal and recommended learning path. Bumping the key means
- * an early tester is asked once more rather than carrying an incomplete profile.
+ * v4 replaces department buckets with the five resource categories. Bumping
+ * the key avoids assigning an old answer to the wrong Skills Pack.
  */
-export const PROFILE_KEY = "aim.challenge.profile.v3";
+export const PROFILE_KEY = "aim.challenge.profile.v4";
 
 export function useProfile(): {
   profile: ProfileState;
   setLevel: (level: ClaudeLevel) => void;
-  setRole: (role: Department) => void;
+  setRole: (role: ResourceCategory) => void;
   setGoal: (goal: ChallengeGoal) => void;
   setPath: (path: ChallengePath) => void;
   dismiss: () => void;
@@ -48,7 +48,7 @@ export function useProfile(): {
   /**
    * Read fresh before writing rather than closing over `profile`.
    *
-   * Two answers can land in the same tick, and another tab may have written in
+   * Several answers can land in the same tick, and another tab may have written in
    * between. Merging onto a stale copy silently drops one of them.
    */
   const patch = useCallback((changes: Partial<ProfileState>) => {
@@ -60,7 +60,10 @@ export function useProfile(): {
     (level: ClaudeLevel) => patch({ level }),
     [patch],
   );
-  const setRole = useCallback((role: Department) => patch({ role }), [patch]);
+  const setRole = useCallback(
+    (role: ResourceCategory) => patch({ role }),
+    [patch],
+  );
   const setGoal = useCallback((goal: ChallengeGoal) => patch({ goal }), [patch]);
   const setPath = useCallback((path: ChallengePath) => patch({ path }), [patch]);
   const dismiss = useCallback(() => patch({ dismissed: true }), [patch]);

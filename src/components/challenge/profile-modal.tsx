@@ -8,7 +8,7 @@
  * time, and closing takes one click, the Escape key, or a click outside the
  * box, because a popup with only one way out is the kind people learn to hate.
  *
- * The order is deliberate. The department question is ours, and it is asked
+ * The order is deliberate. The category question is ours, and it is asked
  * first while the reader still has the patience for it. The level and goal
  * questions make the recommendation more useful before the popup gives
  * something back: a day number and the reason for it.
@@ -67,7 +67,7 @@ export function ProfileModal({
    * Which question is on screen.
    *
    * Local, not stored. Somebody who answers the first question and closes the
-   * tab has told us their department and nothing else, and that is a complete
+   * tab has told us their category and nothing else, and that is a complete
    * answer rather than a half finished form to resume.
    */
   const [step, setStep] = useState<0 | 1 | 2 | 3>(0);
@@ -157,14 +157,14 @@ export function ProfileModal({
   /**
    * Skips the question on screen, and only that one.
    *
-   * The first question hands over to the second with the department left
+   * The first question hands over to the second with the category left
    * unset. The second has nothing after it, so skipping there ends the popup.
    * In both cases whatever they did answer is kept.
    */
   const skipStep = useCallback(() => {
     if (step === 0) {
       setStep(1);
-      track("challenge_profile_skipped", { question: "department" });
+      track("challenge_profile_skipped", { question: "category" });
       return;
     }
     if (step === 1) {
@@ -254,7 +254,7 @@ export function ProfileModal({
                 label={option.label}
                 onClick={() => {
                   setRole(option.id);
-                  track("challenge_profile_role", { role: option.id });
+                  track("challenge_profile_category", { category: option.id });
                   setStep(1);
                 }}
               />
@@ -331,7 +331,7 @@ export function ProfileModal({
         {/*
           Skips this question only, not both.
 
-          On the first it moves to the second with the department left unset.
+          On the first it moves to the second with the category left unset.
           On the second there is nothing after it, so skipping ends the popup.
           Either way the answer they did give is kept.
         */}

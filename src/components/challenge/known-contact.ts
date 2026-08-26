@@ -19,7 +19,7 @@
  *    writes here instead, and the next sheet form finds it.
  *
  * Deliberately not stored here: anything the reader did not type into a form.
- * Their score, their answers and their department are elsewhere and stay
+ * Their score, their answers and their category are elsewhere and stay
  * elsewhere. This module is only the identity a person handed over.
  */
 

@@ -204,7 +204,7 @@ export const UI = {
   profileSeeAllDays: "See the thirty days",
   profileLevelQuestion: "How much Claude Code have you used?",
   profileGoalQuestion: "What do you want to improve first?",
-  profileRoleQuestion: "Which part of the business are you in?",
+  profileRoleQuestion: "What describes you best?",
   profileStartAt: (day: number) => `Start at Day ${day}.`,
   profileDayLabel: (day: number) => `Day ${day}`,
   profileAnsweredPrefix: "You were pointed at",
