@@ -16,6 +16,10 @@ import type { AnswerKey } from "./progress";
 
 export * from "./types";
 export * from "./progress";
+export {
+  milestoneResourceForDay,
+  skillsPackFor,
+} from "./resources";
 export { PHASES, UI } from "./config";
 export {
   CHALLENGE_ROUTES,

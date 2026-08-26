@@ -248,6 +248,7 @@ export const PHASE_1_DAYS: Day[] = [
   /* ---------------------------------------------------------------- Day 2 */
   {
     day: 2,
+    resource: { id: "second-brain" },
     slug: "day-2",
     title: "Tell it who you are",
     term: "CLAUDE.md",
@@ -1534,6 +1535,7 @@ Do not invent progress. If a client has nothing, say so plainly.`,
   /* --------------------------------------------------------------- Day 10 */
   {
     day: 10,
+    resource: { id: "starter-kit" },
     slug: "day-10",
     title: "Your setup so far",
     phase: 1,

@@ -1511,6 +1511,7 @@ You are probably not in the project root. Check with \`pwd\`.
   /* --------------------------------------------------------------- Day 30 */
   {
     day: 30,
+    resource: { id: "company-kit" },
     slug: "day-30",
     title: "Everything in one place",
     phase: 3,

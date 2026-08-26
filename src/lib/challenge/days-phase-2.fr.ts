@@ -1437,6 +1437,7 @@ modification, dis-le et arrête-toi.`,
   /* --------------------------------------------------------------- Jour 20 */
   {
     day: 20,
+    resource: { id: "workflow-kit" },
     slug: "jour-20",
     title: "Faites-le planifier avant d'agir",
     term: "mode plan",

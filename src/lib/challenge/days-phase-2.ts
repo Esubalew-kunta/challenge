@@ -1361,6 +1361,7 @@ say so and stop.`,
   /* --------------------------------------------------------------- Day 20 */
   {
     day: 20,
+    resource: { id: "workflow-kit" },
     slug: "day-20",
     title: "Make it plan before it acts",
     term: "plan mode",

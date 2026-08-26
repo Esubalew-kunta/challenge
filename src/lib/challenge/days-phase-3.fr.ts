@@ -1614,6 +1614,7 @@ Vous n'êtes probablement pas à la racine du projet. Vérifiez avec \`pwd\`.
   /* --------------------------------------------------------------- Jour 30 */
   {
     day: 30,
+    resource: { id: "company-kit" },
     slug: "jour-30",
     title: "Tout au même endroit",
     phase: 3,

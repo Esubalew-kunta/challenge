@@ -129,6 +129,16 @@ export interface SuccessGate {
  */
 export type DayTool = "cost";
 
+export type MilestoneResourceId =
+  | "second-brain"
+  | "starter-kit"
+  | "workflow-kit"
+  | "company-kit";
+
+export interface ResourceOffer {
+  id: MilestoneResourceId;
+}
+
 export interface Day {
   day: number;
   /** URL segment. `day-1` through `day-30`, so a reader can type one. */
@@ -157,6 +167,8 @@ export interface Day {
   tool?: DayTool;
   /** Short path-specific guidance. Shared lesson content remains above it. */
   pathGuidance?: PathGuidance;
+  /** Static download offered after this lesson. Email handling lives in the UI. */
+  resource?: ResourceOffer;
   /** Names the payoff of the next day, never just its number. */
   nextTeaser: string;
 }

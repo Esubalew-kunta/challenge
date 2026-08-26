@@ -254,6 +254,7 @@ export const PHASE_1_DAYS_FR: Day[] = [
   /* ---------------------------------------------------------------- Jour 2 */
   {
     day: 2,
+    resource: { id: "second-brain" },
     slug: "jour-2",
     title: "Dites-lui qui vous êtes",
     term: "CLAUDE.md",
@@ -1583,6 +1584,7 @@ N'invente pas d'avancement. Si un client n'a rien, dis-le franchement.`,
   /* --------------------------------------------------------------- Jour 10 */
   {
     day: 10,
+    resource: { id: "starter-kit" },
     slug: "jour-10",
     title: "Votre installation jusqu'ici",
     phase: 1,

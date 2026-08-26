@@ -27,6 +27,11 @@ import { DAYS } from "./index";
 import type { Day, Phase } from "./types";
 import type { AnswerKey } from "./progress";
 
+export {
+  milestoneResourceForDay,
+  skillsPackFor,
+} from "./resources";
+
 /** Tous les jours français écrits à ce jour, dans l'ordre. */
 export const DAYS_FR: Day[] = [
   ...PHASE_1_DAYS_FR,
