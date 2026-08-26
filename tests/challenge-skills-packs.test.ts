@@ -50,6 +50,7 @@ test("Developer pack has the same required files in English and French", () => {
     ".claude/skills/safe-change/SKILL.md",
     "EXAMPLES.md",
     "INSTALL.md",
+    "RECOMMENDED-RESOURCES.md",
     "START-HERE.md",
     "TIPS.md",
   ];
@@ -124,6 +125,7 @@ test("Consultant pack turns discovery into scoped proposals and owned actions", 
     ...names.map((name) => `.claude/skills/${name}/SKILL.md`),
     "EXAMPLES.md",
     "INSTALL.md",
+    "RECOMMENDED-RESOURCES.md",
     "START-HERE.md",
     "TIPS.md",
   ].sort();
@@ -170,6 +172,7 @@ test("Operations pack documents, audits, and reports processes with evidence", (
     ...names.map((name) => `.claude/skills/${name}/SKILL.md`),
     "EXAMPLES.md",
     "INSTALL.md",
+    "RECOMMENDED-RESOURCES.md",
     "START-HERE.md",
     "TIPS.md",
   ].sort();
@@ -216,6 +219,7 @@ test("Founder pack validates demand, sharpens decisions, and resets priorities",
     ...names.map((name) => `.claude/skills/${name}/SKILL.md`),
     "EXAMPLES.md",
     "INSTALL.md",
+    "RECOMMENDED-RESOURCES.md",
     "START-HERE.md",
     "TIPS.md",
   ].sort();
@@ -262,6 +266,7 @@ test("Marketing pack plans, repurposes, and reviews work without inventing claim
     ...names.map((name) => `.claude/skills/${name}/SKILL.md`),
     "EXAMPLES.md",
     "INSTALL.md",
+    "RECOMMENDED-RESOURCES.md",
     "START-HERE.md",
     "TIPS.md",
   ].sort();
@@ -298,6 +303,44 @@ test("Marketing pack plans, repurposes, and reviews work without inventing claim
   }
 });
 
+test("trusted guides are reviewed and recommendations stay category specific", () => {
+  const approvedUrls = [
+    "https://github.com/anthropics/skills",
+    "https://github.com/garrytan/gstack",
+    "https://github.com/hesreallyhim/awesome-claude-code",
+    "https://github.com/obra/superpowers",
+    "https://github.com/vercel-labs/agent-skills",
+    "https://github.com/wshobson/agents",
+  ];
+  const recommendations = {
+    developer: [/plan-eng-review/i, /code review/i, /React best practices/i],
+    consultant: [/office-hours/i, /design consultation/i, /document/i],
+    operations: [/guard/i, /health/i, /investigation/i],
+    founder: [/office-hours/i, /CEO review/i, /writing guidelines/i],
+    marketing: [/design consultation/i, /design review/i, /web design guidelines/i],
+  } as const;
+
+  for (const locale of ["en", "fr"] as const) {
+    const sharedGuide = readFileSync(
+      path.join(SOURCE_ROOT, locale, "shared", "VERIFIED-RESOURCES.md"),
+      "utf8",
+    );
+    const urls = [...sharedGuide.matchAll(/https:\/\/[^\s)]+/g)]
+      .map((match) => match[0])
+      .sort();
+
+    assert.deepEqual(urls, approvedUrls);
+    assert.match(sharedGuide, /26 August 2026|26 août 2026/i);
+    assert.match(sharedGuide, /not permanent|pas permanente/i);
+    assert.match(sharedGuide, /inspect|inspecter/i);
+
+    for (const category of Object.keys(recommendations) as Array<keyof typeof recommendations>) {
+      const guide = source(locale, category, "RECOMMENDED-RESOURCES.md");
+      for (const pattern of recommendations[category]) assert.match(guide, pattern);
+    }
+  }
+});
+
 test("all category packs are isolated, static, safe, and reader friendly", () => {
   const categories = [
     "developer",
@@ -316,7 +359,7 @@ test("all category packs are isolated, static, safe, and reader friendly", () =>
       const files = filesUnder(root);
       const skillFiles = files.filter((file) => file.endsWith("/SKILL.md"));
 
-      assert.equal(files.length, 7, `${locale}/${category} has unexpected files`);
+      assert.equal(files.length, 8, `${locale}/${category} has unexpected files`);
       assert.equal(skillFiles.length, 3, `${locale}/${category} must have three skills`);
       assert.equal(files.some((file) => unsafeExtension.test(file)), false);
       assert.equal(files.some((file) => /(?:^|\/)hooks?(?:\/|$)/i.test(file)), false);
