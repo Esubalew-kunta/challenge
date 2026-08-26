@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * The reader's two answers, read from and written to their own browser.
+ * The reader's role, level, and goal, read from and written to their own browser.
  *
  * Same shape as `use-progress.ts` and for the same reasons: the rules stay
  * pure in `lib/challenge/profile.ts`, this stays thin, and the server snapshot
@@ -18,6 +18,8 @@ import { readStored, useStored, writeStored } from "./use-stored";
 import {
   parseProfile,
   serialiseProfile,
+  type ChallengeGoal,
+  type ChallengePath,
   type ClaudeLevel,
   type Department,
   type ProfileState,
@@ -26,17 +28,17 @@ import {
 /**
  * Namespaced so it cannot collide with anything else the site stores.
  *
- * v2 because the second question changed from a job role to a department, and
- * the two sets of answers do not map onto each other. Bumping the key means an
- * early tester is asked once more rather than carrying an answer that no longer
- * means anything.
+ * v3 adds the reader's goal and recommended learning path. Bumping the key means
+ * an early tester is asked once more rather than carrying an incomplete profile.
  */
-export const PROFILE_KEY = "aim.challenge.profile.v2";
+export const PROFILE_KEY = "aim.challenge.profile.v3";
 
 export function useProfile(): {
   profile: ProfileState;
   setLevel: (level: ClaudeLevel) => void;
   setRole: (role: Department) => void;
+  setGoal: (goal: ChallengeGoal) => void;
+  setPath: (path: ChallengePath) => void;
   dismiss: () => void;
   reopen: () => void;
 } {
@@ -59,12 +61,14 @@ export function useProfile(): {
     [patch],
   );
   const setRole = useCallback((role: Department) => patch({ role }), [patch]);
+  const setGoal = useCallback((goal: ChallengeGoal) => patch({ goal }), [patch]);
+  const setPath = useCallback((path: ChallengePath) => patch({ path }), [patch]);
   const dismiss = useCallback(() => patch({ dismissed: true }), [patch]);
   const reopen = useCallback(
     () => patch({ dismissed: false, level: null }),
     [patch],
   );
 
-  return { profile, setLevel, setRole, dismiss, reopen };
+  return { profile, setLevel, setRole, setGoal, setPath, dismiss, reopen };
 }
 

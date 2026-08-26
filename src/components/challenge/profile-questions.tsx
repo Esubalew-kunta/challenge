@@ -20,7 +20,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { uiFor, baseFor } from "@/lib/challenge/locale";
 import { dayByNumberIn, dayHrefIn } from "@/lib/challenge/nav";
-import { levelOptionIn, shouldAsk } from "@/lib/challenge/profile";
+import { levelOptionIn, pathOptionsFor, shouldAsk } from "@/lib/challenge/profile";
 import type { ChallengeLocale } from "@/lib/challenge/types";
 import { useHydrated } from "./use-stored";
 import { useProfile } from "./use-profile";
@@ -32,7 +32,7 @@ export function ProfileQuestions({
 }) {
   const UI = uiFor(locale);
   const hydrated = useHydrated();
-  const { profile, reopen } = useProfile();
+  const { profile, setPath, reopen } = useProfile();
 
   // Not on the server, and not while the popup is doing the asking.
   if (!hydrated || shouldAsk(profile)) return null;
@@ -66,6 +66,23 @@ export function ProfileQuestions({
       >
         {UI.profileChange}
       </button>
+      <span className="basis-full border-t border-dashed border-border pt-2 text-[0.75rem]">
+        {pathOptionsFor(locale).map((option) => (
+          <button
+            key={option.id}
+            type="button"
+            aria-pressed={profile.path === option.id}
+            onClick={() => setPath(option.id)}
+            className={`mr-2 rounded-sm px-2 py-1 font-semibold transition-colors ${
+              profile.path === option.id
+                ? "bg-accent text-primary-dark"
+                : "text-muted-foreground underline underline-offset-2 hover:text-foreground"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </span>
     </div>
   );
 }

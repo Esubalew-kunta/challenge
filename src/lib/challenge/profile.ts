@@ -1,5 +1,5 @@
 /**
- * The two questions asked before the reader starts, and what they buy.
+ * The optional questions asked before the reader starts, and what they buy.
  *
  * `claude_code_leads` has had a `role` and a `claude_level` column since the
  * table was created and both have been null on every single row, because
@@ -24,6 +24,13 @@
 
 /** How much Claude Code the reader has actually used. */
 export type ClaudeLevel = "new" | "some" | "daily";
+export type ChallengePath = "beginner" | "builder";
+export type ChallengeGoal =
+  | "save-time"
+  | "automate-work"
+  | "build-software"
+  | "organise-knowledge"
+  | "improve-team-work";
 
 /**
  * Which part of the business they sit in.
@@ -49,6 +56,49 @@ export interface LevelOption {
 export interface RoleOption {
   id: Department;
   label: string;
+}
+
+export interface GoalOption {
+  id: ChallengeGoal;
+  label: string;
+}
+
+export const GOAL_OPTIONS: GoalOption[] = [
+  { id: "save-time", label: "Save time" },
+  { id: "automate-work", label: "Automate work" },
+  { id: "build-software", label: "Build software" },
+  { id: "organise-knowledge", label: "Organise knowledge" },
+  { id: "improve-team-work", label: "Improve team work" },
+];
+
+export const GOAL_OPTIONS_FR: GoalOption[] = [
+  { id: "save-time", label: "Gagner du temps" },
+  { id: "automate-work", label: "Automatiser le travail" },
+  { id: "build-software", label: "Créer des logiciels" },
+  { id: "organise-knowledge", label: "Organiser les connaissances" },
+  { id: "improve-team-work", label: "Améliorer le travail d'équipe" },
+];
+
+export const PATH_OPTIONS: Array<{ id: ChallengePath; label: string }> = [
+  { id: "beginner", label: "Beginner path" },
+  { id: "builder", label: "Builder path" },
+];
+
+export const PATH_OPTIONS_FR: Array<{ id: ChallengePath; label: string }> = [
+  { id: "beginner", label: "Parcours débutant" },
+  { id: "builder", label: "Parcours builder" },
+];
+
+export function goalOptionsFor(locale: "en" | "fr"): GoalOption[] {
+  return locale === "fr" ? GOAL_OPTIONS_FR : GOAL_OPTIONS;
+}
+
+export function pathOptionsFor(locale: "en" | "fr") {
+  return locale === "fr" ? PATH_OPTIONS_FR : PATH_OPTIONS;
+}
+
+export function pathForLevel(level: ClaudeLevel | null): ChallengePath {
+  return level === "daily" ? "builder" : "beginner";
 }
 
 /**
@@ -157,21 +207,27 @@ export function levelOptionIn(
  * which is how a polite question turns into a nag.
  */
 export interface ProfileState {
-  v: 1;
+  v: 3;
   level: ClaudeLevel | null;
   role: Department | null;
+  goal: ChallengeGoal | null;
+  path: ChallengePath;
   dismissed: boolean;
 }
 
 export const EMPTY_PROFILE: ProfileState = {
-  v: 1,
+  v: 3,
   level: null,
   role: null,
+  goal: null,
+  path: "beginner",
   dismissed: false,
 };
 
 const LEVEL_IDS = new Set<string>(LEVEL_OPTIONS.map((o) => o.id));
 const ROLE_IDS = new Set<string>(ROLE_OPTIONS.map((o) => o.id));
+const GOAL_IDS = new Set<string>(GOAL_OPTIONS.map((o) => o.id));
+const PATH_IDS = new Set<string>(PATH_OPTIONS.map((o) => o.id));
 
 /** Anything unexpected returns an empty profile, never an error. */
 export function parseProfile(raw: string | null | undefined): ProfileState {
@@ -180,15 +236,27 @@ export function parseProfile(raw: string | null | undefined): ProfileState {
     const parsed = JSON.parse(raw) as unknown;
     if (typeof parsed !== "object" || parsed === null) return EMPTY_PROFILE;
     const p = parsed as Partial<ProfileState>;
-    if (p.v !== 1) return EMPTY_PROFILE;
+    if (p.v !== 3) return EMPTY_PROFILE;
     return {
-      v: 1,
+      v: 3,
       level:
         typeof p.level === "string" && LEVEL_IDS.has(p.level)
           ? (p.level as ClaudeLevel)
           : null,
       role:
         typeof p.role === "string" && ROLE_IDS.has(p.role) ? (p.role as Department) : null,
+      goal:
+        typeof p.goal === "string" && GOAL_IDS.has(p.goal)
+          ? (p.goal as ChallengeGoal)
+          : null,
+      path:
+        typeof p.path === "string" && PATH_IDS.has(p.path)
+          ? (p.path as ChallengePath)
+          : pathForLevel(
+              typeof p.level === "string" && LEVEL_IDS.has(p.level)
+                ? (p.level as ClaudeLevel)
+                : null,
+            ),
       dismissed: p.dismissed === true,
     };
   } catch {

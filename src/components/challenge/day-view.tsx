@@ -25,6 +25,7 @@ import { CodeBlock } from "./code-block";
 import { CostTool } from "./cost-tool";
 import { DayStatus } from "./day-status";
 import { PlatformTabs } from "./platform-tabs";
+import { PathGuidance } from "./path-guidance";
 import { Quiz } from "./quiz";
 import { RichText, Paragraphs } from "./rich-text";
 import { SheetOffer } from "./sheet-offer";
@@ -217,6 +218,8 @@ export function DayView({
           </span>
         </div>
       </ScrollReveal>
+
+      <PathGuidance day={day} locale={locale} />
 
       {/* Why */}
       <ScrollReveal className="mt-10">

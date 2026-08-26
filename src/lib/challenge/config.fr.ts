@@ -192,12 +192,13 @@ export const UI_FR = {
   profileTag: "Avant de commencer",
   profileTitle: "Trente jours, c'est beaucoup. Lesquels vous faut-il ?",
   profileBody:
-    "Deux clics. Rien n'est envoyé nulle part, et vous pouvez fermer.",
+    "Trois questions rapides. Rien n'est envoyé nulle part, et vous pouvez fermer.",
   profileStepOf: (i: number, total: number) => `Question ${i} sur ${total}`,
   profileDoneTitle: "Voilà par où commencer",
   profileSkipStep: "Passer cette question",
   profileSeeAllDays: "Voir les trente jours",
   profileLevelQuestion: "Vous avez utilisé Claude Code à quel point ?",
+  profileGoalQuestion: "Qu'aimeriez-vous améliorer en premier ?",
   profileRoleQuestion: "Vous êtes dans quel service ?",
   profileStartAt: (day: number) => `Commencez au jour ${day}.`,
   profileDayLabel: (day: number) => `jour ${day}`,
@@ -208,6 +209,8 @@ export const UI_FR = {
   profileSkip: "Fermer",
   profileFineprint:
     "Les réponses restent dans ce navigateur. Elles ne partent que si vous demandez une fiche plus tard.",
+  pathGuidanceLabel: (path: "beginner" | "builder"): string =>
+    path === "beginner" ? "Votre parcours débutant" : "Votre parcours builder",
 
   /* --------------------------------------------------------- fiche méritée */
 

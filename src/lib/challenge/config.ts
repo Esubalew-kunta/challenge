@@ -197,12 +197,13 @@ export const UI = {
   profileTag: "Before you start",
   profileTitle: "Thirty days is a lot. Which of them do you need?",
   profileBody:
-    "Two taps. Nothing is sent anywhere, and you can close this.",
+    "Three quick questions. Nothing is sent anywhere, and you can close this.",
   profileStepOf: (i: number, total: number) => `Question ${i} of ${total}`,
   profileDoneTitle: "Here is where to start",
   profileSkipStep: "Skip this question",
   profileSeeAllDays: "See the thirty days",
   profileLevelQuestion: "How much Claude Code have you used?",
+  profileGoalQuestion: "What do you want to improve first?",
   profileRoleQuestion: "Which part of the business are you in?",
   profileStartAt: (day: number) => `Start at Day ${day}.`,
   profileDayLabel: (day: number) => `Day ${day}`,
@@ -212,6 +213,8 @@ export const UI = {
   profileSkip: "Close this",
   profileFineprint:
     "Answers stay in this browser. They only travel if you later ask for a sheet.",
+  pathGuidanceLabel: (path: "beginner" | "builder"): string =>
+    path === "beginner" ? "Your Beginner path" : "Your Builder path",
 
   /* --------------------------------------------------------- earned sheet */
 

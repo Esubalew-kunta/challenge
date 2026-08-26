@@ -68,6 +68,12 @@ export interface Win {
   after: string[];
 }
 
+/** Optional instructions shown only to the reader's selected learning path. */
+export interface PathGuidance {
+  beginner: string[];
+  builder: string[];
+}
+
 /**
  * A multiple-choice question. The reader commits to an answer before seeing
  * anything, which is the whole point: a "show answer" button lets people skip
@@ -149,6 +155,8 @@ export interface Day {
   gate?: SuccessGate;
   /** Shown under the three sections, before "Do this now". */
   tool?: DayTool;
+  /** Short path-specific guidance. Shared lesson content remains above it. */
+  pathGuidance?: PathGuidance;
   /** Names the payoff of the next day, never just its number. */
   nextTeaser: string;
 }

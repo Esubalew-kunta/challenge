@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Two questions, one at a time, the first time somebody opens the course.
+ * Three questions, one at a time, the first time somebody opens the course.
  *
  * It appears on the index only, and only once. Answering it or closing it are
  * both permanent, so nobody is asked twice. Every lesson stays open the whole
@@ -9,9 +9,9 @@
  * box, because a popup with only one way out is the kind people learn to hate.
  *
  * The order is deliberate. The department question is ours, and it is asked
- * first while the reader still has the patience for it. The level question is
- * theirs, and it is asked second so the last thing that happens is the popup
- * giving something back: a day number and the reason for it.
+ * first while the reader still has the patience for it. The level and goal
+ * questions make the recommendation more useful before the popup gives
+ * something back: a day number and the reason for it.
  *
  * It renders nothing until the browser has hydrated. Storage is empty on the
  * server, so without that guard every prerendered page would ship with an open
@@ -27,6 +27,8 @@ import { uiFor } from "@/lib/challenge/locale";
 import {
   levelOptionIn,
   levelOptionsFor,
+  goalOptionsFor,
+  pathForLevel,
   roleOptionsFor,
   shouldAsk,
 } from "@/lib/challenge/profile";
@@ -34,7 +36,7 @@ import type { ChallengeLocale } from "@/lib/challenge/types";
 import { useHydrated } from "./use-stored";
 import { useProfile } from "./use-profile";
 
-const TOTAL_STEPS = 2;
+const TOTAL_STEPS = 3;
 
 /** Breathing room between the popup and the cookie banner under it. */
 const BANNER_GAP = 16;
@@ -58,7 +60,7 @@ export function ProfileModal({
 }) {
   const UI = uiFor(locale);
   const hydrated = useHydrated();
-  const { profile, setLevel, setRole, dismiss } = useProfile();
+  const { profile, setLevel, setRole, setGoal, setPath, dismiss } = useProfile();
   const panelRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -68,7 +70,7 @@ export function ProfileModal({
    * tab has told us their department and nothing else, and that is a complete
    * answer rather than a half finished form to resume.
    */
-  const [step, setStep] = useState<0 | 1 | 2>(0);
+  const [step, setStep] = useState<0 | 1 | 2 | 3>(0);
 
   /**
    * How tall the cookie banner is right now, or 0 when it is not on screen.
@@ -93,7 +95,7 @@ export function ProfileModal({
    *
    * Needed because the result step keeps the popup open on its own. Without
    * this, pressing See the thirty days marked the answers as done but left the
-   * box sitting there, since `step === 2` was still true. It only disappeared
+   * box sitting there, since the final step was still true. It only disappeared
    * on the next page load. Caught by clicking the button in a browser.
    */
   const [hidden, setHidden] = useState(false);
@@ -103,11 +105,11 @@ export function ProfileModal({
    *
    * That second half is not optional. `shouldAsk` goes false the instant the
    * level is answered, which is the same instant the answer becomes available,
-   * so without `step === 2` the popup vanishes on the last click and the reader
+   * so without keeping the final step open the popup vanishes on the last click and the reader
    * never sees the day number they just earned. Found by clicking through it in
    * a real browser rather than by reading it.
    */
-  const open = hydrated && !hidden && (shouldAsk(profile) || step === 2);
+  const open = hydrated && !hidden && (shouldAsk(profile) || step === 3);
 
   // Measured only while the popup is up, which is once in a reader's life. The
   // observer catches the banner mounting a tick after this effect runs, which
@@ -165,7 +167,13 @@ export function ProfileModal({
       track("challenge_profile_skipped", { question: "department" });
       return;
     }
-    track("challenge_profile_skipped", { question: "level" });
+    if (step === 1) {
+      track("challenge_profile_skipped", { question: "level" });
+      dismiss();
+      setHidden(true);
+      return;
+    }
+    track("challenge_profile_skipped", { question: "goal" });
     dismiss();
     setHidden(true);
   }, [step, dismiss]);
@@ -232,6 +240,8 @@ export function ProfileModal({
               ? UI.profileRoleQuestion
               : step === 1
                 ? UI.profileLevelQuestion
+                : step === 2
+                  ? UI.profileGoalQuestion
                 : UI.profileDoneTitle}
           </h2>
         </div>
@@ -260,6 +270,7 @@ export function ProfileModal({
                 label={option.label}
                 onClick={() => {
                   setLevel(option.id);
+                  setPath(pathForLevel(option.id));
                   track("challenge_profile_level", { level: option.id });
                   setStep(2);
                 }}
@@ -268,7 +279,23 @@ export function ProfileModal({
           </div>
         ) : null}
 
-        {step === 2 && chosen ? (
+        {step === 2 ? (
+          <div className="grid gap-2">
+            {goalOptionsFor(locale).map((option) => (
+              <Choice
+                key={option.id}
+                label={option.label}
+                onClick={() => {
+                  setGoal(option.id);
+                  track("challenge_profile_goal", { goal: option.id });
+                  setStep(3);
+                }}
+              />
+            ))}
+          </div>
+        ) : null}
+
+        {step === 3 && chosen ? (
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2 rounded-md bg-accent px-4 py-3.5">
               <p className="text-[0.9375rem] font-semibold text-primary-dark">
@@ -298,7 +325,7 @@ export function ProfileModal({
         ) : null}
 
         <p className="text-[0.8125rem] text-muted-foreground">
-          {step === 2 ? UI.profileFineprint : UI.profileBody}
+          {step === 3 ? UI.profileFineprint : UI.profileBody}
         </p>
 
         {/*
@@ -321,6 +348,3 @@ export function ProfileModal({
     </div>
   );
 }
-
-
-
