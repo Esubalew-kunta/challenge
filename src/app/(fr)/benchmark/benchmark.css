@@ -337,6 +337,40 @@
 .bm-root .privacy:hover { color: var(--text-2); }
 .bm-root .privacy b { color: var(--text); }
 
+/* ---------- onboarding centré ----------
+
+   Écart assumé avec l'artefact, demandé par le propriétaire le 28 août : la
+   carte d'onboarding centre son contenu, l'artefact l'aligne à gauche.
+
+   La carte est un dialogue posé au milieu de l'écran, avec une seule question à
+   la fois. Alignés à gauche dans une carte centrée, le titre et sa précision
+   flottaient contre le bord, et sur l'étape 5 la rangée de pastilles finissait
+   en escalier.
+
+   Aucune de ces déclarations ne remplace une valeur de l'artefact : ce sont des
+   ajouts, donc `check-benchmark-css.mjs` ne les voit pas. Elles sont écrites
+   ici, groupées et datées, précisément pour que la divergence reste lisible
+   sans lui.
+
+   Deux exceptions gardent leur alignement à gauche, et c'est volontaire :
+   les cartes de track, qui empilent quatre lignes de nature différente et se
+   liraient mal centrées, et le message d'erreur, qui doit rester sous le champ
+   qu'il commente. */
+
+.bm-root .form-step { text-align: center; }
+/* Le bouton retour et le compteur restent côte à côte : ils se lisent comme
+   une paire, et centrer la paire vaut mieux que d'ancrer la flèche au bord
+   d'une carte dont tout le reste est centré. */
+.bm-root .step-head { justify-content: center; }
+/* `max-width` sans marge automatique centre le texte mais laisse le bloc à
+   gauche. Les deux vont ensemble. */
+.bm-root .form-step .hint { margin-inline: auto; }
+.bm-root .privacy { margin-inline: auto; }
+.bm-root .roles { justify-content: center; }
+.bm-root .form-actions { justify-content: center; }
+.bm-root .field input { text-align: center; }
+.bm-root .track { text-align: left; }
+
 /* ---------- cartes de track ---------- */
 
 .bm-root .tracks { display: grid; gap: 12px; margin: 30px 0 0; }
