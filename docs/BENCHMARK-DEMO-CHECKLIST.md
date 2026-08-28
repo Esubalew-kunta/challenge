@@ -1,8 +1,14 @@
 # Le Benchmark des Makers, checklist de démo
 
-**Adresse : http://localhost:3000/benchmark**
+## **En ligne : https://challenge-nine-ochre.vercel.app/benchmark**
 
-Si le serveur ne tourne pas :
+Dans la navigation : **Ressources -> Le Benchmark des Makers**, à la place
+de « Claude Code en 30 jours ». Même entrée dans le pied de page.
+
+**La page est en `noindex`.** Le lien s'ouvre pour qui l'a, Google ne
+l'indexe pas. À retirer le jour du lancement public, pas avant.
+
+En local si besoin :
 
 ```
 cd "c:\Users\Esubalew\Desktop\aimakers\tasks\30 days claude challenge\ai-m-website-v2-main"
