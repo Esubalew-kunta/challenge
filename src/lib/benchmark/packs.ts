@@ -4,21 +4,25 @@
  * **Le téléchargement n'est pas conditionné au score.** Finir suffit : quelqu'un
  * qui sort en débutant est précisément celui à qui le pack sert le plus.
  *
- * Les quatre fichiers de `public/benchmark/` sont pour l'instant des **fichiers
- * de remplacement**, une page qui dit qu'elle en est un. Ils existent pour que
- * le bouton soit branché, cliquable et testable avant que le contenu réel
- * arrive. Le vrai pack se dépose sous le même nom et rien d'autre ne bouge.
+ * **Les fichiers ne sont pas dans le dépôt.** Ils vivent dans un bucket privé
+ * Supabase, `benchmark-packs`, et la route `/api/benchmark-pack` en signe l'accès
+ * pour quelques minutes. Trois raisons, dans cet ordre :
  *
- * Une entrée à `href: null` fait disparaître le bouton plutôt que de proposer un
- * téléchargement en erreur : c'est le comportement à garder si un track perd son
- * fichier.
+ * 1. Ce sont des archives de plusieurs centaines de kilo-octets qui changeront à
+ *    chaque skill ajoutée. Un dépôt Git n'oublie jamais une version binaire.
+ * 2. Un bucket privé rend le lien inutilisable une fois expiré : le pack se
+ *    donne à qui a terminé un parcours, pas à qui devine une URL.
+ * 3. Mettre à jour un pack devient un envoi de fichier, pas un déploiement.
+ *
+ * Ce fichier ne décrit donc plus un chemin public mais un **objet de stockage**.
+ * La route est seule à savoir le transformer en lien.
  */
 
 import type { TrackId } from "./types.ts";
 
 export type Pack = {
-  /** Chemin servi par le site. `null` fait disparaître le bouton. */
-  href: string | null;
+  /** Nom de l'objet dans le bucket `benchmark-packs`. */
+  object: string;
   /** Nom du fichier proposé au téléchargement, celui que le lecteur verra. */
   filename: string;
   /** Vrai tant que le fichier est un remplaçant et non le vrai pack. */
@@ -28,39 +32,52 @@ export type Pack = {
 /**
  * Le bouton est-il actif ?
  *
- * Non, décision du 28 août : les fichiers en place ne sont que des
- * remplaçants, et livrer un vrai clic qui rend une page vide vaut moins qu'un
- * bouton visiblement inactif. Il s'affiche donc désactivé, et cette seule ligne
- * passe à `true` le jour où les quatre packs sont déposés.
+ * Oui depuis le 28 août : les quatre archives sont en place, chacune avec ses
+ * skills, son `INSTRUCTIONS.md` et sa liste de ressources en PDF. Ce drapeau
+ * reste parce qu'il coûte une ligne et qu'il éteint le bouton proprement le jour
+ * où le stockage est indisponible ou un pack retiré.
  */
-export const PACKS_ENABLED = false;
+export const PACKS_ENABLED = true;
+
+/** Le bucket privé qui porte les archives. */
+export const PACKS_BUCKET = "benchmark-packs";
+
+/** Durée de validité d'un lien signé. Assez pour cliquer et télécharger, trop
+ *  peu pour être partagé comme une adresse permanente. */
+export const PACK_LINK_TTL_SECONDS = 300;
 
 export const PACKS: Record<TrackId, Pack> = {
   growth: {
-    href: "/benchmark/growth.pdf",
-    filename: "benchmark-pack-marketing-growth.pdf",
-    placeholder: true,
+    object: "pack-growth.zip",
+    filename: "benchmark-pack-marketing-growth.zip",
+    placeholder: false,
   },
   eng: {
-    href: "/benchmark/eng.pdf",
-    filename: "benchmark-pack-engineering-tech.pdf",
-    placeholder: true,
+    object: "pack-eng.zip",
+    filename: "benchmark-pack-engineering-tech.zip",
+    placeholder: false,
   },
   ops: {
-    href: "/benchmark/ops.pdf",
-    filename: "benchmark-pack-process-ops.pdf",
-    placeholder: true,
+    object: "pack-ops.zip",
+    filename: "benchmark-pack-process-ops.zip",
+    placeholder: false,
   },
   fin: {
-    href: "/benchmark/fin.pdf",
-    filename: "benchmark-pack-finance-revops.pdf",
-    placeholder: true,
+    object: "pack-fin.zip",
+    filename: "benchmark-pack-finance-revops.zip",
+    placeholder: false,
   },
 };
 
 export function packFor(track: TrackId): Pack | null {
-  const pack = PACKS[track];
-  return pack?.href ? pack : null;
+  return PACKS[track] ?? null;
+}
+
+/** L'adresse du bouton. Le lien signé est fabriqué par la route, à la demande :
+ *  un lien signé rendu dans la page aurait déjà commencé à expirer avant que le
+ *  lecteur ne clique. */
+export function packHref(track: TrackId, runCode: string): string {
+  return `/api/benchmark-pack?track=${track}&run=${encodeURIComponent(runCode)}`;
 }
 
 /** Les tracks dont le pack est encore un fichier de remplacement. Sert au

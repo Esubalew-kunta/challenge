@@ -14,7 +14,7 @@
  */
 
 import { MAX_SCORE, type RunSummary } from "@/lib/benchmark/engine";
-import { PACKS_ENABLED, packFor } from "@/lib/benchmark/packs";
+import { PACKS_ENABLED, packFor, packHref } from "@/lib/benchmark/packs";
 import { BookingCtaButton } from "@/components/shared/booking-modal";
 import type { Board } from "@/lib/benchmark/board";
 import { contentFor } from "@/lib/benchmark/content";
@@ -63,15 +63,10 @@ export function Scorecard({
   const label = tierLabel(tier);
   const pack = packFor(track.id);
 
-  /* Le navigateur suit le lien de son côté. Cet appel ne fait que noter que le
-     pack a été pris, et son échec ne doit rien empêcher. */
-  const recordDownload = () => {
-    void fetch("/api/benchmark-pack", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ runCode: summary.runCode }),
-    }).catch(() => {});
-  };
+  /* Le lien pointe sur notre route, qui note le téléchargement puis redirige
+     vers le fichier. L'ancienne version envoyait la mesure en parallèle sans
+     attendre la réponse : un bloqueur ou un onglet fermé trop vite, et la ligne
+     était perdue. La mesure est maintenant sur le chemin du fichier. */
 
   const linkedInPost = POST_LINKEDIN.replaceAll("{score}", String(summary.score))
     .replaceAll("{NIVEAU}", label.toUpperCase())
@@ -197,15 +192,17 @@ export function Scorecard({
             <Slot k="scorecard.otherTrack" />
           </button>
           {/* Le pack n'est pas conditionné au score : finir suffit. Le bouton
-              n'apparaît que si le fichier existe, parce qu'un téléchargement
+              n'apparaît que si le track a un pack, parce qu'un téléchargement
               qui échoue coûte plus qu'un bouton absent. */}
           {pack &&
             (PACKS_ENABLED ? (
               <a
                 className="btn btn-ghost"
-                href={pack.href ?? "#"}
-                download={pack.filename}
-                onClick={recordDownload}
+                href={packHref(track.id, summary.runCode)}
+                /* Pas d'attribut `download` : la réponse est une redirection
+                   vers un autre domaine, où il n'a aucun effet. Le nom du
+                   fichier est posé par le stockage, en Content-Disposition. */
+                rel="nofollow"
               >
                 <Slot k="scorecard.download" values={{ track: track.name }} />
               </a>
