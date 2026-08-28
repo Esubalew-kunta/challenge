@@ -30,8 +30,11 @@ import {
   type RunSummary,
   type Verdict,
 } from "@/lib/benchmark/engine";
-import { TIER_LABEL, trackById } from "@/lib/benchmark/content";
+import { contentFor, trackById } from "@/lib/benchmark/content";
 import type { Board } from "@/lib/benchmark/board";
+import type { Locale } from "@/lib/i18n";
+import { siteConfig } from "@/lib/site-config";
+import { challengeLink } from "@/lib/benchmark/share";
 import type { DrawnQuestion, TierKey, Track } from "@/lib/benchmark/types";
 import { Landing } from "./landing";
 import { Onboarding, EMPTY_LEAD, type Lead } from "./onboarding";
@@ -41,17 +44,38 @@ import { VerdictModal } from "./verdict-modal";
 import { Scorecard } from "./scorecard";
 import { CorrigeModal } from "./corrige-modal";
 import { Slot } from "./string-slot";
+import { BenchmarkLocaleProvider } from "./locale-context";
 
 type Screen = "landing" | "onboarding" | "quiz" | "result";
-
-const tierLabel = (tier: TierKey) => TIER_LABEL[tier];
 
 /** Ce que porte un lien de défi : qui il faut battre. Lu et validé sur le
  *  serveur, dans `page.tsx`, et passé en prop. Un lien incomplet ou mal formé y
  *  devient `null` et la page d'accueil est celle de tout le monde. */
 export type ChallengeBanner = { nom: string; score: string; niveau: string };
 
-export function BenchmarkApp({ challenge }: { challenge: ChallengeBanner | null }) {
+/**
+ * L'origine des liens partagés.
+ *
+ * Jamais `window.location.origin` : un parcours joué sur localhost produisait
+ * un lien vers localhost, envoyé à quelqu'un pour qui cette adresse ne mène
+ * nulle part. La variable d'environnement existe pour le cas où le Benchmark
+ * vit ailleurs que sur le domaine canonique — c'est vrai aujourd'hui, la page
+ * étant servie depuis un déploiement Vercel avant sa mise en ligne sur
+ * aimakers.fr.
+ */
+const SHARE_BASE =
+  process.env.NEXT_PUBLIC_BENCHMARK_BASE_URL?.trim() || siteConfig.url;
+
+export function BenchmarkApp({
+  challenge,
+  locale,
+}: {
+  challenge: ChallengeBanner | null;
+  locale: Locale;
+}) {
+  const { TIER_LABEL } = contentFor(locale);
+  const tierLabel = (tier: TierKey) => TIER_LABEL[tier];
+
   const [screen, setScreen] = useState<Screen>("landing");
   const [lead, setLead] = useState<Lead>(EMPTY_LEAD);
   const [track, setTrack] = useState<Track | null>(null);
@@ -87,7 +111,7 @@ export function BenchmarkApp({ challenge }: { challenge: ChallengeBanner | null 
   const beginRun = (
     filled: Lead & { trackId: NonNullable<Lead["trackId"]>; role: string },
   ): boolean => {
-    const chosen = trackById(filled.trackId);
+    const chosen = trackById(filled.trackId, locale);
     if (!chosen) {
       console.error(`[BENCHMARK] Track « ${filled.trackId} » sans banque de questions`);
       return false;
@@ -143,7 +167,7 @@ export function BenchmarkApp({ challenge }: { challenge: ChallengeBanner | null 
             correctCount: card.correctCount,
             durationSeconds: card.durationSeconds,
             roundResults: card.roundResults,
-            locale: "fr",
+            locale,
           }),
         });
         if (res.ok) {
@@ -154,7 +178,7 @@ export function BenchmarkApp({ challenge }: { challenge: ChallengeBanner | null 
         // Le classement reste absent, la carte de score reste entière.
       }
     },
-    [],
+    [locale],
   );
 
   const next = () => {
@@ -200,12 +224,19 @@ export function BenchmarkApp({ challenge }: { challenge: ChallengeBanner | null 
     return "question.nextMidRound";
   })();
 
-  const challengeUrl =
-    summary && typeof window !== "undefined"
-      ? `${window.location.origin}/benchmark?defi=${summary.runCode}` +
-        `&nom=${encodeURIComponent(lead.name.trim())}` +
-        `&score=${summary.score}&niveau=${encodeURIComponent(tierLabel(summary.finalTier))}`
-      : "";
+  /* Construit sans toucher à `window` : le lien est le même rendu sur le
+     serveur et dans le navigateur, et il ne dépend plus de l'hôte depuis lequel
+     le parcours a été joué. */
+  const challengeUrl = summary
+    ? challengeLink({
+        base: SHARE_BASE,
+        locale,
+        runCode: summary.runCode,
+        name: lead.name,
+        score: summary.score,
+        tierLabel: tierLabel(summary.finalTier),
+      })
+    : "";
 
   const roundAnswers = run
     ? run.answers.filter((a) => a.round === run.round)
@@ -219,6 +250,7 @@ export function BenchmarkApp({ challenge }: { challenge: ChallengeBanner | null 
     : 0;
 
   return (
+    <BenchmarkLocaleProvider locale={locale}>
     <div className="bm-root">
       {screen === "quiz" && run && track && (
         <StatusBar
@@ -298,5 +330,6 @@ export function BenchmarkApp({ challenge }: { challenge: ChallengeBanner | null 
         {toastKey ? <Slot k={toastKey} /> : null}
       </div>
     </div>
+    </BenchmarkLocaleProvider>
   );
 }

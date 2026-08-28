@@ -3,15 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
-import { alternateFor, type Locale } from "@/lib/i18n";
+import { navigationAlternateFor, type Locale } from "@/lib/i18n";
 
 /**
  * Bascule FR / EN.
  *
- * Une seule source de vérité : `alternateFor()`, qui ne rend une cible que si
- * la page équivalente est PUBLIÉE (`EN_PUBLISHED`). C'est volontaire — une
- * bascule qui mène à un 404 est pire que pas de bascule, et c'est la même
- * garantie que celle qui protège les liens hreflang.
+ * Une seule source de vérité : `navigationAlternateFor()`, qui ne rend une
+ * cible que si la page équivalente EXISTE (`EN_EXISTS`). Une bascule qui mène à
+ * un 404 reste pire que pas de bascule, c'est la raison d'être du contrôle.
+ *
+ * Ce n'est PAS `alternateFor()`, qui lit `EN_PUBLISHED` et sert au hreflang.
+ * Les deux questions se ressemblent et n'ont pas la même réponse : « faut-il
+ * l'annoncer aux moteurs ? » et « le lecteur peut-il y aller ? ». En prenant la
+ * première pour la seconde, la bascule était grisée sur les pages livrées mais
+ * volontairement non indexées — /en/benchmark, /en/ai-playbook,
+ * /en/generative-engine-optimization — alors qu'elles répondaient 200.
  *
  * Quand la traduction n'existe pas encore, la langue absente est affichée
  * DÉSACTIVÉE plutôt que masquée : un bouton qui apparaît et disparaît d'une
@@ -29,7 +35,7 @@ import { alternateFor, type Locale } from "@/lib/i18n";
 export function LanguageSwitcher({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const other: Locale = locale === "fr" ? "en" : "fr";
-  const target = alternateFor(pathname, other);
+  const target = navigationAlternateFor(pathname, other);
 
   const labels: Record<Locale, string> = { fr: "FR", en: "EN" };
   const unavailable =

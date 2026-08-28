@@ -19,7 +19,8 @@ import { useEffect, useRef, useState } from "react";
 import { POINTS, SECONDS_PER_QUESTION } from "@/lib/benchmark/engine";
 import type { AnswerRecord } from "@/lib/benchmark/engine";
 import type { DrawnQuestion, Palier, TierKey } from "@/lib/benchmark/types";
-import { sf } from "@/lib/benchmark/strings.fr";
+import { sf } from "@/lib/benchmark/strings";
+import { useBenchmarkLocale } from "./locale-context";
 import { Slot } from "./string-slot";
 import { SafeMarkup } from "./safe-markup";
 
@@ -105,6 +106,8 @@ export function QuestionScreen({
   onNext,
   nextLabelKey,
 }: Props) {
+  const locale = useBenchmarkLocale();
+
   return (
     <section className="screen">
       <div className="shell quiz-wrap">
@@ -199,12 +202,11 @@ export function QuestionScreen({
         </div>
 
         <p className="sr" role="status" aria-live="polite">
-          {sf("question.liveRegion", {
-            n: round,
-            i: qInRound + 1,
-            niveau: tierLabel,
-            p: palier,
-          })}
+          {sf(
+            "question.liveRegion",
+            { n: round, i: qInRound + 1, niveau: tierLabel, p: palier },
+            locale,
+          )}
         </p>
       </div>
     </section>

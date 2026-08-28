@@ -17,10 +17,11 @@ import { MAX_SCORE, type RunSummary } from "@/lib/benchmark/engine";
 import { PACKS_ENABLED, packFor } from "@/lib/benchmark/packs";
 import { BookingCtaButton } from "@/components/shared/booking-modal";
 import type { Board } from "@/lib/benchmark/board";
-import { DEFI_COLLEGUE, HASHTAGS, POST_LINKEDIN } from "@/lib/benchmark/content";
+import { contentFor } from "@/lib/benchmark/content";
 import type { TierKey, Track } from "@/lib/benchmark/types";
-import { s, sf } from "@/lib/benchmark/strings.fr";
-import { formatTime, rankCounter } from "@/lib/benchmark/format";
+import { s, sf } from "@/lib/benchmark/strings";
+import { useBenchmarkLocale } from "./locale-context";
+import { formatTime, rankCounter, splitRoundLine } from "@/lib/benchmark/format";
 import { Slot } from "./string-slot";
 
 type Props = {
@@ -55,6 +56,8 @@ export function Scorecard({
   onOtherTrack,
   onToast,
 }: Props) {
+  const locale = useBenchmarkLocale();
+  const { POST_LINKEDIN, DEFI_COLLEGUE, HASHTAGS } = contentFor(locale);
   const tier = summary.finalTier;
   const time = formatTime(summary.durationSeconds);
   const label = tierLabel(tier);
@@ -135,14 +138,22 @@ export function Scorecard({
             <div className="breakdown">
               {summary.roundResults.map((r) => {
                 /* Le pack écrit la ligne entière. L'artefact la présente en
-                   deux colonnes, et la coupe tombe sur le tiret cadratin. */
-                const [left, right] = sf("scorecard.roundLine", {
-                  n: r.round,
-                  niveau: tierLabel(r.tier),
-                  p: r.palier,
-                  c: r.correct,
-                  pts: r.points,
-                }).split(" — ");
+                   deux colonnes, et la coupe tombe sur le tiret. Le découpage
+                   est dans `format.ts`, avec son test : un tiret traduit de
+                   travers viderait la colonne de droite en silence. */
+                const [left, right] = splitRoundLine(
+                  sf(
+                    "scorecard.roundLine",
+                    {
+                      n: r.round,
+                      niveau: tierLabel(r.tier),
+                      p: r.palier,
+                      c: r.correct,
+                      pts: r.points,
+                    },
+                    locale,
+                  ),
+                );
 
                 return (
                   <div className="brow" key={r.round}>
@@ -212,7 +223,7 @@ export function Scorecard({
           <Slot k="leaderboard.title" as="h3" />
           {board && board.yourRank !== null && (
             <span className="eyebrow">
-              {rankCounter(board.total, board.yourRank)}
+              {rankCounter(board.total, board.yourRank, locale)}
             </span>
           )}
         </div>
@@ -268,7 +279,7 @@ export function Scorecard({
                 capture de lead quand le visiteur n'est pas déjà connu. Nous
                 avons son nom, son e-mail et son entreprise, pas son téléphone,
                 donc le formulaire du site a encore quelque chose à demander. */}
-            <BookingCtaButton className="btn btn-primary" label={s("closer.cta")} />
+            <BookingCtaButton className="btn btn-primary" label={s("closer.cta", locale)} />
             <button
               type="button"
               className="btn btn-ghost"

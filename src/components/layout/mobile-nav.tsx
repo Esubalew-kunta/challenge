@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, Globe, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { t } from "@/lib/ui-strings";
-import { alternateFor } from "@/lib/i18n";
+import { alternateFor, navigationAlternateFor } from "@/lib/i18n";
 import {
   Sheet,
   SheetContent,
@@ -142,7 +142,7 @@ function MobileLink({
  *
  * Volontairement distincte de `LanguageSwitcher` (en-tête) : celle-ci doit
  * refermer le tiroir en partant, et se dessine en pleine largeur plutôt qu'en
- * pastille. Elle partage l'essentiel, `alternateFor()` — donc la même règle :
+ * pastille. Elle partage l'essentiel, `navigationAlternateFor()` — même règle :
  * pas de lien tant que la page n'est pas publiée dans l'autre langue.
  */
 function MobileLanguageLinks({
@@ -154,7 +154,7 @@ function MobileLanguageLinks({
 }) {
   const pathname = usePathname();
   const other: Locale = locale === "fr" ? "en" : "fr";
-  const target = alternateFor(pathname, other);
+  const target = navigationAlternateFor(pathname, other);
   const labels: Record<Locale, string> = { fr: "Français", en: "English" };
 
   return (

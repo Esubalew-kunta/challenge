@@ -41,6 +41,12 @@ const DELIBERATE = new Set([
   ".verdict-band.is-open",
   ".statusbar",
   ".statusbar.is-visible",
+  // Les cinq règles sont une liste numérotée ici, `ol` et `li`, quand
+  // l'artefact empile cinq paragraphes. Décision du 28 août : le bloc est le
+  // plus gros pavé de la page d'accueil, l'artefact a été dessiné autour d'un
+  // texte anglais plus court, et cinq paragraphes gris de même poids ne se
+  // lisent pas. Le sélecteur `.rules p` n'existe donc plus de ce côté.
+  ".rules p",
   // Renommées `bm-rise` et `bm-flash` : `rise` et `flash` sont des noms trop
   // courants pour être posés dans une feuille partagée par tout le site.
   "@keyframes rise",
@@ -69,6 +75,12 @@ const APPROVED_OVERRIDES = [
     reason:
       "« ROUND 1 · INTERMÉDIAIRE · PALIER 1 » ne tient pas dans les 250 px où « Round 1 · Intermediate » tenait",
   },
+  ...["padding", "gap"].map((property) => ({
+    selector: ".rules",
+    property,
+    reason:
+      "bloc des cinq règles resserré et numéroté : c'est le plus gros pavé de la page d'accueil, et le français y tient plus de place que l'anglais de la référence",
+  })),
   ...["padding", "background", "font-size", "color"].map((property) => ({
     selector: ".privacy",
     property,

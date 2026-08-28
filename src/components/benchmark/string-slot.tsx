@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Un emplacement de chaîne.
  *
@@ -9,7 +11,8 @@
  * validé.
  */
 
-import { isDraft, s, sf } from "@/lib/benchmark/strings.fr";
+import { isDraft, s, sf } from "@/lib/benchmark/strings";
+import { useBenchmarkLocale } from "./locale-context";
 
 const inDevelopment = process.env.NODE_ENV !== "production";
 
@@ -26,7 +29,7 @@ const showDraftMarks =
   inDevelopment && process.env.NEXT_PUBLIC_BENCHMARK_SHOW_DRAFTS === "1";
 
 type SlotProps = {
-  /** Clé dans STRINGS_FR. */
+  /** Clé dans la table de la langue courante. Les deux portent les mêmes. */
   k: string;
   /** Valeurs injectées pour les {jetons} du gabarit. */
   values?: Record<string, string | number>;
@@ -39,14 +42,15 @@ type SlotProps = {
 };
 
 export function Slot({ k, values, className, tabIndex, as: Tag = "span" }: SlotProps) {
-  const text = values ? sf(k, values) : s(k);
+  const locale = useBenchmarkLocale();
+  const text = values ? sf(k, values, locale) : s(k, locale);
   const missing = text.startsWith("⟦") && text.endsWith("⟧");
 
   // Une chaîne provisoire se lit exactement comme une chaîne validée. C'est
   // tout le risque, donc elle se signale, en développement uniquement.
   const marker = missing
     ? "bm-slot-missing"
-    : showDraftMarks && isDraft(k)
+    : showDraftMarks && isDraft(k, locale)
       ? "bm-slot-draft"
       : "";
 
@@ -54,7 +58,7 @@ export function Slot({ k, values, className, tabIndex, as: Tag = "span" }: SlotP
     <Tag
       tabIndex={tabIndex}
       className={[marker, className].filter(Boolean).join(" ") || undefined}
-      title={showDraftMarks && isDraft(k) ? `provisoire : ${k}` : undefined}
+      title={showDraftMarks && isDraft(k, locale) ? `provisoire : ${k}` : undefined}
     >
       {text}
     </Tag>

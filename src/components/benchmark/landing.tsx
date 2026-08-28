@@ -53,11 +53,16 @@ export function Landing({ onStart, challenge }: Props) {
           ))}
         </dl>
 
-        <div className="rules">
+        {/* Une liste numérotée, là où l'artefact empile cinq paragraphes.
+            Cinq blocs gris de même poids ne se lisent pas : rien ne dit où une
+            règle finit et où la suivante commence, et le français les rend plus
+            longues que l'anglais autour duquel l'artefact a été dessiné. Les
+            numéros sont posés par CSS, donc aucune chaîne n'est inventée ici. */}
+        <ol className="rules">
           {RULES.map((n) => (
-            <Slot key={n} k={`landing.rule${n}`} as="p" />
+            <Slot key={n} k={`landing.rule${n}`} as="li" />
           ))}
-        </div>
+        </ol>
 
         <div className="intro-cta">
           <button type="button" className="btn btn-primary" onClick={onStart}>

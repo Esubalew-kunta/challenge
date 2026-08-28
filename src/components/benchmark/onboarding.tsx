@@ -17,9 +17,10 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { ROLES, TRACKS } from "@/lib/benchmark/content";
+import { contentFor } from "@/lib/benchmark/content";
 import type { TrackId } from "@/lib/benchmark/types";
-import { s } from "@/lib/benchmark/strings.fr";
+import { s } from "@/lib/benchmark/strings";
+import { useBenchmarkLocale } from "./locale-context";
 import { Slot } from "./string-slot";
 
 export type Lead = {
@@ -45,12 +46,14 @@ const STEPS = 5;
 const PLAUSIBLE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function BackButton({ onClick }: { onClick: () => void }) {
+  const locale = useBenchmarkLocale();
+
   return (
     <button
       type="button"
       className="backbtn"
       onClick={onClick}
-      aria-label={s("onboarding.back")}
+      aria-label={s("onboarding.back", locale)}
     >
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M15 5l-7 7 7 7" />
@@ -69,6 +72,8 @@ type Props = {
 };
 
 export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
+  const locale = useBenchmarkLocale();
+  const { TRACKS, ROLES } = contentFor(locale);
   const [step, setStep] = useState(0);
   const currentTrack = TRACKS.find((track) => track.id === lead.trackId);
   const [error, setError] = useState<string | null>(null);
@@ -91,10 +96,10 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
   };
 
   const forward = () => {
-    if (step === 0 && !lead.name.trim()) return setError(s("onboarding.step1.error"));
+    if (step === 0 && !lead.name.trim()) return setError(s("onboarding.step1.error", locale));
     if (step === 1 && !PLAUSIBLE_EMAIL.test(lead.email.trim()))
-      return setError(s("onboarding.step2.error"));
-    if (step === 2 && !lead.company.trim()) return setError(s("onboarding.step3.error"));
+      return setError(s("onboarding.step2.error", locale));
+    if (step === 2 && !lead.company.trim()) return setError(s("onboarding.step3.error", locale));
     goTo(step + 1);
   };
 
@@ -105,7 +110,7 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
 
   const chooseRole = (role: string) => {
     if (!lead.trackId) {
-      setError(s("onboarding.step4.error"));
+      setError(s("onboarding.step4.error", locale));
       setStep(3);
       return;
     }
@@ -114,7 +119,7 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
     // exception qui remonte jusqu'à React.
     if (!onStartRun({ ...lead, role, trackId: lead.trackId })) {
       onChange({ ...lead, trackId: null, role: null });
-      setError(s("onboarding.step4.error"));
+      setError(s("onboarding.step4.error", locale));
       setStep(3);
     }
   };
@@ -131,7 +136,7 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
         value={lead[key]}
         autoComplete={autoComplete}
         enterKeyHint="next"
-        placeholder={s(`onboarding.step${step + 1}.placeholder`)}
+        placeholder={s(`onboarding.step${step + 1}.placeholder`, locale)}
         onChange={(e) => onChange({ ...lead, [key]: e.target.value })}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
