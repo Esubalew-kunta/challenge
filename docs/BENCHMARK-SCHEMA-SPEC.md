@@ -209,8 +209,10 @@ pris, pas combien de fois la même personne a cliqué.
 Aucune nouvelle. La route réutilise `SUPABASE_URL` et
 `SUPABASE_SERVICE_ROLE_KEY`, déjà nécessaires au challenge.
 
-Une seule s'ajoute, et seulement pour un déploiement : tant qu'une chaîne
-provisoire n'est pas validée, la construction de production refuse de compiler.
-`BENCHMARK_ALLOW_DRAFT_STRINGS=1` lève ce refus. C'est délibéré : mettre en ligne
-une mention de confidentialité que personne n'a relue doit être une décision
-prise, pas un oubli.
+Deux facultatives, aucune requise :
+
+- `BENCHMARK_STRICT_STRINGS=1` fait échouer la construction si une chaîne
+  provisoire est encore là. À poser dans une vérification avant lancement
+  public, pas en production courante.
+- `NEXT_PUBLIC_BENCHMARK_SHOW_DRAFTS=1` souligne ces chaînes à l'écran, en
+  développement, pour la relecture de Youssef et d'Othmane.

@@ -297,10 +297,13 @@ export const STRINGS_FR: Record<string, string> = {
  * mentions de confidentialité attendent Othmane.
  *
  * Le risque est qu'elles se lisent comme du texte fini. Elles sont donc
- * signalées visuellement en développement, listées par `draftStringKeys()`, et
- * la construction de production les refuse, sauf à poser explicitement
- * BENCHMARK_ALLOW_DRAFT_STRINGS=1. Mettre une mention de confidentialité non
- * validée en ligne doit rester une décision prise, pas un oubli.
+ * listées par `draftStringKeys()`, signalées dans le journal de construction,
+ * et soulignées en développement quand on pose
+ * NEXT_PUBLIC_BENCHMARK_SHOW_DRAFTS=1.
+ *
+ * Depuis le 28 août elles partent en ligne : la démonstration au comité passe
+ * avant leur validation. `BENCHMARK_STRICT_STRINGS=1` fait de nouveau échouer
+ * la construction, pour une vérification avant lancement public.
  */
 export const DRAFT_KEYS = new Set<string>([
   "meta.title",
@@ -320,7 +323,23 @@ export function isDraft(key: string): boolean {
 }
 
 const isProduction = process.env.NODE_ENV === "production";
-const allowDrafts = process.env.BENCHMARK_ALLOW_DRAFT_STRINGS === "1";
+
+/**
+ * Les chaînes provisoires bloquaient la construction de production. C'était le
+ * bon réglage tant que personne n'avait décidé de les mettre en ligne ; ce
+ * n'est plus le cas depuis le 28 août, où la page part en démonstration avec
+ * elles.
+ *
+ * Le refus est donc devenu volontaire : `BENCHMARK_STRICT_STRINGS=1` le
+ * rallume, par exemple dans une vérification avant lancement public. Sans lui,
+ * une chaîne provisoire passe et se signale dans le journal de construction.
+ *
+ * Ce qui n'a pas changé : une chaîne **vide** fait toujours échouer la
+ * construction. Une provisoire est du texte non validé, une vide est un trou à
+ * l'écran, et les deux ne coûtent pas la même chose.
+ */
+const strictDrafts = process.env.BENCHMARK_STRICT_STRINGS === "1";
+const warnedDrafts = new Set<string>();
 
 /**
  * Lit une chaîne. Une clé vide n'est jamais rendue telle quelle : en
@@ -344,11 +363,17 @@ export function s(key: string): string {
     return `⟦${key}⟧`;
   }
 
-  if (isProduction && DRAFT_KEYS.has(key) && !allowDrafts) {
-    throw new Error(
-      `Benchmark : la chaîne « ${key} » est provisoire et n'a été validée ni par Youssef ni par Othmane. ` +
-        `Poser BENCHMARK_ALLOW_DRAFT_STRINGS=1 pour la mettre en ligne quand même.`,
-    );
+  if (isProduction && DRAFT_KEYS.has(key)) {
+    if (strictDrafts) {
+      throw new Error(
+        `Benchmark : la chaîne « ${key} » est provisoire et n'a été validée ni par Youssef ni par Othmane. ` +
+          `Retirer BENCHMARK_STRICT_STRINGS pour la mettre en ligne quand même.`,
+      );
+    }
+    if (!warnedDrafts.has(key)) {
+      warnedDrafts.add(key);
+      console.warn(`[BENCHMARK] chaîne provisoire en ligne : ${key}`);
+    }
   }
 
   return value;

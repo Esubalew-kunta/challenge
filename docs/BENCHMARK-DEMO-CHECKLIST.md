@@ -70,9 +70,12 @@ passer une démo finie pour un écran cassé. Il est éteint par défaut et se
 rallume avec `NEXT_PUBLIC_BENCHMARK_SHOW_DRAFTS=1` quand Youssef ou Othmane
 relisent.
 
-Le garde-fou qui compte n'a pas bougé : **une construction de production refuse
-de compiler** tant qu'une chaîne provisoire n'est pas validée, sauf à poser
-`BENCHMARK_ALLOW_DRAFT_STRINGS=1`. La page reste en `noindex`.
+**Les chaînes provisoires partent en ligne depuis le 28 août**, la démonstration
+passant avant leur validation. Elles se signalent dans le journal de
+construction. `BENCHMARK_STRICT_STRINGS=1` fait de nouveau échouer la
+construction, à poser dans une vérification avant lancement public. Une chaîne
+**vide**, elle, fait toujours échouer la construction. La page reste en
+`noindex`.
 
 ---
 
