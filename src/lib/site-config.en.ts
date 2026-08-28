@@ -271,10 +271,18 @@ export const megaMenuEn = {
             href: "/en/ai-case-studies",
           },
           {
-            // Le seul contenu EN natif du site : écrit en anglais, pas traduit.
-            label: "Claude Code in 30 Days",
-            description: "Free course, one short page a day",
-            href: "/en/claude-code-challenge",
+            // Le Benchmark prend la place du cours Claude Code en 30 jours dans
+            // ce menu, comme côté français depuis le 28 août : le cours reste en
+            // ligne et listé au pied de page, il n'est simplement plus le
+            // contenu mis en avant.
+            //
+            // ATTENTION : la version anglaise de cette page est une traduction
+            // que personne n'a encore relue, et elle est en noindex. La mettre
+            // au menu principal l'expose à du trafic réel. Décision du
+            // propriétaire, 29 août.
+            label: "The Makers Benchmark",
+            description: "Test your AI level in 6 minutes",
+            href: "/en/benchmark",
           },
           {
             label: "AI-First Playbook",
@@ -380,7 +388,10 @@ export const footerNavEn = {
     { label: "Free tools", href: "/en/ai-tools" },
     { label: "All industries", href: "/en/ai-by-industry" },
     { label: "AI-First Playbook (PDF)", href: "/en/ai-playbook" },
+    // Le cours reste listé ici après avoir cédé sa place au Benchmark dans le
+    // menu principal. Même traitement qu'en français.
     { label: "Claude Code in 30 Days", href: "/en/claude-code-challenge" },
+    { label: "The Makers Benchmark", href: "/en/benchmark" },
     { label: "Why now", href: "/en/why-now" },
     { label: "Blog", href: "/en/blog" },
     { label: "AI glossary", href: "/en/ai-glossary" },
