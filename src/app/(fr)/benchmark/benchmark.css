@@ -191,17 +191,42 @@
 .bm-root .spec dd { margin: 0; font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
 .bm-root .spec dd small { display: block; font-family: var(--sans); font-size: 12.5px; font-weight: 400; color: var(--text-2); letter-spacing: 0; margin-top: 2px; }
 
+/* Les cinq règles. Écart assumé avec l'artefact, enregistré dans
+   check-benchmark-css.mjs : liste numérotée au lieu de cinq paragraphes, et
+   bloc resserré. L'artefact a été dessiné autour d'un texte anglais plus court ;
+   en français, les mêmes cinq règles produisent un pavé gris où rien ne dit où
+   l'une finit et où la suivante commence. Les numéros viennent d'un compteur
+   CSS : ils ne passent pas par la couche de chaînes parce qu'ils ne sont pas du
+   texte, et aucune chaîne n'est donc inventée. */
 .bm-root .rules {
   background: var(--surface);
   border-left: 4px solid var(--signal);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  padding: 22px 24px;
+  padding: 16px 20px;
   margin: 0 0 34px;
-  display: flex; flex-direction: column; gap: 12px;
+  display: flex; flex-direction: column; gap: 9px;
   max-width: 64ch;
+  list-style: none;
+  counter-reset: bm-rule;
 }
-.bm-root .rules p { margin: 0; font-size: 14.5px; color: var(--text-2); }
+.bm-root .rules li {
+  margin: 0;
+  position: relative;
+  padding-left: 26px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.bm-root .rules li::before {
+  counter-increment: bm-rule;
+  content: counter(bm-rule);
+  position: absolute; left: 0; top: 1px;
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 700;
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+}
 .bm-root .rules b { color: var(--text); font-weight: 600; }
 
 .bm-root .intro-cta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
