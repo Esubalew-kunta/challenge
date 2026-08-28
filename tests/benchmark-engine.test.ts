@@ -20,8 +20,12 @@ import {
   summarise,
   type RunState,
 } from "../src/lib/benchmark/engine.ts";
-import { TRACKS, trackById } from "../src/lib/benchmark/content/index.ts";
+import { contentFor, trackById } from "../src/lib/benchmark/content/index.ts";
 import type { Track } from "../src/lib/benchmark/types.ts";
+
+/* Le moteur se teste sur la banque française, la seule livrée. La forme des
+   banques, elle, se teste langue par langue dans benchmark-bank.test.ts. */
+const { TRACKS } = contentFor("fr");
 
 /* Un générateur déterministe : les mêmes tests doivent donner le même
    résultat à chaque exécution, sinon un échec sur mille passages ne se
@@ -311,7 +315,7 @@ test("un track sans banque ne se propose pas et ne se démarre pas", () => {
   // doit rester en place : un identifiant sans banque ne se résout pas, et
   // l'onboarding renvoie au choix du département plutôt que de lancer un
   // parcours vide.
-  assert.equal(trackById("inconnu"), undefined);
+  assert.equal(trackById("inconnu", "fr"), undefined);
 
   // Et le jour où une banque arrive mal rangée, le moteur refuse au lieu de
   // servir la mauvaise difficulté en silence.

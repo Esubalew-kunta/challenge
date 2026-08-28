@@ -18,17 +18,21 @@
 
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
-import { s } from "@/lib/benchmark/strings.fr";
+import { s } from "@/lib/benchmark/strings";
 import {
   BenchmarkApp,
   type ChallengeBanner,
 } from "@/components/benchmark/benchmark-app";
 import "./benchmark.css";
 
+/* Déclarée avant les métadonnées : elles sont évaluées au chargement du
+   module, donc une constante posée plus bas serait lue avant d'exister. */
+const LOCALE = "fr" as const;
+
 export const metadata: Metadata = {
   ...constructMetadata({
-    title: s("meta.title"),
-    description: s("meta.description"),
+    title: s("meta.title", LOCALE),
+    description: s("meta.description", LOCALE),
     path: "/benchmark",
   }),
   robots: { index: false, follow: false },
@@ -58,5 +62,5 @@ export default async function BenchmarkPage({
   searchParams: Promise<Search>;
 }) {
   const params = await searchParams;
-  return <BenchmarkApp challenge={readChallenge(params)} />;
+  return <BenchmarkApp challenge={readChallenge(params)} locale={LOCALE} />;
 }

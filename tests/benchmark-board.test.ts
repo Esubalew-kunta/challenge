@@ -200,10 +200,10 @@ test("le premier du classement est 1er, pas 1e", () => {
 
   // Le gabarit validé se termine par « vous êtes {rang}e » : le « e » de la
   // chaîne doit disparaître pour le premier et rester pour tous les autres.
-  assert.match(rankCounter(15, 1), /vous êtes 1er$/);
-  assert.match(rankCounter(15, 2), /vous êtes 2e$/);
-  assert.match(rankCounter(120, 21), /vous êtes 21e$/);
+  assert.match(rankCounter(15, 1, "fr"), /vous êtes 1er$/);
+  assert.match(rankCounter(15, 2, "fr"), /vous êtes 2e$/);
+  assert.match(rankCounter(120, 21, "fr"), /vous êtes 21e$/);
 
   // Et le nombre de parcours ne doit pas être abîmé au passage.
-  assert.match(rankCounter(21, 1), /^21 parcours/);
+  assert.match(rankCounter(21, 1, "fr"), /^21 parcours/);
 });

@@ -20,8 +20,11 @@
  * propriétaire du produit et non par le pack : provisoires comme les autres,
  * en attente de la même validation.
  *
- * Le français est la langue de référence. Une seconde locale se pose à côté de
- * ce fichier, avec exactement les mêmes clés, sans toucher un composant.
+ * Le français est la langue de référence. `strings.en.ts` se pose à côté, avec
+ * exactement les mêmes clés, et `strings.ts` sert l'une ou l'autre selon la
+ * locale demandée. Ce fichier-ci ne contient donc que des données : la lecture,
+ * les gardes-fous et le rapport de complétude vivent dans `strings.ts`, une
+ * seule fois pour les deux langues.
  */
 
 export const STRINGS_FR: Record<string, string> = {
@@ -269,11 +272,13 @@ export const STRINGS_FR: Record<string, string> = {
   "closer.challenge": "Défier un collègue",
 
   // ------------------------------------------------------------------- partage
-  // Le gabarit du post et le message de défi vivent dans `content/labels.ts`,
-  // avec le reste de ce que le pack exporte. Ces deux clés existent pour que la
-  // seconde locale ait un endroit où se poser.
-  "share.linkedInPost": "",
-  "share.challengeMessage": "",
+  // Le gabarit du post LinkedIn et le message de défi vivent dans
+  // `content/labels.ts`, avec le reste de ce que le pack exporte, et leur
+  // version anglaise dans `content/labels.en.ts`. Deux clés vides les
+  // attendaient ici, du temps où la seconde locale n'avait pas de fichier de
+  // contenu à elle : retirées le 28 août, parce qu'une clé vide n'est pas une
+  // place réservée mais un trou, et que ces deux-là empêchaient une locale
+  // d'être jamais déclarée complète.
 
   // -------------------------------------------------------------------- toasts
   "toast.linkedInCopied": "Post copié. Collez-le directement dans LinkedIn",
@@ -305,7 +310,7 @@ export const STRINGS_FR: Record<string, string> = {
  * avant leur validation. `BENCHMARK_STRICT_STRINGS=1` fait de nouveau échouer
  * la construction, pour une vérification avant lancement public.
  */
-export const DRAFT_KEYS = new Set<string>([
+export const DRAFT_KEYS_FR = new Set<string>([
   "meta.title",
   "meta.description",
   "landing.challengedBy",
@@ -317,81 +322,3 @@ export const DRAFT_KEYS = new Set<string>([
   "leaderboard.note",
   "footer.privacy",
 ]);
-
-export function isDraft(key: string): boolean {
-  return DRAFT_KEYS.has(key);
-}
-
-const isProduction = process.env.NODE_ENV === "production";
-
-/**
- * Les chaînes provisoires bloquaient la construction de production. C'était le
- * bon réglage tant que personne n'avait décidé de les mettre en ligne ; ce
- * n'est plus le cas depuis le 28 août, où la page part en démonstration avec
- * elles.
- *
- * Le refus est donc devenu volontaire : `BENCHMARK_STRICT_STRINGS=1` le
- * rallume, par exemple dans une vérification avant lancement public. Sans lui,
- * une chaîne provisoire passe et se signale dans le journal de construction.
- *
- * Ce qui n'a pas changé : une chaîne **vide** fait toujours échouer la
- * construction. Une provisoire est du texte non validé, une vide est un trou à
- * l'écran, et les deux ne coûtent pas la même chose.
- */
-const strictDrafts = process.env.BENCHMARK_STRICT_STRINGS === "1";
-const warnedDrafts = new Set<string>();
-
-/**
- * Lit une chaîne. Une clé vide n'est jamais rendue telle quelle : en
- * développement elle s'affiche en évidence, en production elle lève, parce
- * qu'un écran à trou qui part en ligne coûte plus cher qu'une page qui refuse
- * de se construire.
- */
-export function s(key: string): string {
-  const value = STRINGS_FR[key];
-
-  if (value === undefined) {
-    throw new Error(`Benchmark : clé de chaîne inconnue « ${key} »`);
-  }
-
-  if (value === "") {
-    if (isProduction) {
-      throw new Error(
-        `Benchmark : la chaîne « ${key} » n'a pas encore été fournie par le pack de contenu`,
-      );
-    }
-    return `⟦${key}⟧`;
-  }
-
-  if (isProduction && DRAFT_KEYS.has(key)) {
-    if (strictDrafts) {
-      throw new Error(
-        `Benchmark : la chaîne « ${key} » est provisoire et n'a été validée ni par Youssef ni par Othmane. ` +
-          `Retirer BENCHMARK_STRICT_STRINGS pour la mettre en ligne quand même.`,
-      );
-    }
-    if (!warnedDrafts.has(key)) {
-      warnedDrafts.add(key);
-      console.warn(`[BENCHMARK] chaîne provisoire en ligne : ${key}`);
-    }
-  }
-
-  return value;
-}
-
-/** Remplace les {jetons} d'un gabarit. Les valeurs viennent du moteur. */
-export function sf(key: string, values: Record<string, string | number>): string {
-  return s(key).replace(/\{(\w+)\}/g, (whole, token: string) =>
-    token in values ? String(values[token]) : whole,
-  );
-}
-
-/** Les clés encore vides. Sert au rapport de complétude pendant le build. */
-export function missingStringKeys(): string[] {
-  return Object.keys(STRINGS_FR).filter((key) => STRINGS_FR[key] === "");
-}
-
-/** Les clés provisoires encore en attente de validation. */
-export function draftStringKeys(): string[] {
-  return [...DRAFT_KEYS].filter((key) => STRINGS_FR[key] !== "");
-}

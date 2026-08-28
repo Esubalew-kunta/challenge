@@ -3,8 +3,11 @@
  *
  * Les identifiants ne changent jamais entre le français et l'anglais : ce sont
  * des clés, pas du texte. Seules les valeurs affichées sont traduites, et elles
- * vivent toutes dans la couche de chaînes (strings.fr.ts), jamais ici.
+ * vivent toutes dans la couche de chaînes (strings.fr.ts, strings.en.ts),
+ * jamais ici.
  */
+
+import type { Locale } from "../i18n.ts";
 
 export type TrackId = "growth" | "eng" | "ops" | "fin";
 
@@ -81,7 +84,10 @@ export type BenchmarkRunPayload = {
   correct_count: number;
   duration_seconds: number;
   round_results: RoundResult[];
-  locale: "fr";
+  /** La langue dans laquelle le parcours a été joué. La colonne accepte les
+   *  deux depuis le premier jour : le classement est unique et mélange les
+   *  deux, c'est la décision de la section 12 du PRD. */
+  locale: Locale;
 };
 
 /** Les écrans. Une seule route, aucun rechargement. */

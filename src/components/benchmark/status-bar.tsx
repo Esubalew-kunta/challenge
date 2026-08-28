@@ -14,7 +14,8 @@
 
 import { TIERS } from "@/lib/benchmark/engine";
 import type { Palier, TierKey } from "@/lib/benchmark/types";
-import { s } from "@/lib/benchmark/strings.fr";
+import { s } from "@/lib/benchmark/strings";
+import { useBenchmarkLocale } from "./locale-context";
 import { Slot } from "./string-slot";
 
 type Props = {
@@ -36,6 +37,7 @@ export function StatusBar({
   tierLabel,
   score,
 }: Props) {
+  const locale = useBenchmarkLocale();
   const reached = TIERS.indexOf(tier);
 
   return (
@@ -57,7 +59,7 @@ export function StatusBar({
           <Slot k="status.niveau" className="k" />
           {/* L'échelle est l'indicateur de niveau : elle porte le même nom que
               lui, pas un second inventé pour l'occasion. */}
-          <span className="ladder" aria-label={s("status.niveau")}>
+          <span className="ladder" aria-label={s("status.niveau", locale)}>
             {TIERS.map((step, i) => (
               <span key={step} style={{ display: "contents" }}>
                 {i > 0 && <b className="seg" />}
