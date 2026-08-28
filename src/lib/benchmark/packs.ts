@@ -4,33 +4,58 @@
  * **Le téléchargement n'est pas conditionné au score.** Finir suffit : quelqu'un
  * qui sort en débutant est précisément celui à qui le pack sert le plus.
  *
- * Aucun des quatre fichiers n'existe encore. Tant qu'une entrée vaut `null`, le
- * bouton ne s'affiche pas du tout : un bouton de téléchargement qui renvoie une
- * erreur coûte plus de confiance qu'un bouton absent. Le jour où un pack est
- * déposé, on écrit son chemin ici et le bouton apparaît sans toucher un
- * composant.
+ * Les quatre fichiers de `public/benchmark/` sont pour l'instant des **fichiers
+ * de remplacement**, une page qui dit qu'elle en est un. Ils existent pour que
+ * le bouton soit branché, cliquable et testable avant que le contenu réel
+ * arrive. Le vrai pack se dépose sous le même nom et rien d'autre ne bouge.
  *
- * Le chemin attendu est un fichier servi par le site, par exemple
- * `/ressources/benchmark/pack-growth.pdf` déposé dans `public/`.
+ * Une entrée à `href: null` fait disparaître le bouton plutôt que de proposer un
+ * téléchargement en erreur : c'est le comportement à garder si un track perd son
+ * fichier.
  */
 
 import type { TrackId } from "./types.ts";
 
 export type Pack = {
-  /** Chemin servi par le site. `null` tant que le fichier n'existe pas. */
+  /** Chemin servi par le site. `null` fait disparaître le bouton. */
   href: string | null;
-  /** Nom du fichier proposé au téléchargement. */
+  /** Nom du fichier proposé au téléchargement, celui que le lecteur verra. */
   filename: string;
+  /** Vrai tant que le fichier est un remplaçant et non le vrai pack. */
+  placeholder: boolean;
 };
 
 export const PACKS: Record<TrackId, Pack> = {
-  growth: { href: null, filename: "pack-marketing-growth.pdf" },
-  eng: { href: null, filename: "pack-engineering-tech.pdf" },
-  ops: { href: null, filename: "pack-process-ops.pdf" },
-  fin: { href: null, filename: "pack-finance-revops.pdf" },
+  growth: {
+    href: "/benchmark/growth.pdf",
+    filename: "benchmark-pack-marketing-growth.pdf",
+    placeholder: true,
+  },
+  eng: {
+    href: "/benchmark/eng.pdf",
+    filename: "benchmark-pack-engineering-tech.pdf",
+    placeholder: true,
+  },
+  ops: {
+    href: "/benchmark/ops.pdf",
+    filename: "benchmark-pack-process-ops.pdf",
+    placeholder: true,
+  },
+  fin: {
+    href: "/benchmark/fin.pdf",
+    filename: "benchmark-pack-finance-revops.pdf",
+    placeholder: true,
+  },
 };
 
 export function packFor(track: TrackId): Pack | null {
   const pack = PACKS[track];
   return pack?.href ? pack : null;
+}
+
+/** Les tracks dont le pack est encore un fichier de remplacement. Sert au
+ *  rapport de complétude, pour que personne n'annonce une ressource qui n'en
+ *  est pas une. */
+export function placeholderPacks(): TrackId[] {
+  return (Object.keys(PACKS) as TrackId[]).filter((id) => PACKS[id].placeholder);
 }
