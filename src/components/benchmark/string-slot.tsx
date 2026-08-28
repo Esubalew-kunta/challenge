@@ -13,6 +13,18 @@ import { isDraft, s, sf } from "@/lib/benchmark/strings.fr";
 
 const inDevelopment = process.env.NODE_ENV !== "production";
 
+/**
+ * Le soulignement pointillé des chaînes provisoires est un outil de relecture,
+ * pas un élément d'interface : il faisait passer une démo finie pour un écran
+ * cassé. Il est donc éteint par défaut et se rallume à la demande, avec
+ * BENCHMARK_SHOW_DRAFTS=1.
+ *
+ * Le garde-fou qui compte, lui, ne bouge pas : une construction de production
+ * refuse toujours de compiler tant qu'une chaîne provisoire n'est pas validée.
+ */
+const showDraftMarks =
+  inDevelopment && process.env.NEXT_PUBLIC_BENCHMARK_SHOW_DRAFTS === "1";
+
 type SlotProps = {
   /** Clé dans STRINGS_FR. */
   k: string;
@@ -34,7 +46,7 @@ export function Slot({ k, values, className, tabIndex, as: Tag = "span" }: SlotP
   // tout le risque, donc elle se signale, en développement uniquement.
   const marker = missing
     ? "bm-slot-missing"
-    : inDevelopment && isDraft(k)
+    : showDraftMarks && isDraft(k)
       ? "bm-slot-draft"
       : "";
 
@@ -42,7 +54,7 @@ export function Slot({ k, values, className, tabIndex, as: Tag = "span" }: SlotP
     <Tag
       tabIndex={tabIndex}
       className={[marker, className].filter(Boolean).join(" ") || undefined}
-      title={inDevelopment && isDraft(k) ? `provisoire : ${k}` : undefined}
+      title={showDraftMarks && isDraft(k) ? `provisoire : ${k}` : undefined}
     >
       {text}
     </Tag>

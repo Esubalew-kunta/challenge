@@ -25,6 +25,16 @@ export type Pack = {
   placeholder: boolean;
 };
 
+/**
+ * Le bouton est-il actif ?
+ *
+ * Non, décision du 28 août : les fichiers en place ne sont que des
+ * remplaçants, et livrer un vrai clic qui rend une page vide vaut moins qu'un
+ * bouton visiblement inactif. Il s'affiche donc désactivé, et cette seule ligne
+ * passe à `true` le jour où les quatre packs sont déposés.
+ */
+export const PACKS_ENABLED = false;
+
 export const PACKS: Record<TrackId, Pack> = {
   growth: {
     href: "/benchmark/growth.pdf",

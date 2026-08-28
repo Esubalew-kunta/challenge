@@ -30,7 +30,6 @@ privée : le site se souvient de vous et la démo est plus honnête à froid.
 | **Classement** | Le top 10, votre ligne épinglée et surlignée si vous êtes plus bas, avec votre vrai rang |
 | **Corrigé** | Les neuf questions, juste / raté / sans réponse, la bonne réponse, la vôtre, l'explication |
 | **Conclusion** | Le texte AI Scan ou AI Champions selon le niveau de sortie, puis les deux boutons |
-| **Mentions discrètes** | La note sous le classement et la mention de pied sont floutées au repos et redeviennent nettes au survol. Voulu, pas un bug |
 
 **Deux démonstrations qui portent :**
 
@@ -49,39 +48,31 @@ privée : le site se souvient de vous et la démo est plus honnête à froid.
 |---|---|
 | **« Copier mon post LinkedIn » sur un navigateur exotique** | Le presse-papiers est refusé hors contexte sécurisé. Sur `localhost` en Chrome ça marche ; ailleurs le message d'erreur s'affiche, ce qui est le bon comportement mais fait mauvais effet |
 | **« Réserver un appel gratuit »** | Ça ouvre le vrai formulaire de réservation du site, qui redemande nom, e-mail **et téléphone**. Nous ne collectons pas le téléphone, donc il repose des questions déjà posées |
-| **Le bouton de téléchargement du pack** | Il marche, mais il télécharge un **fichier de remplacement** : une page PDF qui dit qu'elle en est un. Le vrai pack se déposera sous le même nom |
+| **Le bouton de téléchargement du pack** | **Il est grisé et ne répond pas au clic.** Voulu : les quatre fichiers en place ne sont que des remplaçants. Une ligne le rallume quand les vrais packs arrivent |
 | **Rafraîchir en plein parcours** | La session est perdue. Accepté pour la v1 |
 
 ---
 
-## Les mentions floutées
+## Les mentions retirées, et la seule qui reste
 
-Demandé le 28 août. La note sous le classement et la mention de pied sont
-estompées au repos, nettes au survol, et atteignables au clavier par tabulation :
-une note qui ne se révèle qu'à la souris n'existe pas pour qui n'en a pas.
+Retirées le 28 août : la note sous le classement et la mention de pied. Elles ne
+s'affichent plus. Les chaînes restent dans le code, avec leurs variantes dans
+`docs/BENCHMARK-MENTIONS-A-VALIDER.md` : les remettre est une ligne.
 
-**La mention de confidentialité de l'étape 05 n'est pas floutée.** Elle est
-raccourcie et allégée, jamais masquée : c'est la phrase qu'on lit juste avant de
-donner son adresse, et la flouter par défaut se plaide mal devant un utilisateur
-comme devant un auditeur. Trois autres formulations, plus courtes ou plus
-longues, attendent Othmane dans `docs/BENCHMARK-MENTIONS-A-VALIDER.md`.
+**La mention de l'étape 05 est toujours là, et je la garde.** C'est la phrase
+qu'on lit juste avant de donner son adresse, et c'est désormais le seul endroit
+de la page qui dit ce qui sera affiché publiquement et ce qu'on fait de
+l'e-mail. Elle est courte et discrète. La retirer aussi est votre décision, pas
+la mienne, et je préfère qu'elle soit prise plutôt que subie.
 
----
+**Plus aucun soulignement pointillé à l'écran.** Ce repère de relecture faisait
+passer une démo finie pour un écran cassé. Il est éteint par défaut et se
+rallume avec `NEXT_PUBLIC_BENCHMARK_SHOW_DRAFTS=1` quand Youssef ou Othmane
+relisent.
 
-## Les soulignements ambre, si quelqu'un les remarque
-
-Onze chaînes sont **provisoires** et se soulignent en pointillé ambre, en
-développement uniquement. Ce n'est pas un bug, c'est le repère de relecture.
-
-- Les trois mentions de confidentialité en attente d'Othmane : étape 05, note
-  sous le classement, mention de pied
-- Les deux que vous avez écrites : le bandeau de la carte, le badge de reprise
-- Le titre et la description de la page, le bandeau de défi, le libellé du
-  téléchargement, la ligne du classement vide
-
-**Une construction de production refuse de compiler** tant qu'une de ces chaînes
-n'est pas validée, sauf à poser `BENCHMARK_ALLOW_DRAFT_STRINGS=1`. La page est
-aussi en `noindex`. Les deux sautent à la validation.
+Le garde-fou qui compte n'a pas bougé : **une construction de production refuse
+de compiler** tant qu'une chaîne provisoire n'est pas validée, sauf à poser
+`BENCHMARK_ALLOW_DRAFT_STRINGS=1`. La page reste en `noindex`.
 
 ---
 

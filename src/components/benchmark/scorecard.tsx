@@ -14,7 +14,7 @@
  */
 
 import { MAX_SCORE, type RunSummary } from "@/lib/benchmark/engine";
-import { packFor } from "@/lib/benchmark/packs";
+import { PACKS_ENABLED, packFor } from "@/lib/benchmark/packs";
 import { BookingCtaButton } from "@/components/shared/booking-modal";
 import type { Board } from "@/lib/benchmark/board";
 import { DEFI_COLLEGUE, HASHTAGS, POST_LINKEDIN } from "@/lib/benchmark/content";
@@ -188,16 +188,24 @@ export function Scorecard({
           {/* Le pack n'est pas conditionné au score : finir suffit. Le bouton
               n'apparaît que si le fichier existe, parce qu'un téléchargement
               qui échoue coûte plus qu'un bouton absent. */}
-          {pack && (
-            <a
-              className="btn btn-ghost"
-              href={pack.href ?? "#"}
-              download={pack.filename}
-              onClick={recordDownload}
-            >
-              <Slot k="scorecard.download" values={{ track: track.name }} />
-            </a>
-          )}
+          {pack &&
+            (PACKS_ENABLED ? (
+              <a
+                className="btn btn-ghost"
+                href={pack.href ?? "#"}
+                download={pack.filename}
+                onClick={recordDownload}
+              >
+                <Slot k="scorecard.download" values={{ track: track.name }} />
+              </a>
+            ) : (
+              /* Inerte tant que les vrais packs ne sont pas là. Un bouton
+                 visiblement désactivé dit la vérité ; un bouton qui rend un
+                 fichier de remplacement fait croire à une ressource. */
+              <button type="button" className="btn btn-ghost" disabled>
+                <Slot k="scorecard.download" values={{ track: track.name }} />
+              </button>
+            ))}
         </div>
 
         <div className="lb-head">
@@ -244,7 +252,11 @@ export function Scorecard({
           )}
         </div>
 
-        <Slot k="leaderboard.note" as="p" className="lb-note bm-hushed" tabIndex={0} />
+        {/* La note sous le classement est retirée à la demande du propriétaire,
+            le 28 août. `leaderboard.note` reste dans la couche de chaînes, avec
+            ses variantes dans docs/BENCHMARK-MENTIONS-A-VALIDER.md : la remettre
+            est une ligne. Le tableau n'explique donc plus ce qu'il affiche, et
+            c'est la mention de l'étape 05 qui porte seule cette information. */}
 
         <div className="closer">
           <Slot k="closer.eyebrow" className="eyebrow" />
@@ -275,7 +287,7 @@ export function Scorecard({
 
         <footer className="foot">
           <Slot k="footer.brand" />
-          <Slot k="footer.privacy" className="bm-hushed" tabIndex={0} />
+          {/* Mention de pied retirée le 28 août, même raison. */}
         </footer>
       </div>
     </section>
