@@ -69,6 +69,12 @@ const APPROVED_OVERRIDES = [
     reason:
       "« ROUND 1 · INTERMÉDIAIRE · PALIER 1 » ne tient pas dans les 250 px où « Round 1 · Intermediate » tenait",
   },
+  ...["padding", "background", "font-size", "color"].map((property) => ({
+    selector: ".privacy",
+    property,
+    reason:
+      "mention de confidentialité allégée à la demande du propriétaire : plus petite et plus calme, jamais floutée puisqu'elle précède la collecte de l'adresse",
+  })),
 ];
 
 const isApproved = (selector, property) =>

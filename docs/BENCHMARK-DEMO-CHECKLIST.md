@@ -30,6 +30,7 @@ privée : le site se souvient de vous et la démo est plus honnête à froid.
 | **Classement** | Le top 10, votre ligne épinglée et surlignée si vous êtes plus bas, avec votre vrai rang |
 | **Corrigé** | Les neuf questions, juste / raté / sans réponse, la bonne réponse, la vôtre, l'explication |
 | **Conclusion** | Le texte AI Scan ou AI Champions selon le niveau de sortie, puis les deux boutons |
+| **Mentions discrètes** | La note sous le classement et la mention de pied sont floutées au repos et redeviennent nettes au survol. Voulu, pas un bug |
 
 **Deux démonstrations qui portent :**
 
@@ -48,8 +49,22 @@ privée : le site se souvient de vous et la démo est plus honnête à froid.
 |---|---|
 | **« Copier mon post LinkedIn » sur un navigateur exotique** | Le presse-papiers est refusé hors contexte sécurisé. Sur `localhost` en Chrome ça marche ; ailleurs le message d'erreur s'affiche, ce qui est le bon comportement mais fait mauvais effet |
 | **« Réserver un appel gratuit »** | Ça ouvre le vrai formulaire de réservation du site, qui redemande nom, e-mail **et téléphone**. Nous ne collectons pas le téléphone, donc il repose des questions déjà posées |
-| **Le bouton de téléchargement du pack** | Il n'existe pas à l'écran : aucun des quatre packs n'est assemblé. Le mécanisme est en place et le bouton apparaîtra tout seul le jour où un fichier est déposé |
+| **Le bouton de téléchargement du pack** | Il marche, mais il télécharge un **fichier de remplacement** : une page PDF qui dit qu'elle en est un. Le vrai pack se déposera sous le même nom |
 | **Rafraîchir en plein parcours** | La session est perdue. Accepté pour la v1 |
+
+---
+
+## Les mentions floutées
+
+Demandé le 28 août. La note sous le classement et la mention de pied sont
+estompées au repos, nettes au survol, et atteignables au clavier par tabulation :
+une note qui ne se révèle qu'à la souris n'existe pas pour qui n'en a pas.
+
+**La mention de confidentialité de l'étape 05 n'est pas floutée.** Elle est
+raccourcie et allégée, jamais masquée : c'est la phrase qu'on lit juste avant de
+donner son adresse, et la flouter par défaut se plaide mal devant un utilisateur
+comme devant un auditeur. Trois autres formulations, plus courtes ou plus
+longues, attendent Othmane dans `docs/BENCHMARK-MENTIONS-A-VALIDER.md`.
 
 ---
 

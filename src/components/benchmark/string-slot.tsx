@@ -19,11 +19,14 @@ type SlotProps = {
   /** Valeurs injectées pour les {jetons} du gabarit. */
   values?: Record<string, string | number>;
   className?: string;
+  /** Rend la mention atteignable au clavier. Une note estompée qui ne se
+   *  révèle qu'au survol est invisible pour qui n'a pas de souris. */
+  tabIndex?: number;
   /** Balise de rendu. Par défaut un <span>. */
   as?: "span" | "p" | "h1" | "h2" | "h3" | "div" | "li" | "strong" | "dt" | "dd" | "small" | "b";
 };
 
-export function Slot({ k, values, className, as: Tag = "span" }: SlotProps) {
+export function Slot({ k, values, className, tabIndex, as: Tag = "span" }: SlotProps) {
   const text = values ? sf(k, values) : s(k);
   const missing = text.startsWith("⟦") && text.endsWith("⟧");
 
@@ -37,6 +40,7 @@ export function Slot({ k, values, className, as: Tag = "span" }: SlotProps) {
 
   return (
     <Tag
+      tabIndex={tabIndex}
       className={[marker, className].filter(Boolean).join(" ") || undefined}
       title={inDevelopment && isDraft(k) ? `provisoire : ${k}` : undefined}
     >

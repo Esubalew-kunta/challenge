@@ -244,7 +244,7 @@ export function Scorecard({
           )}
         </div>
 
-        <Slot k="leaderboard.note" as="p" className="lb-note" />
+        <Slot k="leaderboard.note" as="p" className="lb-note bm-hushed" tabIndex={0} />
 
         <div className="closer">
           <Slot k="closer.eyebrow" className="eyebrow" />
@@ -275,7 +275,7 @@ export function Scorecard({
 
         <footer className="foot">
           <Slot k="footer.brand" />
-          <Slot k="footer.privacy" />
+          <Slot k="footer.privacy" className="bm-hushed" tabIndex={0} />
         </footer>
       </div>
     </section>

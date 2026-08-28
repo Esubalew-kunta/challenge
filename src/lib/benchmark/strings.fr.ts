@@ -129,10 +129,16 @@ export const STRINGS_FR: Record<string, string> = {
     "Dernière étape. Prenez le plus proche : votre parcours démarre au clic.",
   "onboarding.step5.error": "Choisissez le plus proche. Un clic suffit.",
   // Section 11 du PRD. Le pack fournit la mention de démonstration, qui dit que
-  // rien n'est transmis. C'est faux depuis que Supabase est branché, donc c'est
-  // la réécriture qui est ici. PROVISOIRE, en attente d'Othmane.
+  // rien n'est transmis : faux depuis que Supabase est branché.
+  //
+  // Version courte, option B de `docs/BENCHMARK-MENTIONS-A-VALIDER.md`. Elle
+  // garde les trois choses qui doivent y être : ce qui est public, que l'e-mail
+  // est stocké sans être affiché, et à quoi il sert. Les autres options et la
+  // version longue sont dans ce document.
+  //
+  // PROVISOIRE, en attente d'Othmane.
   "onboarding.step5.privacy":
-    "Le classement affiche votre nom d'affichage, votre entreprise, votre niveau et votre score. Votre adresse e-mail est enregistrée, jamais affichée publiquement, et ne sert qu'à vous envoyer votre carte de score. Vos données, vos règles.",
+    "Au classement : nom d'affichage, entreprise, niveau, score. Votre e-mail est enregistré, jamais affiché, et sert seulement à vous envoyer votre carte de score. Vos données, vos règles.",
 
   // ----------------------------------------------------------------- question
   "question.timerLabel": "Temps",
@@ -244,10 +250,11 @@ export const STRINGS_FR: Record<string, string> = {
   "leaderboard.empty":
     "Aucun parcours enregistré pour l'instant. Le vôtre ouvrira le classement.",
   // Section 11. Le pack fournit la note de démonstration, qui dit que le tableau
-  // mélange des parcours d'exemple et des parcours locaux au navigateur. Faux
-  // depuis Supabase. PROVISOIRE, en attente d'Othmane.
+  // mélange des parcours d'exemple et des parcours locaux au navigateur : faux
+  // depuis Supabase. Version courte, option B du même document.
+  // PROVISOIRE, en attente d'Othmane.
   "leaderboard.note":
-    "Classement unique et glissant sur les quatre départements. Il affiche un nom d'affichage, une entreprise, un niveau et un score : jamais une adresse e-mail. Les premiers parcours sont des exemples, remplacés au fil des sessions réelles.",
+    "Un seul classement, quatre départements. Nom d'affichage, entreprise, niveau, score : jamais d'adresse e-mail. Les premiers parcours sont des exemples.",
 
   // ---------------------------------------------------------------- conversion
   "closer.eyebrow": "Et maintenant",
@@ -279,10 +286,9 @@ export const STRINGS_FR: Record<string, string> = {
   // -------------------------------------------------------------------- footer
   "footer.brand": "aimakers.fr · Le Benchmark des Makers",
   // Section 11. Le pack fournit la mention de démonstration, qui dit qu'aucune
-  // donnée ne quitte le navigateur. Faux depuis Supabase. PROVISOIRE, en
-  // attente d'Othmane.
-  "footer.privacy":
-    "Classement sur les quatre départements · adresse e-mail jamais affichée",
+  // donnée ne quitte le navigateur : faux depuis Supabase.
+  // PROVISOIRE, en attente d'Othmane.
+  "footer.privacy": "Quatre départements · e-mail jamais affiché",
 };
 
 /**
