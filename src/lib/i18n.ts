@@ -114,6 +114,12 @@ export const ROUTE_MAP: Record<string, string> = {
   "/etudes-de-cas/sage-geo": "/en/case-studies/sage-geo",
   "/etudes-de-cas/thinkone": "/en/case-studies/thinkone",
 
+  // Le Benchmark des Makers. La page anglaise est livrée mais volontairement
+  // non indexée, comme la française : elle est donc dans EN_GATED et pas dans
+  // EN_PUBLISHED, le temps que la copie soit validée. Le sélecteur de langue
+  // fonctionne dans les deux sens, le sitemap et le hreflang l'ignorent.
+  "/benchmark": "/en/benchmark",
+
   // Outils — à plat côté EN, pas imbriqués sous /ai-tools.
   "/outils": "/en/ai-tools",
   "/outils/audit-geo-gratuit": "/en/ai-visibility-checker",
@@ -248,6 +254,12 @@ export const EN_PUBLISHED = new Set<string>([
 export const EN_GATED = new Set<string>([
   "/en/generative-engine-optimization",
   "/en/ai-playbook",
+  // Le Benchmark. Les deux langues portent `robots: { index: false }` tant que
+  // la copie n'est pas validée — l'anglaise est de plus une traduction que
+  // personne n'a encore relue. La page existe, elle est atteignable, elle n'est
+  // simplement pas offerte aux moteurs. Pour la publier : retirer d'ici,
+  // ajouter à EN_PUBLISHED, retirer les deux `robots`.
+  "/en/benchmark",
 ]);
 
 /**
@@ -277,6 +289,38 @@ export function alternateFor(path: string, target: Locale): string | null {
     const en = ROUTE_MAP[clean] ?? null;
     // Ne pas annoncer une page EN qui n'est pas encore en ligne.
     return en && EN_PUBLISHED.has(en) ? en : null;
+  }
+  return ROUTE_MAP_EN_TO_FR[clean] ?? null;
+}
+
+/**
+ * Équivalent d'une route pour la NAVIGATION, et non pour l'indexation.
+ *
+ * Les deux questions se ressemblent et n'ont pas la même réponse :
+ *
+ * - « faut-il l'annoncer aux moteurs ? » → `alternateFor`, qui lit
+ *   `EN_PUBLISHED`. Un hreflang ou une entrée de sitemap vers une page non
+ *   publiée est une erreur d'indexation.
+ * - « le lecteur peut-il y aller ? » → celle-ci, qui lit `EN_EXISTS`. Une page
+ *   livrée mais volontairement non indexée (`EN_GATED`) est une destination
+ *   parfaitement valable pour un humain qui clique.
+ *
+ * Le sélecteur de langue posait la première question alors qu'il fait la
+ * seconde. Résultat : sur les pages gated — /en/benchmark, /en/ai-playbook,
+ * /en/generative-engine-optimization — la bascule EN était grisée alors que la
+ * page anglaise existait et répondait 200. C'est la même distinction que
+ * `resolveEnHref` applique déjà aux liens internes, cf. `lib/en-links.ts`.
+ */
+export function navigationAlternateFor(
+  path: string,
+  target: Locale,
+): string | null {
+  const clean = path.length > 1 ? path.replace(/\/$/, "") : path;
+  if (target === "en") {
+    const en = ROUTE_MAP[clean] ?? null;
+    // Livrée suffit. Une bascule vers une page absente reste exclue : c'est
+    // toujours pire qu'une bascule grisée.
+    return en && EN_EXISTS.has(en) ? en : null;
   }
   return ROUTE_MAP_EN_TO_FR[clean] ?? null;
 }
