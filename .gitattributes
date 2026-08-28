@@ -1,0 +1,11 @@
+# Sans cette ligne, `core.autocrlf` est à true sur les postes Windows et git
+# convertit les fins de ligne des fichiers qu'il prend pour du texte. Un PDF
+# est majoritairement de l'ASCII : il en prend un pour du texte, décale chaque
+# octet après la première fin de ligne, et casse la table xref. Le fichier
+# s'ouvre alors correctement chez celui qui l'a produit et nulle part ailleurs.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary

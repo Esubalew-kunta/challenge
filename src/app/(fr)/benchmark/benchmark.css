@@ -1,0 +1,736 @@
+/* ==========================================================================
+   Le Benchmark des Makers.
+
+   Ce fichier est la feuille de style de l'artefact de Maneesh, reprise valeur
+   pour valeur depuis `makers-benchmark/index.html`. Les estimations relevées
+   sur capture d'écran ont toutes sauté. Deux d'entre elles étaient fausses :
+
+     bleu de marque   estimé #2563EB   réel #2B5CE6
+     texte foncé      estimé #0F172A   réel #16203A
+
+   Ce sont les deux valeurs annoncées comme sûres. Elles ne l'étaient pas.
+   L'artefact fait autorité sur le rendu, le PRD dit de le reproduire et non de
+   le réinterpréter, donc ce sont ses valeurs qui sont ici. Le jour où quelqu'un
+   tranche en faveur de la charte du site, ce sont deux lignes.
+
+   Tout est porté par `.bm-root`. Le site charge `globals.css` sur toutes ses
+   pages, et l'artefact style `body`, `h1`, `button` et `*` sans précaution
+   puisqu'il vit seul dans son fichier. Sans cette portée, les deux systèmes se
+   marchent dessus.
+   ========================================================================== */
+
+.bm-root {
+  --paper:        #E7ECFD;   /* lavande sur lequel les cartes flottent */
+  --surface:      #FFFFFF;
+  --surface-2:    #F3F6FE;
+  --surface-3:    #E6ECFC;
+  --line:         #E3E9F9;
+  --line-strong:  #C2CEEC;
+
+  --text:         #16203A;
+  --text-2:       #5A6785;
+  --text-3:       #8E9AB8;
+
+  --signal:       #2B5CE6;
+  --signal-ink:   #1E42AE;
+  --signal-soft:  #E3EAFD;
+  --on-signal:    #FFFFFF;
+
+  --pass:         #047857;
+  --pass-soft:    #DCF3E9;
+  --fail:         #BE123C;
+  --fail-soft:    #FCE3E9;
+  --expert:       #B45309;
+  --expert-soft:  #FCEFDA;
+
+  /* ombres bleutées et diffuses, jamais grises */
+  --shadow-sm: 0 2px 8px rgba(43,92,230,.07);
+  --shadow-md: 0 8px 24px rgba(43,92,230,.10), 0 2px 6px rgba(43,92,230,.05);
+  --shadow-lg: 0 22px 54px rgba(30,66,174,.18), 0 4px 12px rgba(30,66,174,.07);
+
+  --radius:    20px;
+  --radius-sm: 14px;
+  --radius-lg: 26px;
+
+  /* Les deux familles sont déjà chargées par le layout du site. */
+  --mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --shell: 720px;
+  --shell-wide: 1000px;
+
+  /* L'en-tête du site est en `position: fixed`, 16 px du haut sur 64 px de
+     haut, au-dessus de tout ce qui a un z-index inférieur à 50. L'artefact,
+     lui, vivait seul dans sa page et ne s'en méfiait pas : sans ce décalage,
+     la marque passe derrière l'en-tête et la barre de statut disparaît
+     complètement dessous. Une seule valeur à remettre à zéro le jour où cette
+     page perd le chrome du site. */
+  --bm-header-offset: 88px;
+
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+
+  /* L'en-tête étant `fixed`, il n'occupe aucune place dans le flux : sans ce
+     retrait, le haut de chaque écran commence dessous, barre de statut
+     comprise. */
+  padding-top: var(--bm-header-offset);
+}
+
+.bm-root *, .bm-root *::before, .bm-root *::after { box-sizing: border-box; }
+
+.bm-root h1, .bm-root h2, .bm-root h3 {
+  font-family: var(--mono); font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: -.02em;
+}
+
+.bm-root :focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.bm-root button { font: inherit; color: inherit; }
+
+/* Deux classes de l'artefact ne sont pas reprises ici, `.btn-quiet` et
+   `.optional-tag` : elles sont définies dans sa feuille de style et n'existent
+   dans aucun de ses écrans. Les copier reviendrait à recopier du code mort.
+   Elles reviendront le jour où un écran s'en sert. */
+
+/* ---------- atomes partagés ---------- */
+
+.bm-root .eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.bm-root .btn {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 13px 22px;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 100ms ease, color 160ms ease;
+}
+.bm-root .btn:active { transform: translateY(1px); }
+.bm-root .btn:disabled { opacity: .42; cursor: not-allowed; }
+
+.bm-root .btn-primary { background: var(--signal); color: var(--on-signal); box-shadow: 0 8px 18px rgba(43,92,230,.26); }
+.bm-root .btn-primary:hover:not(:disabled) { background: var(--signal-ink); color: var(--on-signal); }
+
+.bm-root .btn-ghost { background: var(--surface); color: var(--text-2); border-color: var(--line); box-shadow: var(--shadow-sm); }
+.bm-root .btn-ghost:hover:not(:disabled) { background: var(--surface-2); color: var(--text); border-color: var(--line-strong); }
+
+.bm-root .shell { width: 100%; max-width: var(--shell); margin: 0 auto; padding: 0 20px; }
+.bm-root .shell-wide { width: 100%; max-width: var(--shell-wide); margin: 0 auto; padding: 0 20px; }
+
+.bm-root .screen { animation: bm-rise 340ms cubic-bezier(.22,.8,.3,1) both; }
+
+@keyframes bm-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes bm-flash { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-root *, .bm-root *::before, .bm-root *::after {
+    animation-duration: 1ms !important; transition-duration: 1ms !important;
+  }
+}
+
+/* ---------- 1. intro ---------- */
+
+.bm-root .intro { padding-block: 68px 90px; }
+
+.bm-root .brandmark {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--text-2);
+}
+.bm-root .brandmark .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); }
+
+/* L'artefact monte à 56 px sur deux phrases courtes en anglais et tient en
+   quatre lignes. Le titre français fait deux phrases longues : au même corps il
+   prenait sept lignes et 408 px, contre 233 px pour la référence, soit tout le
+   premier écran. Plafond descendu à 40 px, validé le 28 août. C'est le seul
+   endroit où l'échelle typographique de l'artefact est modifiée. */
+.bm-root .intro h1 {
+  font-size: clamp(30px, 4.4vw, 40px);
+  line-height: 1.04;
+  margin: 26px 0 0;
+}
+.bm-root .intro h1 .accent { color: var(--signal); }
+
+.bm-root .intro .lede {
+  font-size: 17.5px; color: var(--text-2);
+  max-width: 56ch; margin: 22px 0 0;
+}
+
+.bm-root .spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 10px;
+  margin: 40px 0 34px;
+}
+.bm-root .spec {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.bm-root .spec dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--text-3); }
+.bm-root .spec dd { margin: 0; font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.bm-root .spec dd small { display: block; font-family: var(--sans); font-size: 12.5px; font-weight: 400; color: var(--text-2); letter-spacing: 0; margin-top: 2px; }
+
+.bm-root .rules {
+  background: var(--surface);
+  border-left: 4px solid var(--signal);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 22px 24px;
+  margin: 0 0 34px;
+  display: flex; flex-direction: column; gap: 12px;
+  max-width: 64ch;
+}
+.bm-root .rules p { margin: 0; font-size: 14.5px; color: var(--text-2); }
+.bm-root .rules b { color: var(--text); font-weight: 600; }
+
+.bm-root .intro-cta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.bm-root .intro-note { font-family: var(--mono); font-size: 12px; color: var(--text-3); }
+
+.bm-root .challenged {
+  margin: 26px 0 0; padding: 15px 17px;
+  background: var(--signal-soft); border-radius: var(--radius-sm);
+  font-family: var(--mono); font-size: 13px; color: var(--signal-ink);
+  max-width: 58ch;
+}
+
+/* ---------- 2. onboarding ---------- */
+
+.bm-root .form-wrap { padding-block: 56px 90px; min-height: 78vh; }
+
+.bm-root .form-progress { display: flex; gap: 5px; margin-bottom: 38px; }
+.bm-root .form-progress i {
+  height: 5px; flex: 1; background: #FFFFFF; border-radius: 3px;
+  transition: background 300ms ease;
+}
+.bm-root .form-progress i.done { background: var(--signal); }
+
+.bm-root .form-step {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 34px 32px 30px;
+  animation: bm-rise 300ms cubic-bezier(.22,.8,.3,1) both;
+}
+
+.bm-root .step-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+
+.bm-root .backbtn {
+  flex: 0 0 auto;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--surface-2);
+  border: 1.5px solid var(--line);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 120ms ease;
+}
+.bm-root .backbtn svg { width: 19px; height: 19px; fill: none; stroke: var(--text-2); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: stroke 160ms ease; }
+.bm-root .backbtn:hover { background: var(--signal-soft); border-color: var(--signal); }
+.bm-root .backbtn:hover svg { stroke: var(--signal); }
+.bm-root .backbtn:active { transform: translateX(-2px); }
+
+.bm-root .form-index { font-family: var(--mono); font-size: 12px; color: var(--signal); letter-spacing: .1em; font-weight: 500; }
+
+.bm-root .roles { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
+.bm-root .role {
+  font-family: var(--mono); font-size: 13.5px; font-weight: 500;
+  color: var(--text-2);
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: 26px;
+  padding: 13px 20px;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease, transform 120ms ease;
+}
+.bm-root .role:hover {
+  background: var(--surface); border-color: var(--signal); color: var(--signal);
+  box-shadow: var(--shadow-sm); transform: translateY(-2px);
+}
+.bm-root .role[aria-pressed="true"] { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
+
+.bm-root .form-step h2 {
+  font-size: clamp(24px, 4.2vw, 34px);
+  line-height: 1.15;
+  margin: 10px 0 0;
+}
+.bm-root .form-step .hint { color: var(--text-2); font-size: 15px; margin: 12px 0 0; max-width: 52ch; }
+
+.bm-root .field { margin: 30px 0 0; }
+.bm-root .field input {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 19px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 15px 16px;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+.bm-root .field input::placeholder { color: var(--text-3); font-weight: 400; }
+.bm-root .field input:focus { outline: none; border-color: var(--signal); background: var(--surface); }
+.bm-root .field input:focus-visible { outline: none; }
+
+.bm-root .field-error {
+  font-family: var(--mono); font-size: 12.5px; color: var(--fail);
+  margin: 10px 0 0; min-height: 18px;
+}
+
+.bm-root .form-actions { display: flex; align-items: center; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
+.bm-root .form-kbd { font-family: var(--mono); font-size: 11.5px; color: var(--text-3); }
+.bm-root .form-kbd kbd {
+  font-family: var(--mono); font-size: 11px;
+  border: 1px solid var(--line-strong); border-radius: 4px;
+  padding: 2px 5px; background: var(--surface-2);
+}
+
+.bm-root .privacy {
+  margin: 30px 0 0; padding: 13px 15px;
+  background: var(--surface-2); border-radius: var(--radius-sm);
+  font-size: 12px; line-height: 1.5; color: var(--text-3); max-width: 58ch;
+}
+.bm-root .privacy:hover { color: var(--text-2); }
+.bm-root .privacy b { color: var(--text); }
+
+/* ---------- cartes de track ---------- */
+
+.bm-root .tracks { display: grid; gap: 12px; margin: 30px 0 0; }
+@media (min-width: 680px) { .bm-root .tracks { grid-template-columns: 1fr 1fr; } }
+
+.bm-root .track {
+  text-align: left;
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius);
+  padding: 20px 20px 18px;
+  cursor: pointer;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+}
+.bm-root .track:hover { border-color: var(--signal); background: var(--surface); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.bm-root .track[aria-pressed="true"] { border-color: var(--signal); background: var(--surface); box-shadow: var(--shadow-md); }
+
+.bm-root .track-id { font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--signal); }
+.bm-root .track-name { font-family: var(--mono); font-size: 17px; font-weight: 700; line-height: 1.25; }
+.bm-root .track-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+.bm-root .track-tags { font-family: var(--mono); font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+/* ---------- 3. barre de statut ---------- */
+
+.bm-root .statusbar {
+  position: sticky; top: var(--bm-header-offset); z-index: 30;
+  background: var(--signal);
+  padding: 14px 0;
+  box-shadow: 0 8px 24px rgba(30,66,174,.22);
+}
+
+.bm-root .status-row {
+  display: flex; align-items: center; gap: 12px 22px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+}
+.bm-root .status-item { display: flex; align-items: center; gap: 7px; }
+.bm-root .status-item .k { color: rgba(255,255,255,.60); text-transform: uppercase; font-size: 10.5px; letter-spacing: .12em; }
+.bm-root .status-item .v { color: #FFFFFF; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bm-root .status-spacer { flex: 1 1 auto; }
+
+/* Le palier est le seul élément de la barre dont le pack écrit la valeur dans
+   la chaîne, « Palier 1/3 » d'un bloc. Sans cette majuscule il serait le seul
+   à ne pas être en capitales, au milieu de SESSION, TRACK et NIVEAU. */
+.bm-root .status-item .v-palier { text-transform: uppercase; }
+
+.bm-root .ladder { display: flex; align-items: center; gap: 0; }
+.bm-root .ladder i {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(255,255,255,.30);
+  transition: background 260ms ease, box-shadow 260ms ease;
+}
+.bm-root .ladder .seg {
+  width: 22px; height: 0;
+  border-top: 1.5px dashed rgba(255,255,255,.38);
+}
+.bm-root .ladder i.lit { background: #FFFFFF; box-shadow: 0 0 0 3px rgba(255,255,255,.20); }
+.bm-root .ladder i.lit.exp { background: #FFC46B; box-shadow: 0 0 0 3px rgba(255,196,107,.28); }
+.bm-root .ladder .lbl { margin-left: 12px; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #FFFFFF; }
+
+/* ---------- 4. question ---------- */
+
+.bm-root .quiz-wrap { padding-block: 34px 90px; }
+
+.bm-root .timer {
+  display: flex; align-items: center; gap: 11px;
+  font-family: var(--mono); font-size: 12px; color: var(--text-3);
+  margin-bottom: 20px;
+}
+.bm-root .timer-track { flex: 1; height: 6px; background: #FFFFFF; border-radius: 3px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); }
+.bm-root .timer-fill { height: 100%; width: 100%; background: var(--signal); transform-origin: left; }
+.bm-root .timer-fill.warn { background: var(--expert); }
+.bm-root .timer-fill.crit { background: var(--fail); }
+.bm-root .timer-num { font-variant-numeric: tabular-nums; min-width: 30px; text-align: right; font-weight: 700; color: var(--text-2); }
+
+.bm-root .qcard {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 28px 28px 24px;
+  box-shadow: var(--shadow-md);
+}
+
+.bm-root .qmeta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+
+.bm-root .pill {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 20px;
+  border: 1px solid var(--line-strong); color: var(--text-2);
+}
+.bm-root .pill.beginner  { background: var(--surface-3); color: var(--text-2); border-color: transparent; }
+.bm-root .pill.intermediate { background: var(--signal-soft); color: var(--signal-ink); border-color: transparent; }
+.bm-root .pill.expert    { background: var(--expert-soft); color: var(--expert); border-color: transparent; }
+.bm-root .pill.pts { background: var(--surface-2); border-color: transparent; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.bm-root .pill.ok { background: var(--pass-soft); color: var(--pass); border-color: transparent; }
+.bm-root .pill.no { background: var(--fail-soft); color: var(--fail); border-color: transparent; }
+
+.bm-root .qtext {
+  font-family: var(--sans);
+  font-size: clamp(18px, 2.6vw, 21px);
+  font-weight: 500;
+  line-height: 1.42;
+  color: var(--text);
+  margin: 0 0 22px;
+  text-wrap: pretty;
+}
+.bm-root .qtext code, .bm-root .why code, .bm-root .key-why code {
+  font-family: var(--mono); font-size: .88em;
+  background: var(--surface-2); border-radius: 5px; padding: 2px 6px;
+}
+
+.bm-root .opts { display: flex; flex-direction: column; gap: 9px; }
+
+.bm-root .opt {
+  display: flex; align-items: flex-start; gap: 13px;
+  text-align: left; width: 100%;
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 15px 16px;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+.bm-root .opt:hover:not(:disabled) { border-color: var(--signal); background: var(--surface); box-shadow: var(--shadow-sm); }
+.bm-root .opt:disabled { cursor: default; }
+
+.bm-root .opt .key {
+  flex: 0 0 auto;
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+  width: 24px; height: 24px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surface); color: var(--text-2);
+  border: 1.5px solid var(--line-strong);
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+.bm-root .opt .label { font-size: 14.8px; line-height: 1.48; color: var(--text); }
+
+.bm-root .opt.correct { border-color: var(--pass); background: var(--pass-soft); }
+.bm-root .opt.correct .key { background: var(--pass); color: var(--surface); border-color: var(--pass); }
+.bm-root .opt.wrong { border-color: var(--fail); background: var(--fail-soft); }
+.bm-root .opt.wrong .key { background: var(--fail); color: var(--surface); border-color: var(--fail); }
+.bm-root .opt.muted { opacity: .5; }
+
+.bm-root .why {
+  margin: 18px 0 0; padding: 16px 18px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border-left: 4px solid var(--line-strong);
+  font-size: 14px; color: var(--text-2); line-height: 1.55;
+  animation: bm-rise 260ms ease both;
+}
+.bm-root .why.ok   { border-left-color: var(--pass); }
+.bm-root .why.no   { border-left-color: var(--fail); }
+.bm-root .why .verdict {
+  display: block; font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px;
+}
+.bm-root .why.ok .verdict { color: var(--pass); }
+.bm-root .why.no .verdict { color: var(--fail); }
+
+.bm-root .qfoot { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+.bm-root .qdots { display: flex; gap: 5px; }
+.bm-root .qdots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line-strong); }
+.bm-root .qdots i.ok { background: var(--pass); }
+.bm-root .qdots i.no { background: var(--fail); }
+.bm-root .qdots i.now { background: var(--signal); transform: scale(1.25); }
+
+/* ---------- bandeau de verdict ---------- */
+
+.bm-root .verdict-band {
+  position: fixed; inset: 0; z-index: 60;
+  display: grid; place-items: center;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+}
+
+.bm-root .verdict-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 34px 32px 28px;
+  max-width: 470px; width: 100%;
+  text-align: center;
+  animation: bm-flash 300ms cubic-bezier(.22,.8,.3,1) both;
+}
+.bm-root .verdict-tag {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 20px; display: inline-block;
+}
+.bm-root .verdict-tag.up   { background: var(--pass-soft); color: var(--pass); }
+.bm-root .verdict-tag.hold { background: var(--signal-soft); color: var(--signal-ink); }
+.bm-root .verdict-tag.down { background: var(--fail-soft); color: var(--fail); }
+
+.bm-root .verdict-card h3 { font-size: 27px; margin: 18px 0 0; line-height: 1.15; }
+.bm-root .verdict-card p { color: var(--text-2); font-size: 14.5px; margin: 12px auto 0; max-width: 40ch; }
+
+.bm-root .verdict-move {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin: 22px 0 4px;
+  font-family: var(--mono); font-size: 12.5px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.bm-root .verdict-move .from { color: var(--text-3); }
+.bm-root .verdict-move .arrow { color: var(--text-3); }
+.bm-root .verdict-move .to { color: var(--signal); }
+.bm-root .verdict-move .to.exp { color: var(--expert); }
+
+/* ---------- 5. carte de score ---------- */
+
+.bm-root .result-wrap { padding-block: 46px 90px; }
+
+.bm-root .result-head { text-align: center; margin-bottom: 34px; }
+.bm-root .result-head h2 { font-size: clamp(26px, 4.6vw, 38px); line-height: 1.1; margin: 14px 0 0; }
+.bm-root .result-head p { color: var(--text-2); margin: 12px auto 0; max-width: 50ch; font-size: 15.5px; }
+
+.bm-root .bench {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 26px;
+}
+.bm-root .bench-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  padding: 17px 24px;
+  background: var(--signal);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(255,255,255,.72);
+}
+.bm-root .bench-top span:last-child { color: #FFFFFF; font-weight: 700; }
+.bm-root .bench-body { padding: 30px 26px 26px; display: grid; gap: 26px; }
+/* 300 px et non les 250 de l'artefact : « ROUND 1 · INTERMÉDIAIRE · PALIER 1 »
+   ne tient pas là où « Round 1 · Intermediate » tenait, et chaque round passait
+   à trois lignes. Validé le 28 août. */
+@media (min-width: 700px) { .bm-root .bench-body { grid-template-columns: minmax(0,1fr) 300px; align-items: center; } }
+
+.bm-root .score-huge {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(58px, 13vw, 88px); line-height: .92;
+  letter-spacing: -.045em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.bm-root .score-huge .of { font-size: .30em; color: var(--text-3); letter-spacing: 0; margin-left: 8px; }
+
+.bm-root .tier-line { display: flex; align-items: center; gap: 11px; margin-top: 16px; flex-wrap: wrap; }
+.bm-root .tier-badge {
+  font-family: var(--mono); font-size: 12.5px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  padding: 7px 15px; border-radius: 20px;
+}
+.bm-root .tier-badge.beginner { background: var(--surface-3); color: var(--text-2); }
+.bm-root .tier-badge.intermediate { background: var(--signal-soft); color: var(--signal-ink); }
+.bm-root .tier-badge.expert { background: var(--expert-soft); color: var(--expert); }
+
+.bm-root .bench-blurb { color: var(--text-2); font-size: 14.5px; margin: 16px 0 0; max-width: 46ch; }
+
+.bm-root .breakdown { display: flex; flex-direction: column; gap: 1px; background: var(--line); border-radius: var(--radius-sm); overflow: hidden; }
+.bm-root .brow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 15px; background: var(--surface-2); font-family: var(--mono); font-size: 12px; }
+.bm-root .brow .rk { color: var(--text-3); letter-spacing: .1em; text-transform: uppercase; font-size: 10.5px; min-width: 0; }
+.bm-root .brow .rv { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; flex: 0 0 auto; }
+.bm-root .brow .rv.g { color: var(--pass); }
+.bm-root .brow .rv.r { color: var(--fail); }
+
+.bm-root .share-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+
+/* ---------- classement ---------- */
+
+.bm-root .lb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.bm-root .lb-head h3 { font-size: 20px; }
+
+.bm-root .lb {
+  border-radius: var(--radius);
+  overflow: hidden; background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+.bm-root .lb-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0,1fr) 66px;
+  gap: 10px; align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 13px;
+}
+@media (min-width: 640px) {
+  .bm-root .lb-row { grid-template-columns: 42px minmax(0,1.5fr) minmax(0,1fr) 108px 66px; }
+}
+.bm-root .lb-row:last-child { border-bottom: none; }
+.bm-root .lb-row.head { background: var(--surface-2); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+.bm-root .lb-row.head span { color: var(--text-3); }
+.bm-root .lb-row.you { background: var(--signal-soft); }
+.bm-root .lb-row.you .lb-name { color: var(--signal-ink); font-weight: 700; }
+
+.bm-root .lb-rank { font-weight: 700; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.bm-root .lb-name { font-weight: 500; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bm-root .lb-co   { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
+.bm-root .lb-tier { display: none; }
+.bm-root .lb-score { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+@media (min-width: 640px) { .bm-root .lb-co, .bm-root .lb-tier { display: block; } }
+
+.bm-root .lb-tier span { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border-radius: 20px; }
+.bm-root .lb-tier .t-beginner { background: var(--surface-3); color: var(--text-2); }
+.bm-root .lb-tier .t-intermediate { background: var(--signal-soft); color: var(--signal-ink); }
+.bm-root .lb-tier .t-expert { background: var(--expert-soft); color: var(--expert); }
+
+/* Le badge de reprise. Les reprises sont illimitées, donc le dire est le seul
+   mécanisme d'honnêteté du tableau. */
+.bm-root .lb-retake {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--surface-3); color: var(--text-3);
+  border-radius: 20px; padding: 2px 7px; margin-left: 7px;
+}
+
+.bm-root .lb-note { font-family: var(--mono); font-size: 11.5px; color: var(--text-3); margin: 12px 0 0; }
+.bm-root .lb-empty { padding: 24px 16px; font-size: 14px; color: var(--text-2); }
+
+/* ---------- conclusion ---------- */
+
+.bm-root .closer {
+  margin-top: 44px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  padding: 32px 30px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.bm-root .closer h3 { font-size: 21px; }
+.bm-root .closer p { margin: 0; color: var(--text-2); font-size: 15px; max-width: 56ch; }
+.bm-root .closer .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+
+.bm-root .toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(14px);
+  background: var(--signal); color: #FFFFFF;
+  font-family: var(--mono); font-size: 12.5px;
+  padding: 11px 18px; border-radius: 22px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  z-index: 90; box-shadow: var(--shadow-lg);
+}
+.bm-root .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.bm-root .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.bm-root footer.foot {
+  border-top: 1px solid var(--line-strong);
+  padding: 22px 0 30px;
+  font-family: var(--mono); font-size: 11.5px; color: var(--text-3);
+  display: flex; gap: 14px; justify-content: space-between; flex-wrap: wrap;
+}
+
+/* ---------- corrigé ---------- */
+
+.bm-root .key-card { max-width: 620px; text-align: left; max-height: 82vh; overflow-y: auto; }
+.bm-root .key-body { margin-top: 18px; display: flex; flex-direction: column; gap: 16px; }
+.bm-root .key-item { border-top: 1px solid var(--line); padding-top: 14px; }
+.bm-root .key-pills { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+.bm-root .key-q { margin: 0 0 10px; font-weight: 500; font-size: 15px; }
+.bm-root .key-line { margin: 0 0 6px; font-family: var(--mono); font-size: 12.5px; }
+.bm-root .key-line.good { color: var(--pass); }
+.bm-root .key-line.bad { color: var(--fail); }
+.bm-root .key-why { margin: 8px 0 0; font-size: 13.5px; color: var(--text-2); line-height: 1.55; }
+.bm-root .key-link { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--signal); }
+
+/* ---------- mentions discrètes ---------- */
+
+/* Les notes de bas d'écran : la mention du classement et celle du pied.
+   Elles doivent être là, elles ne doivent pas peser. Floues au repos, nettes au
+   survol et au clavier, et jamais floues pour qui a demandé moins d'animation
+   ou lit avec un lecteur d'écran, puisque le texte n'est pas caché mais
+   seulement estompé.
+
+   La mention de confidentialité de l'étape 05 n'est PAS ici, et c'est
+   délibéré : c'est la phrase qu'on lit avant de donner son adresse. Elle est
+   allégée, pas floutée. */
+.bm-root .bm-hushed {
+  filter: blur(2.2px);
+  opacity: .55;
+  transition: filter 180ms ease, opacity 180ms ease;
+}
+.bm-root .bm-hushed:hover,
+.bm-root .bm-hushed:focus-visible,
+.bm-root .bm-hushed:focus-within {
+  filter: none;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-root .bm-hushed { filter: none; opacity: .7; }
+}
+
+/* ---------- emplacements de chaînes ---------- */
+
+/* Une chaîne que le pack de contenu n'a pas fournie. Développement seulement :
+   en production, `s()` lève avant d'arriver ici. */
+.bm-root .bm-slot-missing {
+  display: inline-block;
+  border: 1px dashed var(--fail);
+  border-radius: 6px;
+  background: var(--fail-soft);
+  padding: 0 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--fail);
+  white-space: nowrap;
+}
+
+/* Une chaîne provisoire, en attente de Youssef ou d'Othmane. Elle se lit comme
+   du texte fini, c'est tout le risque, donc elle se signale en relecture.
+
+   Un simple soulignement, sans fond : le bandeau bleu de la carte de score
+   porte du texte blanc, et un fond ambre y rendait la chaîne parfaitement
+   illisible. Un repère de relecture qui casse l'écran qu'il annote se fait
+   confondre avec un bug. Visible en développement uniquement. */
+.bm-root .bm-slot-draft {
+  text-decoration: underline dashed var(--expert) 2px;
+  text-underline-offset: 4px;
+}

@@ -258,9 +258,13 @@ export const megaMenu = {
             // Pointe vers /en tant que la version française n'existe pas. La
             // langue est annoncée : un lecteur français qui tombe sur de
             // l'anglais sans prévenance repart aussi.
-            label: "Claude Code en 30 jours",
-            description: "Cours gratuit en anglais. Claude Code, pas le chat",
-            href: "/en/claude-code-challenge",
+            // Le Benchmark des Makers remplace ici le cours Claude Code en 30
+            // jours, qui n'est plus le lead magnet depuis le 28 août. Le cours
+            // reste en ligne et accessible par son adresse, il n'est
+            // simplement plus mis en avant.
+            label: "Le Benchmark des Makers",
+            description: "Testez votre niveau IA en 6 minutes",
+            href: "/benchmark",
           },
           {
             label: "Playbook AI-First",
@@ -363,12 +367,11 @@ export const footerNav = {
     { label: "Outils gratuits", href: "/outils" },
     { label: "Tous les secteurs", href: "/secteurs" },
     { label: "Playbook AI-First (PDF)", href: "/playbook-ia" },
-    // Les deux challenges. Le premier porte sur Claude, l'application de chat,
-    // par email. Le second sur Claude Code, l'outil en ligne de commande, sur
-    // le site. Libellés distincts volontairement : voir le commentaire dans le
-    // méga-menu Ressources plus haut.
+    // Le challenge par email sur Claude, l'application de chat, reste listé.
+    // Le cours Claude Code en 30 jours a cédé sa place au Benchmark le 28 août :
+    // il reste en ligne, il n'est plus mis en avant.
     { label: "Challenge 30 jours Claude", href: "/challenge-30-jours" },
-    { label: "Claude Code en 30 jours", href: "/en/claude-code-challenge" },
+    { label: "Le Benchmark des Makers", href: "/benchmark" },
     { label: "Pourquoi maintenant", href: "/pourquoi-maintenant" },
     { label: "Blog", href: "/blog" },
     { label: "Glossaire IA", href: "/glossaire-ia" },
