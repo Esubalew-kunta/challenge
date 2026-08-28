@@ -22,9 +22,8 @@ import {
   SEED_BOARD as RAW_SEED_BOARD,
 } from "./labels.ts";
 
-/** Les quatre tracks du PRD. TRK-04 « fin » n'est pas encore livré, donc
- *  `TRACKS` en compte trois pour l'instant et le quatrième s'ajoutera au
- *  fichier de contenu sans toucher une ligne de code. */
+/** Les quatre tracks du PRD, 27 questions chacun, 108 en tout. Un cinquième
+ *  s'ajouterait au fichier de contenu sans toucher une ligne de code. */
 export const TRACKS = RAW_TRACKS as Track[];
 
 export const ROLES = RAW_ROLES as Record<TrackId, string[]>;

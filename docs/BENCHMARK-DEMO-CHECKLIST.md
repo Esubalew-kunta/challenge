@@ -20,7 +20,7 @@ privée : le site se souvient de vous et la démo est plus honnête à froid.
 |---|---|
 | **Accueil** | Le titre qui oppose le diagnostic au Benchmark, quatre statistiques, les cinq règles dont la nouvelle sur le palier, « Lancer le Benchmark » |
 | **Onboarding, 5 étapes** | Une question par écran, la barre de progression, la flèche de retour ronde qui garde ce qui a été saisi, `Entrée` qui valide |
-| **Étape 04** | **Trois cartes de track**, pas quatre. Voir plus bas |
+| **Étape 04** | **Les quatre cartes de track.** Finance & RevOps est arrivé le 28 août |
 | **Étape 05** | Les rôles du track choisi, le titre reprend son nom, la mention de confidentialité. Cliquer un rôle démarre le parcours |
 | **Barre de statut** | Session, track, round, niveau en trois points, **palier**, score, tout en direct |
 | **Question** | Chrono 45 s qui passe en ambre puis en rouge, puces de niveau et de points, texte, quatre options A à D |
@@ -46,7 +46,6 @@ privée : le site se souvient de vous et la démo est plus honnête à froid.
 
 | | Pourquoi |
 |---|---|
-| **Rien sur le track Finance & RevOps** | Il n'y a pas de carte : ses 27 questions n'existent pas. Trois tracks sur quatre sont jouables. Une carte absente vaut mieux qu'une carte morte |
 | **« Copier mon post LinkedIn » sur un navigateur exotique** | Le presse-papiers est refusé hors contexte sécurisé. Sur `localhost` en Chrome ça marche ; ailleurs le message d'erreur s'affiche, ce qui est le bon comportement mais fait mauvais effet |
 | **« Réserver un appel gratuit »** | Ça ouvre le vrai formulaire de réservation du site, qui redemande nom, e-mail **et téléphone**. Nous ne collectons pas le téléphone, donc il repose des questions déjà posées |
 | **Le bouton de téléchargement du pack** | Il n'existe pas à l'écran : aucun des quatre packs n'est assemblé. Le mécanisme est en place et le bouton apparaîtra tout seul le jour où un fichier est déposé |

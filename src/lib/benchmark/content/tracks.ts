@@ -4,9 +4,9 @@
    are ordered 1-1-1 / 2-2-2 / 3-3-3, in that order. */
 
 /* TRANSCRIBED FROM THE CHAT PASTE, NOT EXPORTED FROM THE CONTENT PACK.
-   TRK-01, TRK-02 and TRK-03 arrived whole and are copied here character for
-   character. TRK-04 is NOT here: both chat pastes were cut at the 50 000
-   character limit, the second one three questions into its beginner tier.
+   The four tracks are copied here character for character. TRK-01 to TRK-03
+   arrived on 28 August, TRK-04 « Finance & RevOps » later the same day, after
+   two chat pastes had been cut at the 50 000 character limit.
 
    This file needs one verification pass against the content pack before the
    questions go anywhere near a reader. Save the pack's own export next to this
@@ -292,8 +292,98 @@ export const TRACKS = [
       o: ["Les personnes qui le font ne sont pas d'accord sur ce qu'est le bon résultat", "Il ne tourne que quelques fois par mois", "Il implique plus d'un système", "Il comporte une étape de validation"],
       why: "Fréquence, nombre de systèmes et validations sont des paramètres de conception. Un désaccord non résolu sur ce qui est correct fige la version d'une seule personne et rend le débat permanent, en plus d'invisible. Process d'abord ; sans process partagé, pas de solution." }
   ]}
+},
+{
+  id: "fin", code: "TRK-04", name: "Finance & RevOps",
+  desc: "Mettre l'IA près du chiffre d'affaires et des comptes, avec la gouvernance qui évite que ça finisse en constat d'audit.",
+  tags: "prévision · gouvernance IA · ROI · CRM ops · AI Act",
+  bank: {
+  beginner: [
+    { p: 1, q: "L'ARR désigne :",
+      o: ["La valeur annualisée de vos revenus d'abonnement récurrents", "Le chiffre d'affaires total, prestations ponctuelles comprises", "Le chiffre d'affaires moins le coût des ventes", "L'encaissement des douze derniers mois"],
+      why: "Récurrent et annualisé. Y glisser des frais de mise en service ponctuels reste la façon la plus courante de vider un ARR de son sens, et un assistant IA branché sur le CRM reproduira l'erreur avec assurance." },
+    { p: 1, q: "Le ROI d'un projet IA rapporte les gains obtenus à :",
+      o: ["Son coût total : outils, intégration, formation, maintenance", "Le coût de la licence du modèle", "Le temps de développement", "Le budget annuel de la DSI"],
+      why: "Quatre postes, et les deux derniers sont ceux qu'on oublie. Une formation qui ne suit pas et une maintenance non budgétée transforment un cas d'usage rentable sur le papier en ligne de coût sans propriétaire." },
+    { p: 1, q: "Le DSO (délai moyen de paiement client) mesure :",
+      o: ["Le nombre moyen de jours entre la vente et l'encaissement", "Le nombre de jours de stock détenu", "La durée de votre cycle de vente", "Le délai avant la reconnaissance du revenu"],
+      why: "Indicateur de conversion en trésorerie, et l'un des premiers cas d'usage qu'un audit fait ressortir : la relance est répétitive, guidée par des règles, et coûteuse à la main." },
+    { p: 2, q: "Une couverture de pipeline de 3x signifie :",
+      o: ["Les affaires ouvertes représentent trois fois l'objectif à signer", "Vous avez signé trois fois votre objectif", "Trois commerciaux travaillent le même compte", "Votre prévision est fiable à 300 %"],
+      why: "Un ratio, sans promesse attachée. 3x de couverture avec 15 % de taux de signature donne un objectif manqué de moitié." },
+    { p: 2, q: "Pourquoi ne faut-il pas coller des fiches clients dans un assistant grand public ?",
+      o: ["Vous perdez le contrôle de la destination des données et vous sortez probablement de vos engagements RGPD et contractuels", "La qualité des réponses y est moins bonne", "Ça coûte plus cher que l'API", "Le modèle les mémorisera définitivement"],
+      why: "Le RGPD s'applique pleinement dès qu'un outil traite des données personnelles. Le problème est contractuel avant d'être technique, et la bonne réponse consiste à prendre l'outil couvert par le bon contrat pour cette donnée. Vos données, vos règles." },
+    { p: 2, q: "Attrition (churn) et contraction diffèrent parce que :",
+      o: ["L'attrition est un client qui part ; la contraction est un client qui reste en dépensant moins", "L'attrition est volontaire, la contraction subie", "L'attrition porte sur le revenu, la contraction sur les comptes", "Ce sont deux mesures de la même chose"],
+      why: "Les fusionner en un seul chiffre masque le problème le plus actionnable des deux. Une contraction signale souvent un souci de valeur perçue alors que la relation est encore ouverte." },
+    { p: 3, q: "La gouvernance IA, dans une direction financière, c'est :",
+      o: ["L'ensemble des règles que l'entreprise se donne pour encadrer l'usage de l'IA : quelles décisions gardent une validation humaine, quelles données sont accessibles, qui gère un incident", "Le comité qui choisit les fournisseurs de modèles", "Une charte éthique signée par la direction", "Le suivi mensuel de la dépense en tokens"],
+      why: "Trois questions, écrites et appliquées. Une charte signée ne bloque aucune écriture ; une règle « au-delà de 10 000 €, validation humaine » codée dans l'exécuteur, si. La gouvernance se juge à ce qu'elle empêche." },
+    { p: 3, q: "Dans un flux financier assisté par IA, un « garde-fou » désigne le plus souvent :",
+      o: ["Une limite que le système applique lui-même : seuil de montant, comptes autorisés, validation obligatoire au-delà d'un niveau", "Un avertissement écrit dans le prompt", "Un tableau de bord relu chaque mois", "Une mention en bas de la sortie"],
+      why: "Appliqué, et non conseillé. Une règle formulée comme une consigne à un modèle plutôt que comme un contrôle dans l'exécution ne tiendra pas le jour où elle comptera." },
+    { p: 3, q: "La reconnaissance du revenu diffère de l'encaissement parce que :",
+      o: ["Le revenu se reconnaît à mesure que la prestation est délivrée, quelle que soit la date d'encaissement", "Les deux sont équivalents dans la plupart des référentiels", "Le revenu se reconnaît toujours plus tôt", "L'encaissement ne concerne que les abonnements"],
+      why: "Un contrat annuel payé d'avance donne de la trésorerie aujourd'hui et du revenu sur douze mois. Tout assistant IA qui touche au reporting doit respecter ce décalage, sous peine de produire des chiffres faux avec assurance." }
+  ],
+  intermediate: [
+    { p: 1, q: "Vous voulez améliorer la fiabilité de vos prévisions avec l'IA. Le mode de panne le plus dangereux :",
+      o: ["Le modèle apprend sur des dates de signature historiquement optimistes et reproduit le même biais avec plus d'assurance", "Il est trop lent pour être utile", "Il n'a pas accès au CRM", "Il coûte plus cher qu'un tableur"],
+      why: "Données douteuses en entrée, chiffres douteux mais crédibles en sortie. Sans travail d'hygiène sur les données, vous aurez automatisé votre biais de prévision en lui offrant un gain de crédibilité. Process d'abord, modèle ensuite." },
+    { p: 1, q: "Quelle tâche RevOps se prête le moins à une automatisation complète ?",
+      o: ["Décider de passer en perte le solde d'un compte stratégique", "Enrichir des fiches comptes depuis un fournisseur de données", "Signaler les doublons dans le CRM", "Router les prospects entrants selon des règles de territoire"],
+      why: "Irréversible, chargée de relation, à faible volume : trois propriétés qui plaident pour un humain. Les trois autres tâches sont volumineuses et guidées par des règles, exactement là où un cas d'usage se chiffre." },
+    { p: 1, q: "Un modèle de scoring d'affaires se dégrade six mois après sa mise en service. Cause la plus probable :",
+      o: ["La dérive : votre cible, vos prix ou votre méthode de vente ont changé, les schémas appris ne tiennent plus", "Le fichier du modèle s'est corrompu", "La version de l'API a changé", "Trop d'utilisateurs l'interrogent"],
+      why: "Un modèle de scoring est périssable. Sans réévaluation programmée contre les résultats récents, vous jouez le manuel de l'an dernier sur le marché de cette année. Cette réévaluation, c'est la ligne « maintenance » du ROI." },
+    { p: 2, q: "Vous automatisez le rapprochement entre factures et bons de commande. Le garde-fou indispensable :",
+      o: ["Un seuil de montant et une tolérance d'écart au-delà desquels un humain valide", "Un score de confiance affiché dans l'interface", "Un audit mensuel sur échantillon", "Un e-mail de confirmation au fournisseur"],
+      why: "On rapproche automatiquement le petit, le propre et le dans-la-tolérance ; le reste part vers une personne. Le seuil doit être appliqué par le système et non laissé à l'attention d'un relecteur." },
+    { p: 2, q: "Une IA rédige vos relances de factures impayées. Le risque de conformité à traiter en premier :",
+      o: ["Un ton ou des affirmations qui sortent du cadre légal du recouvrement ou du contrat, envoyés sans relecture", "Des e-mails mal écrits", "Le coût de génération", "La délivrabilité en boîte de réception"],
+      why: "Les communications de recouvrement sont encadrées dans la plupart des pays. Contraindre à des modèles validés avec des champs variables, plutôt qu'à de la génération libre, fait tomber l'essentiel du risque." },
+    { p: 2, q: "Vous calculez le ROI d'un agent RevOps. Le poste que les équipes oublient le plus souvent :",
+      o: ["Le coût courant de surveillance, de correction des erreurs et de maintenance de l'intégration", "Le coût d'API du modèle", "Le temps de mise en place", "La formation de l'équipe"],
+      why: "Le coût d'exploitation. Un agent juste à 95 % sur 2 000 éléments par mois produit 100 exceptions que quelqu'un doit traiter. Budgétez-les, ou votre calcul de rentabilité relève de la fiction." },
+    { p: 3, q: "Vous enrichissez des fiches clients européennes via un fournisseur de données américain. La préoccupation première :",
+      o: ["La base légale et le mécanisme de transfert des données personnelles concernées", "La latence de l'API entre régions", "La conversion de devise dans les fiches", "La couverture des entreprises européennes par le fournisseur"],
+      why: "Question RGPD bien réelle, à établir avant de construire la chaîne. Rattraper une base légale sur un système déjà en fonctionnement coûte beaucoup plus cher que de la poser au départ." },
+    { p: 3, q: "Votre assistant répond à « quel est notre taux de rétention nette ? » depuis l'entrepôt de données. Pour faire confiance à la réponse, il vous faut surtout :",
+      o: ["La requête exécutée et la définition employée, affichées à côté du chiffre", "Un score de confiance", "Un second modèle qui vérifie", "La réponse présentée sous forme de graphique"],
+      why: "La rétention nette a une demi-douzaine de définitions défendables. Un chiffre sans sa requête et sa définition reste une affirmation, et une réponse financière doit être reproductible." },
+    { p: 3, q: "Le meilleur argument pour faire valider chaque devis sortant par un humain, même avec une IA juste à 98 % :",
+      o: ["Un devis est un engagement commercial : le coût des 2 % est sans commune mesure avec l'économie sur les 98 %", "Les clients préfèrent un contact humain", "L'IA n'a pas accès à la grille tarifaire", "La réglementation l'impose"],
+      why: "On automatise selon la conséquence, jamais selon la justesse seule. Une justesse élevée sur un travail réversible est un feu vert ; la même justesse sur un engagement contractuel ne l'est plus. Voilà où l'humain reste indispensable." }
+  ],
+  expert: [
+    { p: 1, q: "Un même agent crée et valide un paiement fournisseur. La séparation des tâches :",
+      o: ["Est violée : le même acteur initie et approuve, qu'il soit logiciel ou non", "Est préservée, un logiciel n'ayant pas d'intérêt personnel", "Est une question de politique interne sans réponse technique", "Ne s'applique qu'au-dessus d'un certain montant"],
+      why: "La séparation porte sur l'indépendance du contrôle, pas sur l'intention. Un prompt détourné ou une description d'outil mal écrite déplace alors de l'argent de bout en bout, sans rien sur le chemin." },
+    { p: 1, q: "Vous fixez les seuils au-delà desquels un agent ne peut plus agir seul en finance. La bonne base :",
+      o: ["La conséquence et la réversibilité de l'action, pas la confiance du modèle", "Le score de confiance auto-déclaré du modèle", "Un pourcentage fixe du montant de la transaction", "La justesse historique sur des tâches similaires"],
+      why: "La confiance est une propriété du modèle, la conséquence une propriété du monde. Une reclassification réversible de 50 000 € s'automatise plus sereinement qu'un paiement irréversible de 500 €." },
+    { p: 1, q: "La dépense en tokens augmente dans plusieurs équipes et personne ne la porte. La correction structurelle :",
+      o: ["Une clé d'API ou une étiquette par équipe, rattachée à un centre de coût, avec budgets et alertes au niveau de la clé", "Un rapport mensuel à la direction financière", "Un plafond sur le compte global", "Passer à un modèle moins cher"],
+      why: "On ne répartit pas ce qu'on ne sait pas attribuer. Étiqueter au niveau de la clé transforme la dépense IA en ligne de coût ordinaire avec un propriétaire, ce qui suffit généralement à la contenir." },
+    { p: 2, q: "Un document de comité rédigé avec l'aide de l'IA contient un chiffre de revenu que personne ne sait reproduire. Le contrôle qui aurait dû l'empêcher :",
+      o: ["Chaque chiffre porte sa filiation vers une requête sur une source gouvernée, et un chiffre sans source ne peut pas être publié", "Une relecture et une correction orthographique", "Un modèle plus performant", "Une mention indiquant l'usage de l'IA"],
+      why: "La traçabilité doit être structurelle plutôt que procédurale. Si l'étape de génération ne peut pas rattacher une source, elle ne doit pas pouvoir produire de chiffre ; une relecture, elle, passera à côté à chaque échéance serrée." },
+    { p: 2, q: "Un agent passe des écritures comptables. Pour l'audit, vous devez pouvoir démontrer :",
+      o: ["Qui a autorisé l'agent, ce qu'il a fait, sur quelles entrées, et qu'aucun humain n'a pu être contourné sur les écritures contrôlées", "Que le modèle était juste pendant les tests", "Le rapport de certification du fournisseur", "Le prompt de l'agent"],
+      why: "Un auditeur pose à un agent les mêmes questions qu'à un salarié : autorité, preuve, respect de la séparation des tâches. « C'est l'IA qui l'a fait » ne constitue pas un contrôle." },
+    { p: 2, q: "L'AI Act européen classe un système par niveau de risque. Pour un outil de scoring de crédit ou de tri de candidatures, la conséquence pratique :",
+      o: ["Le système est à haut risque : documentation, supervision humaine et journalisation deviennent des obligations, pas des bonnes pratiques", "Le système est interdit", "Aucune : l'AI Act ne concerne que les fournisseurs de modèles", "Une simple mention d'usage de l'IA suffit"],
+      why: "Entré en vigueur en 2024, à application progressive. Le crédit et le recrutement figurent dans les usages à haut risque : la gouvernance que vous auriez dû écrire de toute façon devient exigible, avec un calendrier. Autant l'écrire avant qu'on vous la demande." },
+    { p: 3, q: "Prévoir les signatures du trimestre prochain : quand une régression statistique vaut-elle mieux qu'un modèle de langage ?",
+      o: ["Quand vous avez un historique chiffré propre et qu'il vous faut une estimation reproductible et explicable", "Quand il faut aller vite", "Quand le jeu de données est petit", "Quand les décideurs veulent un récit"],
+      why: "À chacun son terrain. La statistique produit le chiffre ; le modèle de langage lit le signal non structuré autour, comptes rendus d'appels, fils de support, mentions de concurrents, et explique l'écart." },
+    { p: 3, q: "Votre modèle d'attribution assisté par IA et votre modèle multi-touch divergent de 30 % sur la contribution d'un canal. La bonne réaction :",
+      o: ["Traiter ça comme un conflit de définitions à trancher explicitement, et désigner un système de référence pour les décisions", "Faire la moyenne des deux", "Retenir celui qui soutient le budget en cours", "Écarter le modèle le plus récent"],
+      why: "Faire la moyenne de deux définitions incompatibles produit un chiffre qui ne décrit rien. L'attribution est un choix de modélisation : on le fait une fois, on l'écrit, et toutes les décisions passent par le même." },
+    { p: 3, q: "Vous construisez un générateur de devis interne pour l'équipe commerciale. L'élément de conception qui compte le plus :",
+      o: ["Des entrées validées par schéma, une source tarifaire unique, et un blocage dur des remises au-delà du niveau autorisé", "Un prompt bien écrit décrivant la politique tarifaire", "Une grande fenêtre de contexte avec la grille tarifaire collée dedans", "Un modèle affiné sur les devis passés"],
+      why: "Une politique tarifaire écrite dans un prompt reste une suggestion dont on peut détourner le modèle. Écrite en validation dans l'exécution, elle devient une règle, et le niveau de remise autorisé est précisément l'endroit où vous serez testé." }
+  ]}
 }
 ];
-
-/* TRK-04 « Finance & RevOps » manque encore : les deux collages ont été coupés.
-   Il vient s'ajouter ici, en quatrième position, avec ses 27 questions. */

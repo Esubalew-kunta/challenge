@@ -268,8 +268,16 @@ test("chaque track livré est rangé comme le moteur l'attend", () => {
       assert.equal(track.bank[tier].length, TOTAL_QUESTIONS, `${track.code}/${tier}`);
     }
   }
-  // TRK-04 « fin » n'est pas encore livré. Ce chiffre monte à 4 quand il arrive.
-  assert.equal(TRACKS.length, 3);
+  // Les quatre tracks sont livrés : 4 × 27 = 108 questions.
+  assert.equal(TRACKS.length, 4);
+  assert.deepEqual(
+    TRACKS.map((t) => t.id),
+    ["growth", "eng", "ops", "fin"],
+  );
+  assert.equal(
+    TRACKS.reduce((n, t) => n + TIERS.reduce((m, tier) => m + t.bank[tier].length, 0), 0),
+    108,
+  );
 });
 
 test("une banque mal rangée est refusée plutôt que servie de travers", () => {
@@ -299,18 +307,19 @@ test("les points par niveau sont ceux du PRD", () => {
 });
 
 test("un track sans banque ne se propose pas et ne se démarre pas", () => {
-  // TRK-04 « fin » a ses rôles mais pas ses 27 questions. Il ne doit apparaître
-  // nulle part tant que la banque n'est pas livrée : une carte cliquable qui ne
-  // lance rien est pire qu'une carte absente.
-  assert.equal(
-    TRACKS.some((t) => t.id === "fin"),
-    false,
-  );
-  assert.equal(trackById("fin"), undefined);
+  // Les quatre tracks du PRD ont maintenant leur banque. Le chemin de secours
+  // doit rester en place : un identifiant sans banque ne se résout pas, et
+  // l'onboarding renvoie au choix du département plutôt que de lancer un
+  // parcours vide.
+  assert.equal(trackById("inconnu"), undefined);
 
-  // Et le jour où la banque arrive mal rangée, le moteur refuse au lieu de
+  // Et le jour où une banque arrive mal rangée, le moteur refuse au lieu de
   // servir la mauvaise difficulté en silence.
   const broken = JSON.parse(JSON.stringify(TRACKS[0])) as Track;
   broken.bank.beginner.pop();
   assert.throws(() => startRun(broken), /8 questions/);
+
+  const wrongPalier = JSON.parse(JSON.stringify(TRACKS[3])) as Track;
+  wrongPalier.bank.expert[0].p = 2;
+  assert.throws(() => startRun(wrongPalier), /palier 2, il faut 1/);
 });
