@@ -163,15 +163,15 @@
    premier écran. Plafond descendu à 40 px, validé le 28 août. C'est le seul
    endroit où l'échelle typographique de l'artefact est modifiée. */
 .bm-root .intro h1 {
-  font-size: clamp(30px, 4.4vw, 40px);
-  line-height: 1.04;
+  font-size: clamp(28px, 3.4vw, 34px);
+  line-height: 1.08;
   margin: 26px 0 0;
 }
 .bm-root .intro h1 .accent { color: var(--signal); }
 
 .bm-root .intro .lede {
-  font-size: 17.5px; color: var(--text-2);
-  max-width: 56ch; margin: 22px 0 0;
+  font-size: 16.5px; color: var(--text-2);
+  max-width: 56ch; margin: 20px 0 0;
 }
 
 .bm-root .spec-grid {
@@ -294,8 +294,8 @@
 .bm-root .role[aria-pressed="true"] { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
 
 .bm-root .form-step h2 {
-  font-size: clamp(24px, 4.2vw, 34px);
-  line-height: 1.15;
+  font-size: clamp(22px, 3.2vw, 28px);
+  line-height: 1.18;
   margin: 10px 0 0;
 }
 .bm-root .form-step .hint { color: var(--text-2); font-size: 15px; margin: 12px 0 0; max-width: 52ch; }
@@ -336,6 +336,26 @@
 }
 .bm-root .privacy:hover { color: var(--text-2); }
 .bm-root .privacy b { color: var(--text); }
+
+/* ---------- échelle typographique resserrée ----------
+
+   Écart assumé avec l'artefact, demandé par le propriétaire le 29 août : la
+   page « paraissait un peu zoomée ».
+
+   Mesuré avant de toucher quoi que ce soit : aucun zoom réel. Base 16 px,
+   `devicePixelRatio` à 1, colonne de 720 px comme dans l'artefact. Ce qui
+   grossit, c'est le gros texte : un h1 de 40 px en mono sur trois lignes dans
+   une colonne qui n'occupe que la moitié d'un écran de 1440 px, quand le reste
+   du site travaille dans 1280 px.
+
+   Six tailles d'affichage baissent d'environ 15 %, et rien d'autre : le texte
+   courant reste à 16 px, les libellés et les options ne bougent pas. Réduire la
+   base aurait rendu la page moins lisible au lieu de la rendre moins grosse.
+
+   Les minimums des clamp bougent à peine : sur téléphone, l'artefact avait
+   raison, c'est en grand écran que l'échelle décrochait.
+
+   Enregistré dans check-benchmark-css.mjs, une entrée par sélecteur. */
 
 /* ---------- onboarding centré ----------
 
@@ -470,9 +490,9 @@
 
 .bm-root .qtext {
   font-family: var(--sans);
-  font-size: clamp(18px, 2.6vw, 21px);
+  font-size: clamp(17px, 2.2vw, 19px);
   font-weight: 500;
-  line-height: 1.42;
+  line-height: 1.45;
   color: var(--text);
   margin: 0 0 22px;
   text-wrap: pretty;
@@ -585,7 +605,7 @@
 .bm-root .result-wrap { padding-block: 46px 90px; }
 
 .bm-root .result-head { text-align: center; margin-bottom: 34px; }
-.bm-root .result-head h2 { font-size: clamp(26px, 4.6vw, 38px); line-height: 1.1; margin: 14px 0 0; }
+.bm-root .result-head h2 { font-size: clamp(24px, 3.6vw, 31px); line-height: 1.14; margin: 14px 0 0; }
 .bm-root .result-head p { color: var(--text-2); margin: 12px auto 0; max-width: 50ch; font-size: 15.5px; }
 
 .bm-root .bench {
@@ -614,7 +634,7 @@
 
 .bm-root .score-huge {
   font-family: var(--mono); font-weight: 700;
-  font-size: clamp(58px, 13vw, 88px); line-height: .92;
+  font-size: clamp(50px, 10vw, 72px); line-height: .94;
   letter-spacing: -.045em;
   font-variant-numeric: tabular-nums;
   color: var(--text);

@@ -13,7 +13,7 @@
  * immédiatement en développement.
  */
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   POINTS,
   ROUNDS,
@@ -90,6 +90,27 @@ export function BenchmarkApp({
   const [board, setBoard] = useState<Board | null>(null);
   const [corrigeOpen, setCorrigeOpen] = useState(false);
   const [toastKey, setToastKey] = useState<string | null>(null);
+
+  /**
+   * Remonter en haut à chaque changement d'écran.
+   *
+   * Une seule route, aucun rechargement : le navigateur ne remet donc jamais le
+   * défilement à zéro tout seul, comme il le ferait d'une page à l'autre. Le
+   * lecteur qui descendait pour lire les quatre options restait à la même
+   * hauteur sur la question suivante, et arrivait sur la carte de score à 800 px
+   * du haut, sans voir son score.
+   *
+   * Se déclenche sur l'écran et sur la question tirée, pas sur la réponse :
+   * cliquer une option révèle le résultat sous les yeux du lecteur, il ne faut
+   * surtout pas bouger à ce moment-là.
+   *
+   * `instant` et non `smooth` : une animation de 800 px entre deux questions
+   * fait perdre le fil, et c'est aussi le comportement attendu par qui a demandé
+   * moins d'animations dans son système.
+   */
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [screen, drawn]);
 
   const toastTimer = useRef<number | null>(null);
   const showToast = useCallback((key: string) => {

@@ -63,12 +63,26 @@ const DEAD_IN_ARTIFACT = new Set([".btn-quiet", ".btn-quiet:hover", ".optional-t
    28 août, parce que le français est plus long que l'anglais autour duquel
    l'artefact a été dessiné. Toute autre valeur qui bouge reste une dérive. */
 const APPROVED_OVERRIDES = [
-  {
-    selector: ".intro h1",
-    property: "font-size",
-    reason:
-      "titre français sur deux phrases longues : 7 lignes et 408 px à 56 px, contre 233 px pour la référence",
-  },
+  /* Échelle typographique resserrée, 29 août. La page paraissait « un peu
+     zoomée » : mesure faite, aucun zoom réel, base 16 px et colonne de 720 px
+     comme l'artefact. Ce qui grossit est le gros texte, dans une colonne qui
+     n'occupe que la moitié d'un écran large. Six tailles d'affichage baissent
+     d'environ 15 %, avec leur interlignage ; le texte courant ne bouge pas. */
+  ...[
+    [".intro h1", ["font-size", "line-height"]],
+    [".intro .lede", ["font-size", "margin"]],
+    [".form-step h2", ["font-size", "line-height"]],
+    [".qtext", ["font-size", "line-height"]],
+    [".result-head h2", ["font-size", "line-height"]],
+    [".score-huge", ["font-size", "line-height"]],
+  ].flatMap(([selector, properties]) =>
+    properties.map((property) => ({
+      selector,
+      property,
+      reason:
+        "échelle d'affichage resserrée d'environ 15 % à la demande du propriétaire : l'artefact vivait seul dans sa page, ici la colonne partage un écran large avec le reste du site",
+    })),
+  ),
   {
     selector: ".bench-body",
     property: "grid-template-columns",
