@@ -117,7 +117,7 @@ export const STRINGS_EN: Record<string, string> = {
   "onboarding.step3.label": "At which company?",
   "onboarding.step3.placeholder": "Your company name",
   "onboarding.step3.hint":
-    "Your company appears on the leaderboard next to your score. Once three colleagues have taken the Benchmark, you have a picture of the team's AI maturity, with no questionnaire.",
+    "It appears nowhere. We use it to group the runs of one team when several colleagues take the Benchmark, and to place our answers in your context.",
   "onboarding.step3.error":
     "Freelance, or between two jobs? Write that down, it counts too.",
 
@@ -143,7 +143,7 @@ export const STRINGS_EN: Record<string, string> = {
   // propriétaire du 28 août : la version française est déjà en ligne, donc les
   // deux disent la même chose non validée plutôt qu'une seule.
   "onboarding.step5.privacy":
-    "On the leaderboard: display name, company, level, score. Your email is stored, never displayed, and is only used to send you your scorecard. Your data, your rules.",
+    "On the leaderboard: display name, level, score. Your company and your email are stored, never displayed, and are only used to send you your scorecard. Your data, your rules.",
 
   // ----------------------------------------------------------------- question
   "question.timerLabel": "Time",
@@ -224,8 +224,26 @@ export const STRINGS_EN: Record<string, string> = {
   "scorecard.copyLinkedIn": "Copy my LinkedIn post",
   "scorecard.seeCorrige": "See the answer key",
   "scorecard.otherTrack": "Try another track",
-  // PROVISOIRE, voir DRAFT_KEYS.
-  "scorecard.download": "Download the {track} pack",
+
+  // --------------------------------------------------------------------- badge
+  // Traduit du français, non relu, comme tout ce fichier. Les {jetons} gardent
+  // leur nom français : ce sont des clés, pas du texte.
+  //
+  // Le mot « certification » est banni ici aussi. On dit « level » ou
+  // « result ». Le test `badge-wording` couvre les deux langues.
+  "badge.shareLinkedIn": "Post on LinkedIn",
+  "badge.download": "Download the badge",
+  "badge.addToProfile": "Add to my profile",
+  "badge.previewAlt": "The Makers Benchmark badge, {niveau} level, {track} track",
+  "badge.profileEntry": "The Makers Benchmark, {niveau} level ({track})",
+  "badge.pageTitle": "{nom}, {niveau} level",
+  "badge.pageLead": "{score} out of {max} on The Makers Benchmark, {track} track.",
+  "badge.backToBenchmark": "Take the Benchmark",
+  "badge.honest":
+    "This badge records a run played on aimakers.fr. It is not a proctored exam, and the score on it was earned over nine questions.",
+  "badge.brokenTitle": "This badge link is incomplete",
+  "badge.brokenBody":
+    "Something is missing from the link, or one part of it was edited. Play the Benchmark to get a badge in your own name.",
 
   // ------------------------------------------------------------------- corrigé
   "corrige.title": "Answer key",
@@ -241,6 +259,10 @@ export const STRINGS_EN: Record<string, string> = {
   "leaderboard.title": "Leaderboard",
   "leaderboard.colRank": "#",
   "leaderboard.colName": "Name",
+  // Plus rendue depuis le 31 août : la colonne entreprise est retirée du
+  // classement. La clé reste, parce que la retirer casserait la parité entre
+  // les deux langues pour une chaîne qui coûte quinze octets, et parce que
+  // remettre la colonne un jour ne doit pas demander de réécrire l'en-tête.
   "leaderboard.colCompany": "Company",
   "leaderboard.colTier": "Level",
   "leaderboard.colScore": "Score",
@@ -271,7 +293,7 @@ export const STRINGS_EN: Record<string, string> = {
   // depuis Supabase. Version courte, option B du même document.
   // PROVISOIRE, en attente d'Othmane.
   "leaderboard.note":
-    "One leaderboard, four departments. Display name, company, level, score: never an email address. The first runs are examples.",
+    "One leaderboard, four departments. Display name, level, score: no company, no email address. The first runs are examples.",
 
   // ---------------------------------------------------------------- conversion
   "closer.eyebrow": "What comes next",
@@ -293,6 +315,14 @@ export const STRINGS_EN: Record<string, string> = {
   // contenu à elle : retirées le 28 août, parce qu'une clé vide n'est pas une
   // place réservée mais un trou, et que ces deux-là empêchaient une locale
   // d'être jamais déclarée complète.
+
+  // --------------------------------------------------------------------- langue
+  // Traduit du français, non relu, comme tout ce fichier.
+  "guard.title": "Switch language?",
+  "guard.body":
+    "The Benchmark restarts from the home screen in the other language: the answers you have already given do not follow. A finished run stays on the leaderboard.",
+  "guard.confirm": "Switch anyway",
+  "guard.cancel": "Stay here",
 
   // -------------------------------------------------------------------- toasts
   "toast.linkedInCopied": "Post copied. Paste it straight into LinkedIn",

@@ -116,8 +116,16 @@ export const STRINGS_FR: Record<string, string> = {
 
   "onboarding.step3.label": "Dans quelle entreprise ?",
   "onboarding.step3.placeholder": "Nom de votre entreprise",
+  // RÉÉCRITE LE 31 AOÛT, PROVISOIRE, en attente de Youssef.
+  //
+  // L'ancienne version disait « Votre entreprise s'affiche au classement à côté
+  // de votre score ». Ce n'est plus vrai depuis que la colonne est retirée, et
+  // une phrase qui promet un affichage inexistant est pire qu'une phrase
+  // absente : elle justifie une collecte par une contrepartie qu'on ne donne
+  // pas. La raison de demander le champ a donc été réécrite autour de ce qu'il
+  // sert réellement à faire.
   "onboarding.step3.hint":
-    "Votre entreprise s'affiche au classement à côté de votre score. Quand trois collègues passent le Benchmark, vous avez une photo de la maturité IA de l'équipe, sans questionnaire.",
+    "Elle ne s'affiche nulle part. Elle nous sert à regrouper les parcours d'une même équipe quand plusieurs collègues passent le Benchmark, et à situer nos réponses dans votre contexte.",
   "onboarding.step3.error":
     "Indépendant ou entre deux postes ? Écrivez-le, ça compte aussi.",
 
@@ -141,7 +149,7 @@ export const STRINGS_FR: Record<string, string> = {
   //
   // PROVISOIRE, en attente d'Othmane.
   "onboarding.step5.privacy":
-    "Au classement : nom d'affichage, entreprise, niveau, score. Votre e-mail est enregistré, jamais affiché, et sert seulement à vous envoyer votre carte de score. Vos données, vos règles.",
+    "Au classement : nom d'affichage, niveau, score. Votre entreprise et votre e-mail sont enregistrés, jamais affichés, et servent seulement à vous envoyer votre carte de score. Vos données, vos règles.",
 
   // ----------------------------------------------------------------- question
   "question.timerLabel": "Temps",
@@ -222,8 +230,32 @@ export const STRINGS_FR: Record<string, string> = {
   "scorecard.copyLinkedIn": "Copier mon post LinkedIn",
   "scorecard.seeCorrige": "Voir le corrigé",
   "scorecard.otherTrack": "Essayer un autre track",
-  // PROVISOIRE, voir DRAFT_KEYS.
-  "scorecard.download": "Télécharger le pack {track}",
+
+  // --------------------------------------------------------------------- badge
+  // Le pack livre la maquette du badge et le gabarit du post, pas les libellés
+  // des trois boutons ni le texte de la page de badge. Ils sont écrits ici pour
+  // que l'écran fonctionne, et ils sont tous PROVISOIRE : voir DRAFT_KEYS.
+  //
+  // Le mot « certification » est banni de tout ce bloc. On dit « niveau » ou
+  // « résultat », c'est la règle du pack, et le test `badge-wording` la tient.
+  // La section où LinkedIn range l'entrée porte son propre nom, que nous ne
+  // choisissons pas et que nous ne recopions nulle part.
+  "badge.shareLinkedIn": "Publier sur LinkedIn",
+  "badge.download": "Télécharger le badge",
+  "badge.addToProfile": "Ajouter à mon profil",
+  "badge.previewAlt": "Badge du Benchmark des Makers, niveau {niveau}, track {track}",
+  // L'intitulé pré-rempli dans le profil LinkedIn. Il nomme un niveau atteint
+  // sur un track, et rien de plus.
+  "badge.profileEntry": "Le Benchmark des Makers, niveau {niveau} ({track})",
+  "badge.pageTitle": "{nom}, niveau {niveau}",
+  "badge.pageLead": "{score} sur {max} au Benchmark des Makers, track {track}.",
+  "badge.backToBenchmark": "Passer le Benchmark",
+  // La ligne honnête. Le badge porte notre marque : il doit dire ce qu'il est.
+  "badge.honest":
+    "Ce badge rend compte d'un parcours joué sur aimakers.fr. Ce n'est pas un examen surveillé, et le score qui y figure a été obtenu en neuf questions.",
+  "badge.brokenTitle": "Ce lien de badge est incomplet",
+  "badge.brokenBody":
+    "Il manque un élément au lien, ou l'un d'eux a été modifié. Rejouez le Benchmark pour obtenir un badge à votre nom.",
 
   // ------------------------------------------------------------------- corrigé
   "corrige.title": "Corrigé",
@@ -239,6 +271,10 @@ export const STRINGS_FR: Record<string, string> = {
   "leaderboard.title": "Classement",
   "leaderboard.colRank": "#",
   "leaderboard.colName": "Nom",
+  // Plus rendue depuis le 31 août : la colonne entreprise est retirée du
+  // classement. La clé reste, parce que la retirer casserait la parité entre
+  // les deux langues pour une chaîne qui coûte quinze octets, et parce que
+  // remettre la colonne un jour ne doit pas demander de réécrire l'en-tête.
   "leaderboard.colCompany": "Entreprise",
   "leaderboard.colTier": "Niveau",
   "leaderboard.colScore": "Score",
@@ -257,7 +293,7 @@ export const STRINGS_FR: Record<string, string> = {
   // depuis Supabase. Version courte, option B du même document.
   // PROVISOIRE, en attente d'Othmane.
   "leaderboard.note":
-    "Un seul classement, quatre départements. Nom d'affichage, entreprise, niveau, score : jamais d'adresse e-mail. Les premiers parcours sont des exemples.",
+    "Un seul classement, quatre départements. Nom d'affichage, niveau, score : ni entreprise, ni adresse e-mail. Les premiers parcours sont des exemples.",
 
   // ---------------------------------------------------------------- conversion
   "closer.eyebrow": "Et maintenant",
@@ -279,6 +315,21 @@ export const STRINGS_FR: Record<string, string> = {
   // contenu à elle : retirées le 28 août, parce qu'une clé vide n'est pas une
   // place réservée mais un trou, et que ces deux-là empêchaient une locale
   // d'être jamais déclarée complète.
+
+  // ------------------------------------------------------------------- langue
+  // Le garde-fou de la bascule FR / EN pendant un parcours. Voir
+  // `language-guard.tsx` : le changement de langue est une navigation complète,
+  // donc il efface le parcours en cours. Prévenir supprime la perte
+  // silencieuse ; conserver le parcours d'une langue à l'autre demanderait de
+  // rejouer la même sélection dans l'autre banque, ce qui attend la remise à
+  // jour de l'anglais.
+  //
+  // PROVISOIRE, voir DRAFT_KEYS.
+  "guard.title": "Changer de langue ?",
+  "guard.body":
+    "Le Benchmark repart de l'accueil dans l'autre langue : les réponses déjà données ne suivent pas. Un parcours déjà terminé reste au classement.",
+  "guard.confirm": "Changer quand même",
+  "guard.cancel": "Rester ici",
 
   // -------------------------------------------------------------------- toasts
   "toast.linkedInCopied": "Post copié. Collez-le directement dans LinkedIn",
@@ -314,11 +365,29 @@ export const DRAFT_KEYS_FR = new Set<string>([
   "meta.title",
   "meta.description",
   "landing.challengedBy",
-  "scorecard.download",
   "leaderboard.empty",
   "scorecard.benchTop",
   "leaderboard.retakeBadge",
   "onboarding.step5.privacy",
   "leaderboard.note",
   "footer.privacy",
+  "guard.title",
+  "guard.body",
+  "guard.confirm",
+  "guard.cancel",
+  // Réécrite le 31 août : l'ancienne promettait un affichage de l'entreprise au
+  // classement, ce qui n'est plus vrai. En attente de Youssef.
+  "onboarding.step3.hint",
+  // Le bloc badge en entier : le pack a livré la maquette, pas les libellés.
+  "badge.shareLinkedIn",
+  "badge.download",
+  "badge.addToProfile",
+  "badge.previewAlt",
+  "badge.profileEntry",
+  "badge.pageTitle",
+  "badge.pageLead",
+  "badge.backToBenchmark",
+  "badge.honest",
+  "badge.brokenTitle",
+  "badge.brokenBody",
 ]);

@@ -662,6 +662,25 @@
 
 .bm-root .share-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
 
+/* ---------- badge ---------- */
+
+/* L'écran de partage du pack, replié dans la carte de score. L'aperçu est le
+   SVG servi par la route d'image : il porte son propre ratio 1200x630, donc
+   `height: auto` suffit et rien ne saute pendant le chargement. */
+.bm-root .badge-block { margin-bottom: 28px; }
+
+.bm-root .badge-preview {
+  display: block;
+  width: 100%; height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+
+/* Sur téléphone le badge tombe à environ 320 px de large : le score y reste
+   lisible, le nom moins. C'est accepté, l'aperçu sert à reconnaître ce qu'on
+   s'apprête à publier, pas à le lire. */
+
 /* ---------- classement ---------- */
 
 .bm-root .lb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -680,8 +699,16 @@
   border-bottom: 1px solid var(--line);
   font-family: var(--mono); font-size: 13px;
 }
+/* Le tableau ne s'étire plus sur toute la colonne depuis que la colonne
+   « entreprise » est partie : quatre colonnes courtes dans 1000 px laissaient
+   un vide de plusieurs centaines de pixels entre le nom et le niveau. Il est
+   donc borné à la largeur de ce qu'il contient, et reste aligné à gauche avec
+   la carte de score au-dessus plutôt que centré sous elle. En dessous de
+   640 px il n'y a que trois colonnes et la largeur pleine est la bonne. */
 @media (min-width: 640px) {
-  .bm-root .lb-row { grid-template-columns: 42px minmax(0,1.5fr) minmax(0,1fr) 108px 66px; }
+  .bm-root .lb-row { grid-template-columns: 42px minmax(0,1fr) 108px 66px; }
+  .bm-root .lb,
+  .bm-root .lb-head { max-width: 560px; }
 }
 .bm-root .lb-row:last-child { border-bottom: none; }
 .bm-root .lb-row.head { background: var(--surface-2); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
@@ -691,10 +718,11 @@
 
 .bm-root .lb-rank { font-weight: 700; color: var(--text-3); font-variant-numeric: tabular-nums; }
 .bm-root .lb-name { font-weight: 500; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bm-root .lb-co   { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
 .bm-root .lb-tier { display: none; }
 .bm-root .lb-score { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
-@media (min-width: 640px) { .bm-root .lb-co, .bm-root .lb-tier { display: block; } }
+/* La colonne entreprise a été retirée du classement le 31 août : elle n'est
+   plus masquée, elle n'est plus envoyée. Voir `board.ts`. */
+@media (min-width: 640px) { .bm-root .lb-tier { display: block; } }
 
 .bm-root .lb-tier span { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border-radius: 20px; }
 .bm-root .lb-tier .t-beginner { background: var(--surface-3); color: var(--text-2); }

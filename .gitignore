@@ -25,6 +25,10 @@
 *.pem
 
 # debug
+# Les journaux du serveur de développement, redirigés à la main quand on le
+# lance en arrière-plan. Ils portent des adresses locales et des traces, ils
+# n'ont rien à faire dans l'historique.
+dev-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

@@ -9,7 +9,6 @@ function row(over: Partial<StoredRow> = {}): StoredRow {
   return {
     id: "id-1",
     publicName: "Esubalew K.",
-    company: "AI Makers",
     trackId: "eng",
     finalTier: "expert",
     score: 240,
@@ -97,12 +96,20 @@ test("hors du top 10, la ligne du lecteur est épinglée avec son vrai rang", ()
   );
 });
 
-test("le classement ne transporte ni e-mail, ni durée, ni date", () => {
+/**
+ * Ce test est la garantie, pas le commentaire au-dessus du champ.
+ *
+ * L'entreprise a rejoint la liste des choses qui ne sortent pas du serveur le
+ * 31 août, avant le partage du Benchmark à un groupe : « prénom + employeur +
+ * niveau débutant » désigne une personne dans une petite structure, et le
+ * classement est public à qui possède le lien. Masquer la colonne en CSS ne
+ * suffisait pas, la valeur voyageait quand même dans la réponse réseau.
+ */
+test("le classement ne transporte ni e-mail, ni entreprise, ni durée, ni date", () => {
   const board = buildBoard([row({ id: "moi" })], "moi");
   const keys = Object.keys(board.rows[0]).sort();
 
   assert.deepEqual(keys, [
-    "company",
     "isRetake",
     "isSeed",
     "isYou",

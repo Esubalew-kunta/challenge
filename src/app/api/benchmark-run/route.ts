@@ -65,7 +65,7 @@ async function insertRun(payload: unknown): Promise<string | null> {
  */
 async function readBoardRows(): Promise<StoredRow[]> {
   const columns =
-    "id,public_name,company,track_id,final_tier,score,attempt,duration_seconds,created_at";
+    "id,public_name,track_id,final_tier,score,attempt,duration_seconds,created_at";
 
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/benchmark_runs?select=${columns}&is_best=eq.true`,
@@ -81,7 +81,6 @@ async function readBoardRows(): Promise<StoredRow[]> {
   return rows.map((r) => ({
     id: String(r.id),
     publicName: String(r.public_name),
-    company: String(r.company),
     trackId: r.track_id as StoredRow["trackId"],
     finalTier: r.final_tier as StoredRow["finalTier"],
     score: Number(r.score),

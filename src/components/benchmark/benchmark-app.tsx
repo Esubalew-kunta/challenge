@@ -35,6 +35,7 @@ import type { Board } from "@/lib/benchmark/board";
 import type { Locale } from "@/lib/i18n";
 import { siteConfig } from "@/lib/site-config";
 import { challengeLink } from "@/lib/benchmark/share";
+import { cleanName, type BadgeInput } from "@/lib/benchmark/badge";
 import type { DrawnQuestion, TierKey, Track } from "@/lib/benchmark/types";
 import { Landing } from "./landing";
 import { Onboarding, EMPTY_LEAD, type Lead } from "./onboarding";
@@ -45,6 +46,7 @@ import { Scorecard } from "./scorecard";
 import { CorrigeModal } from "./corrige-modal";
 import { Slot } from "./string-slot";
 import { BenchmarkLocaleProvider } from "./locale-context";
+import { LanguageGuard } from "./language-guard";
 
 type Screen = "landing" | "onboarding" | "quiz" | "result";
 
@@ -259,6 +261,23 @@ export function BenchmarkApp({
       })
     : "";
 
+  /* Ce que le badge a besoin de savoir, et rien de plus. Le nom passe par le
+     même nettoyage que côté serveur : ce qui n'y survit pas ne doit pas non
+     plus apparaître dans l'aperçu, sinon le bouton promet une image que la
+     route refusera de dessiner. Un nom qui tombe entièrement rend `null`, et
+     les boutons de badge disparaissent plutôt que de mener à un 404. */
+  const badgeInput: BadgeInput | null = (() => {
+    if (!summary) return null;
+    const name = cleanName(lead.name);
+    if (!name) return null;
+    return {
+      name,
+      trackId: summary.trackId,
+      tier: summary.finalTier,
+      score: summary.score,
+    };
+  })();
+
   const roundAnswers = run
     ? run.answers.filter((a) => a.round === run.round)
     : [];
@@ -333,6 +352,8 @@ export function BenchmarkApp({
           tierLabel={tierLabel}
           board={board}
           challengeUrl={challengeUrl}
+          badgeInput={badgeInput}
+          shareBase={SHARE_BASE}
           onSeeCorrige={() => setCorrigeOpen(true)}
           onOtherTrack={restart}
           onToast={showToast}
@@ -346,6 +367,11 @@ export function BenchmarkApp({
           onClose={() => setCorrigeOpen(false)}
         />
       )}
+
+      {/* Actif dès qu'on a quitté l'accueil : à partir de là, changer de langue
+          efface quelque chose. Sur l'accueil il n'y a rien à perdre et la
+          bascule reste une bascule ordinaire. */}
+      <LanguageGuard locale={locale} active={screen !== "landing"} />
 
       <div className={`toast${toastKey ? " show" : ""}`} role="status" aria-live="polite">
         {toastKey ? <Slot k={toastKey} /> : null}

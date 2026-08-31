@@ -20,6 +20,14 @@
  * C'est pourquoi cette fusion tourne côté serveur, dans la route API, avec la
  * clé service_role : la durée sert au classement et ne quitte jamais le
  * serveur.
+ *
+ * **L'entreprise ne sort plus du serveur non plus.** Décision du 31 août, avant
+ * le partage du Benchmark à un groupe : le classement est public à qui possède
+ * le lien, et le couple « prénom + employeur + niveau faible » désigne une
+ * personne dans une petite structure. Le champ reste demandé et reste écrit en
+ * base, où il sert à la qualification commerciale. Il n'est simplement plus
+ * envoyé au navigateur : une colonne masquée en CSS reste lisible dans la
+ * réponse réseau, ce qui n'est pas la même chose que ne pas l'envoyer.
  */
 
 import type { TierKey, TrackId } from "./types.ts";
@@ -29,7 +37,6 @@ import { SEED_BOARD, type SeedRow } from "./content/index.ts";
 export type StoredRow = {
   id: string;
   publicName: string;
-  company: string;
   trackId: TrackId;
   finalTier: TierKey;
   score: number;
@@ -42,7 +49,6 @@ export type StoredRow = {
 export type BoardRow = {
   rank: number;
   name: string;
-  company: string;
   trackId: TrackId;
   tier: TierKey;
   score: number;
@@ -82,7 +88,6 @@ function toSortable(rows: StoredRow[], youId: string | null): Sortable[] {
     createdAt: r.createdAt,
     row: {
       name: r.publicName,
-      company: r.company,
       trackId: r.trackId,
       tier: r.finalTier,
       score: r.score,
@@ -103,7 +108,6 @@ function seedsToSortable(seeds: SeedRow[]): Sortable[] {
     createdAt: "",
     row: {
       name: s.name,
-      company: s.co,
       trackId: s.track,
       tier: s.tier,
       score: s.score,

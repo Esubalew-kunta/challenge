@@ -53,6 +53,13 @@ const DELIBERATE = new Set([
   "@keyframes flash",
   "from",
   "to",
+  // La colonne « entreprise » du classement est retirée le 31 août, avant le
+  // partage du Benchmark à un groupe. L'artefact la masquait sous 640 px avec
+  // `display: none` ; masquer ne suffit pas, puisque la valeur voyageait quand
+  // même dans la réponse réseau. Elle n'est plus envoyée du tout, donc ces deux
+  // sélecteurs n'ont plus de raison d'exister de ce côté.
+  ".lb-co",
+  ".lb-co, .lb-tier",
 ]);
 
 /* Définies dans la feuille de l'artefact et utilisées dans aucun de ses écrans.
@@ -101,6 +108,18 @@ const APPROVED_OVERRIDES = [
     reason:
       "mention de confidentialité allégée à la demande du propriétaire : plus petite et plus calme, jamais floutée puisqu'elle précède la collecte de l'adresse",
   })),
+  {
+    selector: ".lb-row",
+    property: "grid-template-columns",
+    reason:
+      "colonne « entreprise » retirée du classement le 31 août : quatre colonnes au lieu de cinq sur grand écran",
+  },
+  {
+    selector: ".lb-tier",
+    property: "display",
+    reason:
+      "le sélecteur groupé « .lb-co, .lb-tier » de l'artefact devient « .lb-tier » seul, la colonne entreprise n'existant plus",
+  },
 ];
 
 const isApproved = (selector, property) =>
