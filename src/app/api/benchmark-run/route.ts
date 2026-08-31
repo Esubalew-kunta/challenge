@@ -188,6 +188,6 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     stored: id !== null,
-    board: buildBoard(stored, youId, undefined, totalRuns),
+    board: buildBoard(stored, youId, totalRuns),
   });
 }

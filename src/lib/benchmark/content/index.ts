@@ -26,7 +26,6 @@ import {
   HASHTAGS as RAW_HASHTAGS_FR,
   POST_LINKEDIN as POST_LINKEDIN_FR,
   DEFI_COLLEGUE as DEFI_COLLEGUE_FR,
-  SEED_BOARD as RAW_SEED_BOARD,
 } from "./labels.ts";
 
 import { TRACKS as RAW_TRACKS_EN } from "./tracks.en.ts";
@@ -91,20 +90,13 @@ export function bankIsDelivered(locale: Locale): boolean {
   return CONTENT[locale].TRACKS.length > 0;
 }
 
-/** Le classement d'amorçage. Ces lignes ne sont pas écrites en base : ce sont
- *  des personnes inventées, et une table de leads n'est pas l'endroit où les
- *  mettre. Elles sont fusionnées au rendu, décision prise le 28 août.
- *
- *  Il n'y en a qu'une pour les deux langues : ce sont des noms et des
- *  entreprises, ils se lisent pareil en anglais, et deux listes seraient deux
- *  listes à garder en phase. */
-export type SeedRow = {
-  name: string;
-  co: string;
-  track: TrackId;
-  tier: TierKey;
-  score: number;
-  seed: true;
-};
+/* Le classement d'amorçage a été retiré le 31 août. Il remplissait le tableau
+   pendant que personne n'avait joué, il a fait son travail, et il coûtait
+   désormais plus qu'il ne rapportait : neuf des dix premières places étaient
+   du décor, et un lecteur qui reconnaît une entreprise inventée cesse de croire
+   au reste du tableau.
 
-export const SEED_BOARD = RAW_SEED_BOARD as SeedRow[];
+   Ces lignes n'ont jamais été écrites en base. Elles étaient fusionnées au
+   rendu, dans `board.ts`, et il a suffi de ne plus les fusionner. Le tableau
+   brut reste dans `labels.ts`, qui est une copie du pack de contenu et qu'on ne
+   modifie pas, mais plus rien ne le lit. */

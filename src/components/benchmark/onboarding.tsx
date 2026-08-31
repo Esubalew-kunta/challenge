@@ -21,6 +21,7 @@ import { contentFor } from "@/lib/benchmark/content";
 import type { TrackId } from "@/lib/benchmark/types";
 import { s } from "@/lib/benchmark/strings";
 import { useBenchmarkLocale } from "./locale-context";
+import { PRIVACY_URL } from "@/lib/privacy-href";
 import { Slot } from "./string-slot";
 
 export type Lead = {
@@ -248,7 +249,26 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
                   </button>
                 ))}
               </div>
-              <Slot k="onboarding.step5.privacy" as="p" className="privacy" />
+              {/*
+                Un lien, plus un paragraphe. La mention détaillait ce qui est
+                enregistré et ce qui s'affiche ; elle devenait une liste à tenir
+                à jour à chaque changement, et elle a déjà menti une fois, le
+                jour où l'entreprise a quitté le classement. La politique de
+                confidentialité, elle, est le document qui fait foi et qui est
+                maintenu ailleurs. Décision du propriétaire, 31 août.
+
+                Absolu et non relatif : `PRIVACY_URL` pointe la politique
+                publiée sur aimakers.fr, ce qui reste juste depuis le
+                déploiement Vercel comme après la bascule de domaine.
+              */}
+              <a
+                className="privacy-link"
+                href={PRIVACY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Slot k="onboarding.step5.privacy" />
+              </a>
             </>
           )}
 

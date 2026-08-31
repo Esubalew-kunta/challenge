@@ -142,8 +142,7 @@ export const STRINGS_EN: Record<string, string> = {
   // PROVISOIRE, en attente d'Othmane. Traduite malgré tout, sur décision du
   // propriétaire du 28 août : la version française est déjà en ligne, donc les
   // deux disent la même chose non validée plutôt qu'une seule.
-  "onboarding.step5.privacy":
-    "On the leaderboard: display name, level, score. Your company and your email are stored, never displayed, and are only used to send you your scorecard. Your data, your rules.",
+  "onboarding.step5.privacy": "Privacy policy",
 
   // ----------------------------------------------------------------- question
   "question.timerLabel": "Time",
@@ -293,7 +292,7 @@ export const STRINGS_EN: Record<string, string> = {
   // depuis Supabase. Version courte, option B du même document.
   // PROVISOIRE, en attente d'Othmane.
   "leaderboard.note":
-    "One leaderboard, four departments. Display name, level, score: no company, no email address. The first runs are examples.",
+    "One leaderboard, four departments. Display name, level, score: no company, no email address. Every run shown is real.",
 
   // ---------------------------------------------------------------- conversion
   "closer.eyebrow": "What comes next",

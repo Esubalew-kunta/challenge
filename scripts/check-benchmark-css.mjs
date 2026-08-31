@@ -60,6 +60,12 @@ const DELIBERATE = new Set([
   // sélecteurs n'ont plus de raison d'exister de ce côté.
   ".lb-co",
   ".lb-co, .lb-tier",
+  // La mention de confidentialité était un pavé gris qui énumérait ce qui est
+  // enregistré et ce qui s'affiche. Devenue un simple lien vers la politique
+  // publiée le 31 août : une énumération se corrige à chaque changement, et
+  // celle-ci avait déjà menti une fois. `.privacy-link` la remplace.
+  ".privacy",
+  ".privacy b",
 ]);
 
 /* Définies dans la feuille de l'artefact et utilisées dans aucun de ses écrans.
@@ -101,12 +107,6 @@ const APPROVED_OVERRIDES = [
     property,
     reason:
       "bloc des cinq règles resserré et numéroté : c'est le plus gros pavé de la page d'accueil, et le français y tient plus de place que l'anglais de la référence",
-  })),
-  ...["padding", "background", "font-size", "color"].map((property) => ({
-    selector: ".privacy",
-    property,
-    reason:
-      "mention de confidentialité allégée à la demande du propriétaire : plus petite et plus calme, jamais floutée puisqu'elle précède la collecte de l'adresse",
   })),
   {
     selector: ".lb-row",

@@ -1,20 +1,23 @@
 /**
- * Le classement : fusion, tri, rang.
+ * Le classement : tri et rang.
  *
- * **Les quatorze parcours d'exemple ne sont pas en base.** Ce sont des
- * personnes inventées, et une table qui contient de vraies adresses e-mail
- * n'est pas l'endroit où les mettre : la première personne qui exporte les
- * leads récupère quatorze fantômes sans savoir lesquels. Ils sont donc fusionnés
- * ici, au rendu. Décision du 28 août.
+ * **Les quatorze parcours d'exemple ont été retirés le 31 août.** Ils
+ * remplissaient le tableau pendant que personne n'avait encore joué, et ils ont
+ * fait leur travail : il y a maintenant treize parcours réels. À partir de là
+ * ils coûtent plus qu'ils ne rapportent. Un collègue qui reconnaît « Voltaire
+ * Dynamics » comme une entreprise inventée cesse de croire au reste du tableau,
+ * et le décor occupait neuf des dix premières places, ce qui repoussait les
+ * vraies performances hors de l'écran.
+ *
+ * Ils n'ont jamais été en base : une table qui contient de vraies adresses
+ * e-mail n'est pas l'endroit où poser des personnes inventées, sous peine que
+ * la première personne qui exporte les leads récupère quatorze fantômes. Ils
+ * étaient fusionnés ici, au rendu, et il a donc suffi de ne plus les fusionner.
+ * Les données brutes restent dans `content/labels.ts`, qui est une copie du
+ * pack, mais plus rien ne les lit.
  *
  * Le tri suit la section 10.1 du PRD : score, puis durée la plus courte, puis
- * soumission la plus ancienne. Deux règles s'y ajoutent, que le PRD ne couvre
- * pas parce qu'il n'avait pas prévu la fusion :
- *
- * - **À score égal, un vrai parcours passe devant un exemple.** Quelqu'un qui a
- *   réellement répondu à neuf questions ne se fait pas doubler par un décor.
- * - **Les exemples comptent dans le total affiché.** Le tableau montre quatorze
- *   lignes : annoncer « 3 parcours » à côté serait absurde.
+ * soumission la plus ancienne.
  *
  * Le tri a besoin de la durée, que la vue publique n'expose volontairement pas.
  * C'est pourquoi cette fusion tourne côté serveur, dans la route API, avec la
@@ -31,7 +34,6 @@
  */
 
 import type { TierKey, TrackId } from "./types.ts";
-import { SEED_BOARD, type SeedRow } from "./content/index.ts";
 
 /** Une ligne telle qu'elle sort de la base, durée comprise. */
 export type StoredRow = {
@@ -45,7 +47,8 @@ export type StoredRow = {
   createdAt: string;
 };
 
-/** Une ligne telle qu'elle s'affiche. Ni e-mail, ni durée, ni date. */
+/** Une ligne telle qu'elle s'affiche. Ni e-mail, ni entreprise, ni durée, ni
+ *  date. */
 export type BoardRow = {
   rank: number;
   name: string;
@@ -55,16 +58,15 @@ export type BoardRow = {
   /** Vrai au-delà de la première tentative. Le badge est le mécanisme
    *  d'honnêteté du tableau, puisque les reprises sont illimitées. */
   isRetake: boolean;
-  isSeed: boolean;
   isYou: boolean;
 };
 
 export type Board = {
   /** Le top 10, plus la ligne du lecteur épinglée s'il est en dehors. */
   rows: BoardRow[];
-  /** Le compteur « {n} parcours ». Il compte des **sessions**, exemples
-   *  compris, et non des personnes : quelqu'un qui repasse le test a fait deux
-   *  parcours même s'il n'occupe qu'une ligne. */
+  /** Le compteur « {n} parcours ». Il compte des **sessions** et non des
+   *  personnes : quelqu'un qui repasse le test a fait deux parcours même s'il
+   *  n'occupe qu'une ligne. */
   total: number;
   /** Le rang du lecteur dans le classement complet, ou null hors session. */
   yourRank: number | null;
@@ -74,7 +76,6 @@ export const BOARD_SIZE = 10;
 
 type Sortable = {
   score: number;
-  isSeed: boolean;
   durationSeconds: number;
   createdAt: string;
   row: Omit<BoardRow, "rank">;
@@ -83,7 +84,6 @@ type Sortable = {
 function toSortable(rows: StoredRow[], youId: string | null): Sortable[] {
   return rows.map((r) => ({
     score: r.score,
-    isSeed: false,
     durationSeconds: r.durationSeconds,
     createdAt: r.createdAt,
     row: {
@@ -92,28 +92,7 @@ function toSortable(rows: StoredRow[], youId: string | null): Sortable[] {
       tier: r.finalTier,
       score: r.score,
       isRetake: r.attempt > 1,
-      isSeed: false,
       isYou: youId !== null && r.id === youId,
-    },
-  }));
-}
-
-function seedsToSortable(seeds: SeedRow[]): Sortable[] {
-  return seeds.map((s) => ({
-    score: s.score,
-    isSeed: true,
-    // Aucun exemple n'a de durée. La valeur ne sert qu'à ne jamais gagner un
-    // départage contre un vrai parcours.
-    durationSeconds: Number.POSITIVE_INFINITY,
-    createdAt: "",
-    row: {
-      name: s.name,
-      trackId: s.track,
-      tier: s.tier,
-      score: s.score,
-      isRetake: false,
-      isSeed: true,
-      isYou: false,
     },
   }));
 }
@@ -121,17 +100,15 @@ function seedsToSortable(seeds: SeedRow[]): Sortable[] {
 export function buildBoard(
   stored: StoredRow[],
   youId: string | null = null,
-  seeds: SeedRow[] = SEED_BOARD,
-  /** Le nombre total de sessions réelles, reprises comprises. Sans lui, on
-   *  compte les lignes du tableau, ce qui sous-estime dès la première reprise. */
+  /** Le nombre total de sessions, reprises comprises. Sans lui, on compte les
+   *  lignes du tableau, ce qui sous-estime dès la première reprise. */
   totalRuns: number = stored.length,
 ): Board {
-  const all = [...toSortable(stored, youId), ...seedsToSortable(seeds)];
+  const all = toSortable(stored, youId);
 
   all.sort(
     (a, b) =>
       b.score - a.score ||
-      Number(a.isSeed) - Number(b.isSeed) ||
       a.durationSeconds - b.durationSeconds ||
       a.createdAt.localeCompare(b.createdAt),
   );
@@ -146,7 +123,7 @@ export function buildBoard(
 
   return {
     rows,
-    total: totalRuns + seeds.length,
+    total: totalRuns,
     yourRank: yourIndex === -1 ? null : yourIndex + 1,
   };
 }

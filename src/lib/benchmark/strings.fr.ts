@@ -148,8 +148,12 @@ export const STRINGS_FR: Record<string, string> = {
   // version longue sont dans ce document.
   //
   // PROVISOIRE, en attente d'Othmane.
-  "onboarding.step5.privacy":
-    "Au classement : nom d'affichage, niveau, score. Votre entreprise et votre e-mail sont enregistrés, jamais affichés, et servent seulement à vous envoyer votre carte de score. Vos données, vos règles.",
+  // Devenue le seul libellé d'un lien, le 31 août. La mention détaillait ce qui
+  // est enregistré et ce qui s'affiche : une liste à tenir à jour à chaque
+  // changement, qui a déjà menti une fois le jour où l'entreprise a quitté le
+  // classement. Le texte est celui du pied de page du site, pas un libellé
+  // inventé ici.
+  "onboarding.step5.privacy": "Politique de confidentialité",
 
   // ----------------------------------------------------------------- question
   "question.timerLabel": "Temps",
@@ -293,7 +297,7 @@ export const STRINGS_FR: Record<string, string> = {
   // depuis Supabase. Version courte, option B du même document.
   // PROVISOIRE, en attente d'Othmane.
   "leaderboard.note":
-    "Un seul classement, quatre départements. Nom d'affichage, niveau, score : ni entreprise, ni adresse e-mail. Les premiers parcours sont des exemples.",
+    "Un seul classement, quatre départements. Nom d'affichage, niveau, score : ni entreprise, ni adresse e-mail. Tous les parcours affichés sont réels.",
 
   // ---------------------------------------------------------------- conversion
   "closer.eyebrow": "Et maintenant",

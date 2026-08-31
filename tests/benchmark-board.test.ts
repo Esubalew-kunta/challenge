@@ -2,7 +2,6 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 
 import { BOARD_SIZE, buildBoard, type StoredRow } from "../src/lib/benchmark/board.ts";
-import { SEED_BOARD } from "../src/lib/benchmark/content/index.ts";
 import { frenchOrdinal, rankCounter } from "../src/lib/benchmark/format.ts";
 
 function row(over: Partial<StoredRow> = {}): StoredRow {
@@ -19,27 +18,26 @@ function row(over: Partial<StoredRow> = {}): StoredRow {
   };
 }
 
-test("sans aucun vrai parcours, le tableau est celui d'amorçage", () => {
+/* Le classement d'amorçage a été retiré le 31 août : le tableau ne montre plus
+   que des parcours réels. Ces deux tests portaient sur la fusion, ils portent
+   maintenant sur son absence. */
+
+test("sans aucun parcours, le tableau est vide et n'invente rien", () => {
   const board = buildBoard([]);
 
-  assert.equal(board.total, SEED_BOARD.length);
-  assert.equal(board.rows.length, BOARD_SIZE);
+  assert.equal(board.total, 0);
+  assert.equal(board.rows.length, 0);
   assert.equal(board.yourRank, null);
-  assert.equal(board.rows.every((r) => r.isSeed), true);
-  assert.equal(board.rows[0].score, 240);
 });
 
-test("à score égal, un vrai parcours passe devant un exemple", () => {
-  // Amélie R. est l'exemple à 240. Le vrai parcours doit lui passer devant.
+test("un seul parcours occupe la première place", () => {
   const board = buildBoard([row({ id: "moi" })], "moi");
 
+  assert.equal(board.rows.length, 1);
   assert.equal(board.rows[0].isYou, true);
-  assert.equal(board.rows[0].isSeed, false);
   assert.equal(board.rows[0].rank, 1);
-  assert.equal(board.rows[1].isSeed, true);
-  assert.equal(board.rows[1].score, 240);
   assert.equal(board.yourRank, 1);
-  assert.equal(board.total, SEED_BOARD.length + 1);
+  assert.equal(board.total, 1);
 });
 
 test("entre deux vrais parcours à égalité, le plus rapide gagne", () => {
@@ -81,14 +79,19 @@ test("une reprise porte son badge, une première tentative non", () => {
 });
 
 test("hors du top 10, la ligne du lecteur est épinglée avec son vrai rang", () => {
-  // Un score de 10 : dernier derrière les quatorze exemples.
-  const board = buildBoard([row({ id: "moi", score: 10, finalTier: "beginner" })], "moi");
+  /* Quatorze parcours devant, tous meilleurs, puis le lecteur bon dernier.
+     Le nombre vient de ce qu'il faut pour dépasser BOARD_SIZE, pas du défunt
+     classement d'amorçage. */
+  const others = Array.from({ length: 14 }, (_, i) =>
+    row({ id: `r${i}`, publicName: `P${i} X.`, score: 240 - i * 10, durationSeconds: 100 + i }),
+  );
+  const board = buildBoard([...others, row({ id: "moi", score: 10, finalTier: "beginner" })], "moi");
 
   assert.equal(board.rows.length, BOARD_SIZE + 1);
   const pinned = board.rows[board.rows.length - 1];
   assert.equal(pinned.isYou, true);
-  assert.equal(pinned.rank, SEED_BOARD.length + 1);
-  assert.equal(board.yourRank, SEED_BOARD.length + 1);
+  assert.equal(pinned.rank, 15);
+  assert.equal(board.yourRank, 15);
   // Les dix premières lignes restent le vrai top 10.
   assert.deepEqual(
     board.rows.slice(0, BOARD_SIZE).map((r) => r.rank),
@@ -111,7 +114,6 @@ test("le classement ne transporte ni e-mail, ni entreprise, ni durée, ni date",
 
   assert.deepEqual(keys, [
     "isRetake",
-    "isSeed",
     "isYou",
     "name",
     "rank",
@@ -122,8 +124,10 @@ test("le classement ne transporte ni e-mail, ni entreprise, ni durée, ni date",
 });
 
 test("les rangs se suivent sans trou", () => {
-  const many = Array.from({ length: 5 }, (_, i) =>
-    row({ id: `r${i}`, publicName: `P${i} X.`, score: 200 - i * 10, durationSeconds: 100 + i }),
+  /* Douze parcours, pour que le top 10 soit rempli par de vraies lignes. Le
+     compte était de cinq du temps où les exemples complétaient le tableau. */
+  const many = Array.from({ length: 12 }, (_, i) =>
+    row({ id: `r${i}`, publicName: `P${i} X.`, score: 240 - i * 10, durationSeconds: 100 + i }),
   );
   const board = buildBoard(many, "r0");
 
@@ -131,74 +135,16 @@ test("les rangs se suivent sans trou", () => {
     board.rows.slice(0, BOARD_SIZE).map((r) => r.rank),
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   );
-  assert.equal(board.total, SEED_BOARD.length + many.length);
+  assert.equal(board.total, many.length);
 });
 
-/* --------------------------------------------------------------------------
-   Le classement d'amorçage doit rester jouable.
-
-   Trois de ses lignes portaient des scores qu'aucun parcours ne peut produire.
-   Ce test verrouille la correction : il rejoue les 64 chemins du moteur et
-   refuse tout score d'exemple hors de l'ensemble atteignable, ou atteignable
-   mais jamais avec ce niveau de sortie.
-   -------------------------------------------------------------------------- */
-
-const PTS = { beginner: 10, intermediate: 20, expert: 30 } as const;
-type Tier = keyof typeof PTS;
-
-const up = (t: Tier): Tier => (t === "beginner" ? "intermediate" : "expert");
-const down = (t: Tier): Tier => (t === "expert" ? "intermediate" : "beginner");
-const after = (t: Tier, correct: number): Tier =>
-  correct === 3 ? up(t) : correct === 2 ? t : down(t);
-
-/** Lecture B : le niveau final est celui joué au round 3. */
-function reachable(): Map<number, Set<Tier>> {
-  const out = new Map<number, Set<Tier>>();
-  for (let a = 0; a <= 3; a++) {
-    const t1: Tier = "intermediate";
-    const t2 = after(t1, a);
-    for (let b = 0; b <= 3; b++) {
-      const t3 = after(t2, b);
-      for (let c = 0; c <= 3; c++) {
-        const score = a * PTS[t1] + b * PTS[t2] + c * PTS[t3];
-        if (!out.has(score)) out.set(score, new Set());
-        out.get(score)!.add(t3);
-      }
-    }
-  }
-  return out;
-}
-
-test("chaque parcours d'exemple est un parcours qu'on peut réellement faire", () => {
-  const valid = reachable();
-
-  for (const row of SEED_BOARD) {
-    const tiers = valid.get(row.score);
-    assert.ok(tiers, `${row.name} : le score ${row.score} n'est pas atteignable`);
-    assert.ok(
-      tiers.has(row.tier as Tier),
-      `${row.name} : ${row.score} est atteignable mais jamais en finissant ${row.tier}`,
-    );
-  }
-});
-
-test("les quatre scores impossibles ne peuvent pas revenir", () => {
-  const valid = reachable();
-  for (const impossible of [170, 200, 220, 230]) {
-    assert.equal(valid.has(impossible), false);
-    assert.equal(
-      SEED_BOARD.some((r) => r.score === impossible),
-      false,
-      `${impossible} est réapparu dans le classement d'amorçage`,
-    );
-  }
-});
-
-test("les scores d'exemple restent uniques et rangés du plus haut au plus bas", () => {
-  const scores = SEED_BOARD.map((r) => r.score);
-  assert.equal(new Set(scores).size, scores.length);
-  assert.deepEqual(scores, [...scores].sort((a, b) => b - a));
-});
+/* Les trois tests qui vérifiaient le classement d'amorçage sont partis avec lui
+   le 31 août : ils rejouaient les 64 chemins du moteur pour refuser tout score
+   d'exemple inatteignable. Le tableau ne montre plus que des parcours réels,
+   dont les scores sortent du moteur par construction, donc il n'y a plus rien
+   à vérifier de ce côté. Les scores impossibles connus étaient 170, 200, 220
+   et 230 ; `benchmark-badge` refuse déjà tout score qui n'est pas un multiple
+   de 10 entre 0 et 240. */
 
 test("le premier du classement est 1er, pas 1e", () => {
   assert.equal(frenchOrdinal(1), "1er");
