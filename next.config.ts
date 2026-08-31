@@ -105,6 +105,36 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "(?<renderHost>.*onrender\\.com)" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
+      /*
+        Les pages de badge du Benchmark sont la seule exception, et elle est
+        forcée par LinkedIn.
+
+        LinkedIn refuse de fabriquer un aperçu pour une page qui répond
+        `X-Robots-Tag: noindex`. Or le badge n'existe que pour ça : une page qui
+        déclare son `og:image`, que LinkedIn va chercher pour l'afficher dans le
+        fil. Sur le domaine vercel.app, la règle ci-dessus rendait donc tout
+        partage muet, avec le message « Cannot display preview ».
+
+        L'exception ne rouvre pas le risque que la règle couvre. Ce risque est
+        qu'une copie complète d'aimakers.fr se fasse indexer sur un second
+        domaine et concurrence l'originale sur ses propres mots clés. Une page
+        de badge n'est la copie de rien : son contenu vient de son adresse, elle
+        n'est dans aucun sitemap, et les seuls liens qui pointent vers elle sont
+        des publications LinkedIn, en nofollow.
+
+        Ces entrées viennent APRÈS les règles génériques : à clé d'en-tête
+        égale, Next applique la dernière qui correspond.
+
+        À retirer le jour où le Benchmark vit sur aimakers.fr : la règle
+        générique ne s'appliquera plus, et l'exception n'aura plus d'objet.
+      */
+      ...["/benchmark/badge", "/en/benchmark/badge"].flatMap((source) =>
+        [".*vercel\\.app", ".*onrender\\.com"].map((host, i) => ({
+          source,
+          has: [{ type: "host" as const, value: `(?<badgeHost${i}>${host})` }],
+          headers: [{ key: "X-Robots-Tag", value: "all" }],
+        })),
+      ),
     ];
   },
   async redirects() {

@@ -5,10 +5,24 @@
  * chercher la page et affiche ce qu'elle déclare en `og:image`. La page existe
  * donc d'abord pour ses métadonnées, et ensuite pour ce qu'elle montre.
  *
- * **`noindex`, comme le Benchmark lui-même.** Deux raisons qui vont dans le
- * même sens : le texte de la page est encore provisoire, et son contenu est
- * dicté par l'adresse, donc l'indexer reviendrait à laisser n'importe qui
- * publier une page à notre nom portant le score de son choix.
+ * **Indexable, et ce n'est pas un oubli.** La première version posait
+ * `noindex`, par symétrie avec le Benchmark et parce que le contenu de la page
+ * vient de son adresse. Ça ne marche pas : **LinkedIn refuse de fabriquer un
+ * aperçu pour une page qui se déclare `noindex`**, et l'aperçu est la seule
+ * raison d'être de cette page. Un badge sans aperçu est un lien nu dans un fil,
+ * ce qu'a montré le premier partage réel, le 31 août.
+ *
+ * Ce que `noindex` protégeait était mince : la page n'est dans aucun sitemap,
+ * rien n'y mène sauf des publications LinkedIn, qui sont en nofollow, et le nom
+ * imprimé passe déjà par une liste blanche étroite. La perte, elle, était
+ * totale.
+ *
+ * Pas de `canonical` vers `/benchmark` non plus, et c'est délibéré : LinkedIn
+ * suit la canonique et afficherait alors l'aperçu de la page du Benchmark à la
+ * place du badge, ce qui reviendrait au même problème par un autre chemin.
+ *
+ * L'en-tête `X-Robots-Tag` du domaine vercel.app portait le même refus, pour
+ * tout le site : voir l'exception ajoutée dans `next.config.ts`.
  */
 
 import type { Metadata } from "next";
@@ -41,6 +55,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const input = parseBadgeInput(reader(await searchParams));
 
+  /* Un lien cassé reste hors index : il n'y a rien à y prévisualiser, et une
+     page d'erreur indexée ne sert personne. */
   if (!input) {
     return {
       title: s("badge.brokenTitle", LOCALE),
@@ -68,7 +84,6 @@ export async function generateMetadata({
   return {
     title,
     description,
-    robots: { index: false, follow: false },
     openGraph: {
       title,
       description,
