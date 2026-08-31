@@ -30,6 +30,20 @@
    - Track names (Marketing & Growth, Engineering & Tech, Process & Ops,
      Finance & RevOps) were already English in the French file and are kept. */
 
+/* OUT OF DATE FOR TRK-01 AND TRK-02 SINCE 31 AUGUST 2026.
+
+   The French bank is the source, and its TRK-01 and TRK-02 options were
+   rewritten that day to remove a measured defect: the correct answer used to be
+   the longest of the four in 95 % of questions, so clicking the longest option
+   without reading scored about 95 %. The English below still translates the
+   *old* French for those two tracks, which means the English quiz still carries
+   the defect in full.
+
+   These two tracks must be retranslated from the current French, question by
+   question, keeping the same answer order. Do not patch them from this file:
+   read the French. TRK-03 and TRK-04 are untouched and stay in step with their
+   French counterparts, which are themselves still awaiting the rewrite. */
+
 export const TRACKS = [
 {
   id: "growth", code: "TRK-01", name: "Marketing & Growth",
