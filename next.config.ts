@@ -106,8 +106,14 @@ const nextConfig: NextConfig = {
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
       /*
-        Les pages de badge du Benchmark sont la seule exception, et elle est
-        forcée par LinkedIn.
+        Le badge du Benchmark est la seule exception, et elle est forcée par
+        LinkedIn.
+
+        **Trois chemins, pas deux.** La première version n'exemptait que les
+        deux pages, et l'aperçu restait refusé : LinkedIn va chercher la page,
+        y lit `og:image`, puis va chercher l'image, et refuse une image qui
+        répond `noindex` tout autant qu'une page. `/api/benchmark-badge` doit
+        donc être exempté avec elles.
 
         LinkedIn refuse de fabriquer un aperçu pour une page qui répond
         `X-Robots-Tag: noindex`. Or le badge n'existe que pour ça : une page qui
@@ -128,7 +134,7 @@ const nextConfig: NextConfig = {
         À retirer le jour où le Benchmark vit sur aimakers.fr : la règle
         générique ne s'appliquera plus, et l'exception n'aura plus d'objet.
       */
-      ...["/benchmark/badge", "/en/benchmark/badge"].flatMap((source) =>
+      ...["/benchmark/badge", "/en/benchmark/badge", "/api/benchmark-badge"].flatMap((source) =>
         [".*vercel\\.app", ".*onrender\\.com"].map((host, i) => ({
           source,
           has: [{ type: "host" as const, value: `(?<badgeHost${i}>${host})` }],
