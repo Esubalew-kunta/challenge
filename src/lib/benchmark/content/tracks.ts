@@ -3,35 +3,27 @@
    `p` is the difficulty step (1, 2, 3) inside the tier. The 9 questions of each tier
    are ordered 1-1-1 / 2-2-2 / 3-3-3, in that order. */
 
-/* TRANSCRIBED FROM THE CHAT PASTE, NOT EXPORTED FROM THE CONTENT PACK.
-   The four tracks are copied here character for character. TRK-01 to TRK-03
-   arrived on 28 August, TRK-04 « Finance & RevOps » later the same day, after
-   two chat pastes had been cut at the 50 000 character limit.
+/* DELIVERED BANK, 31 August 2026. All four tracks rewritten.
 
-   31 August: TRK-01 and TRK-02 replaced with the rewritten options.
-
-   The rewrite fixes a measured defect, not a matter of taste. In the 28 August
+   What the rewrite fixes is measured, not a matter of taste. In the 28 August
    bank the correct answer was the longest of the four in 103 of 108 questions,
    95 % against a 25 % baseline: clicking the longest option without reading
-   scored about 95 %. The wrong answers were padded, the correct one left as it
-   was, and on the two rewritten tracks the same strategy now scores 14 of 27,
-   against 6.75 for pure chance. Mean gap between the correct answer and the
-   average wrong one fell from +46 to +6.8 characters on TRK-01 and from +62 to
-   +11.0 on TRK-02.
+   scored about 95 %. The wrong answers have been filled out, the correct one
+   left as it was, and the same strategy now scores 43 of 108, against 27 for
+   pure chance. The tell is not gone, it is no longer the answer.
 
-   TRK-03 and TRK-04 still carry the defect: 27/27 and 25/27. They have not
-   been delivered rewritten yet. Do not treat their scores as comparable to the
-   other two until they are.
+   NOT WRITTEN BY HAND. Generated from `questions.md` by
+   `scripts/build-benchmark-tracks.mjs`. Edit the delivery and regenerate; a
+   hand edit here is lost at the next delivery and cannot be diffed against the
+   pack.
 
-   One side effect to read for, which no length measurement catches: every
-   option now carries its own explanation, so on a negation question the
-   correct answer can repeat the question's own words. TRK-01 beginner question
-   6 does exactly that.
+   One thing no length measurement catches: every option now carries its own
+   explanation, so on a negation question ("lequel ne produit PAS...") the
+   correct answer can repeat the question's own words. Those questions are worth
+   reading one by one.
 
-   This file needs one verification pass against the content pack before the
-   questions go anywhere near a reader. Save the pack's own export next to this
-   file as tracks-source.js and the two get diffed, which settles it in one
-   command instead of a proofread. */
+   The English bank is translated from this file, question by question, keeping
+   the same answer order. It is never the source. */
 
 export const TRACKS = [
 {
@@ -58,9 +50,9 @@ export const TRACKS = [
     { p: 2, q: "Parmi ces outils, lequel ne produit PAS de réponse générée pour un utilisateur final ?",
       o: ["Ahrefs : il mesure la visibilité mais ne répond à personne", "Perplexity : il rédige une réponse et cite ses sources", "ChatGPT Search : il synthétise une réponse à partir du web", "Les AI Overviews de Google : ils répondent en haut des résultats"],
       why: "Ahrefs mesure la visibilité et ne répond à personne. Les trois autres rédigent une réponse et choisissent qui citer, ce qui en fait des endroits où votre marque apparaît ou disparaît." },
-    { p: 3, q: "À quoi sert un fichier <code>llms.txt</code> à la racine de votre site ?",
+    { p: 3, q: "À quoi sert un fichier `llms.txt` à la racine de votre site ?",
       o: ["Donner aux robots des modèles une carte en texte clair de vos contenus importants", "Interdire aux robots des modèles d'IA l'accès à l'ensemble des pages du site", "Déclarer les clés d'API que vos partenaires utilisent pour accéder au contenu", "Remplacer le sitemap XML par une version lisible par les moteurs génératifs"],
-      why: "Convention proposée en 2024 : un fichier en texte simple qui pointe les modèles vers la version propre de vos contenus clés. Une invitation. La barrière, elle, s'écrit dans <code>robots.txt</code>." },
+      why: "Convention proposée en 2024 : un fichier en texte simple qui pointe les modèles vers la version propre de vos contenus clés. Une invitation. La barrière, elle, s'écrit dans `robots.txt`." },
     { p: 3, q: "À quoi servent les données structurées Schema.org sur une page ?",
       o: ["Déclarer aux machines, sans ambiguïté, les faits et les entités de la page", "Compresser le HTML de la page pour accélérer son chargement sur mobile et améliorer son classement", "Empêcher l'aspiration du contenu par des robots non autorisés", "Définir l'URL canonique et les versions linguistiques de la page"],
       why: "Le balisage supprime l'ambiguïté. Sans lui, une machine doit deviner que « 2 400 € » est un prix ; avec lui, vous le déclarez. Les moteurs génératifs se nourrissent de ce typage explicite pour décider qui citer." },
@@ -74,14 +66,14 @@ export const TRACKS = [
       why: "Absorption par les réponses générées. Regagner des positions n'y changera rien : il faut une raison de cliquer que le résumé ne peut pas fournir. Une donnée qui n'existe que chez vous, un outil, un tarif à jour, un arbitrage que la page tranche à la place du lecteur." },
     { p: 1, q: "La différence pratique entre optimiser pour un mot-clé et optimiser pour une entité :",
       o: ["Un mot-clé est une chaîne à faire correspondre ; une entité est une chose que la machine identifie de façon stable", "Un mot-clé sert aux pages éditoriales et aux articles ; une entité sert aux fiches produit et aux pages d'un site marchand", "Un mot-clé relève du référencement organique ; une entité relève des campagnes payantes", "Il n'y a pas de différence pratique : c'est le même travail sous un nom plus récent"],
-      why: "« Apple » est une chaîne de caractères ; Apple Inc. est une entité, avec ses attributs et ses relations. Nom cohérent, liens <code>sameAs</code>, empreinte homogène : voilà ce qui rend un modèle assez sûr de lui pour vous nommer." },
+      why: "« Apple » est une chaîne de caractères ; Apple Inc. est une entité, avec ses attributs et ses relations. Nom cohérent, liens `sameAs`, empreinte homogène : voilà ce qui rend un modèle assez sûr de lui pour vous nommer." },
     { p: 1, q: "Quel est le signal le plus FAIBLE pour dire que votre travail de visibilité IA porte ses fruits ?",
       o: ["Le total des sessions organiques, toutes sources confondues", "Le nombre de citations sur un jeu de questions suivies chaque semaine", "Le taux de mention de la marque dans les réponses générées", "La part de voix face à des concurrents nommés, sur les mêmes questions"],
       why: "Les sessions sont exactement la mesure que les réponses IA découplent de la visibilité. Vous gagnez la réponse, vous perdez le clic, et votre tableau de bord affiche une défaite." },
     { p: 2, q: "Vous voulez qu'un assistant reprenne votre contenu mot pour mot. Le changement de structure le plus efficace :",
       o: ["Répondre en 40 à 80 mots autoportants, juste sous un titre qui reprend la question", "Déplacer la réponse en conclusion, après le développement complet de l'argument", "Ajouter un sommaire cliquable en tête d'article pour guider la lecture", "Répéter le mot-clé principal dans l'introduction et dans chaque sous-titre"],
       why: "Les moteurs travaillent par fragments. Un fragment qui porte la question, la réponse et son contexte tient debout tout seul, donc il est citable. Une réponse qui dépend des trois paragraphes du dessus arrive amputée." },
-    { p: 2, q: "Votre <code>robots.txt</code> bloque GPTBot. Conséquence directe :",
+    { p: 2, q: "Votre `robots.txt` bloque GPTBot. Conséquence directe :",
       o: ["Le robot d'OpenAI cesse de récupérer vos pages : votre contenu devient moins disponible pour être cité", "Vos positions Google baissent, parce que le blocage d'un robot est un signal négatif", "Votre contenu est retiré des modèles déjà entraînés dans les semaines qui suivent, à la prochaine mise à jour du fournisseur", "Votre site se charge plus vite, parce qu'il reçoit moins de requêtes de robots"],
       why: "Décision d'accès pour l'avenir, sans effet rétroactif sur ce qui est déjà entraîné. Le vrai coût est ailleurs : vous protégez votre contenu de l'entraînement et vous sortez des réponses où vos acheteurs cherchent. Une décision de gouvernance, à prendre en connaissance de cause." },
     { p: 2, q: "Votre usine à contenu sort vingt articles par semaine, rédigés par un agent. Le risque principal pour votre visibilité dans les réponses IA :",
@@ -105,14 +97,14 @@ export const TRACKS = [
       o: ["La page emploie votre vocabulaire interne plutôt que les mots que vos acheteurs utilisent", "La page est trop courte pour produire un vecteur représentatif de son sujet", "La page n'a aucun lien entrant, ce qui la pénalise dans les deux types de recherche", "La page se charge lentement et le robot n'attend pas la fin du rendu"],
       why: "La recherche lexicale compare des chaînes, la recherche vectorielle compare du sens. Un vocabulaire maison sort très bien en correspondance exacte et atterrit très loin de la formulation de l'acheteur dans l'espace sémantique." },
     { p: 1, q: "On vous demande s'il faut servir aux robots d'IA un contenu différent de celui des visiteurs. La bonne réponse :",
-      o: ["Non : c'est du cloaking, c'est détectable, et le gain ne vaut pas le risque sur votre visibilité", "Oui, tant que les faits présentés restent les mêmes et que seul l'habillage change", "Oui, à condition de le déclarer dans <code>robots.txt</code>, pour que les moteurs sachent quelle version est destinée à qui", "Uniquement pour les pages payantes, où les robots ne verraient rien autrement"],
-      why: "Les versions légitimes servent le même fond dans un autre format : balisage propre, <code>llms.txt</code> qui pointe le texte canonique, vue imprimable structurée. Servir un fond différent selon l'agent se détecte, et coûte un canal entier." },
+      o: ["Non : c'est du cloaking, c'est détectable, et le gain ne vaut pas le risque sur votre visibilité", "Oui, tant que les faits présentés restent les mêmes et que seul l'habillage change", "Oui, à condition de le déclarer dans `robots.txt`, pour que les moteurs sachent quelle version est destinée à qui", "Uniquement pour les pages payantes, où les robots ne verraient rien autrement"],
+      why: "Les versions légitimes servent le même fond dans un autre format : balisage propre, `llms.txt` qui pointe le texte canonique, vue imprimable structurée. Servir un fond différent selon l'agent se détecte, et coûte un canal entier." },
     { p: 2, q: "Vous bloquez les robots d'IA au niveau du CDN pour protéger votre contenu. Le coût stratégique à intégrer :",
       o: ["Vous vous retirez aussi des surfaces de réponse où vos acheteurs font désormais leurs recherches", "Vos indicateurs de performance web se dégradent, parce que le CDN filtre davantage de requêtes", "Google vous applique une pénalité manuelle pour discrimination entre robots", "Votre certificat doit être réémis avec une configuration compatible avec le filtrage"],
       why: "Le blocage a un prix, et il se paie sur le canal où vos acheteurs cherchent. La version défendable est sélective : on ferme les jeux de données propriétaires, on ouvre le contenu commercial et pédagogique qu'on veut voir cité. Vos données, vos règles ; encore faut-il les écrire." },
     { p: 2, q: "Quel investissement en données structurées améliore le plus directement vos chances d'être cité correctement ?",
-      o: ["Un balisage Organization et Product avec des liens <code>sameAs</code> vers des profils de référence, cohérent avec la page", "Un balisage FAQ sur toutes les pages du site, quel qu'en soit le contenu, pour multiplier les blocs question-réponse que les moteurs reprennent", "Un fil d'Ariane balisé sur tout le site, pour que les moteurs comprennent la hiérarchie des pages", "Des notes d'avis structurées sur les pages produit, même sans avis collectés, pour attirer l'œil"],
-      why: "<code>sameAs</code> lève l'ambiguïté : il rattache votre entité à des identifiants qu'un graphe de connaissances reconnaît déjà. Un balisage qui contredit la page visible, ou qui invente des notes, fait du mal ; toute la mécanique repose sur la cohérence." },
+      o: ["Un balisage Organization et Product avec des liens `sameAs` vers des profils de référence, cohérent avec la page", "Un balisage FAQ sur toutes les pages du site, quel qu'en soit le contenu, pour multiplier les blocs question-réponse que les moteurs reprennent", "Un fil d'Ariane balisé sur tout le site, pour que les moteurs comprennent la hiérarchie des pages", "Des notes d'avis structurées sur les pages produit, même sans avis collectés, pour attirer l'œil"],
+      why: "`sameAs` lève l'ambiguïté : il rattache votre entité à des identifiants qu'un graphe de connaissances reconnaît déjà. Un balisage qui contredit la page visible, ou qui invente des notes, fait du mal ; toute la mécanique repose sur la cohérence." },
     { p: 2, q: "Votre direction veut un « score GEO » unique pour le comité. L'objection la plus honnête :",
       o: ["La visibilité varie selon le modèle, l'intention et la zone : un chiffre unique cache le segment où vous perdez", "Le GEO ne se mesure pas encore de façon fiable, faute d'outils reconnus par les moteurs", "Un comité ne comprend pas encore les indicateurs de visibilité IA et préfère les chiffres de trafic qu'il suit depuis des années", "La donnée coûte trop cher à collecter chaque mois pour justifier un indicateur de comité"],
       why: "Agrégé en un chiffre, vous annoncerez « stable » tout en décrochant sur les requêtes d'achat de votre marché principal. Une petite matrice intention × modèle, avec la tendance de chaque case, tient sur la même diapositive et dit la vérité." },
@@ -154,7 +146,7 @@ export const TRACKS = [
     { p: 3, q: "Un prompt système diffère d'un message utilisateur parce que :",
       o: ["Il pose des instructions et un rôle valables pour toute la conversation, avant le premier tour", "Il est chiffré côté fournisseur et ne peut pas être lu par les utilisateurs de l'application", "Il ne consomme aucun token, parce qu'il est traité une seule fois au début de la session", "Il ne peut être contourné par aucun message utilisateur, quelle qu'en soit la formulation"],
       why: "Permanent et prioritaire, mais pas magique. « Ne peut être contourné » est exactement l'hypothèse qu'exploite l'injection de prompt." },
-    { p: 3, q: "Un fichier d'instructions à la racine d'un dépôt (<code>CLAUDE.md</code>, <code>AGENTS.md</code>) sert à :",
+    { p: 3, q: "Un fichier d'instructions à la racine d'un dépôt (`CLAUDE.md`, `AGENTS.md`) sert à :",
       o: ["Charger automatiquement les règles du projet dans chaque session d'agent qui travaille dedans", "Déclarer les dépendances du projet et les versions de modèles utilisées par les agents", "Configurer l'intégration continue pour que les tests tournent à chaque modification", "Documenter le dépôt pour les développeurs humains, sans effet sur les agents"],
       why: "Le contexte que l'agent n'a plus à redécouvrir : conventions, zones à ne pas toucher, commande de test. Sans ce fichier, on réexplique les mêmes règles à chaque session, et une règle réexpliquée finit par sauter. C'est le jour 3 du Challenge 30 jours Claude, et pour une raison." },
     { p: 3, q: "Pourquoi une équipe fige-t-elle une version précise de modèle en production ?",
@@ -179,10 +171,10 @@ export const TRACKS = [
       why: "Une évaluation gagne son coût en attrapant les régressions sur des échecs déjà vus. Un jeu de cas exotiques mesure quelque chose, mais pas si vous venez de casser vos utilisateurs." },
     { p: 2, q: "Où doit vivre un garde-fou qui bloque un argument d'outil dangereux ?",
       o: ["Dans l'exécuteur de l'outil, qui valide les arguments avant d'agir", "Dans le prompt système, sous forme de consigne explicite et prioritaire", "Dans une relecture des transcriptions par un second modèle, après coup", "Dans les données d'entraînement, par un affinage sur des cas refusés"],
-      why: "Une consigne est indicative, un exécuteur fait autorité. Si la seule chose entre le modèle et un <code>DROP TABLE</code> est une phrase dans un prompt, vous avez une préférence, pas un garde-fou. La gouvernance IA s'écrit en code, pas en prose." },
+      why: "Une consigne est indicative, un exécuteur fait autorité. Si la seule chose entre le modèle et un `DROP TABLE` est une phrase dans un prompt, vous avez une préférence, pas un garde-fou. La gouvernance IA s'écrit en code, pas en prose." },
     { p: 3, q: "Pourquoi les outils d'un agent doivent-ils être idempotents autant que possible ?",
       o: ["Parce que reprises et doublons d'appels sont normaux, et qu'un outil non idempotent en fait des effets réels dupliqués", "Parce qu'un outil idempotent s'exécute plus vite, le harnais pouvant sauter les appels déjà vus et renvoyer le résultat en cache", "Parce qu'un modèle ne peut pas appeler deux fois le même outil dans une conversation", "Parce que ça réduit le coût en tokens, le résultat n'étant renvoyé qu'une seule fois"],
-      why: "Idempotent veut dire : appelé deux fois avec les mêmes paramètres, il produit un seul effet. Les agents réessaient, les harnais rejouent. Si <code>envoyer_facture</code> n'a pas de clé, une boucle confuse facture trois fois le même client sans que rien ne ressemble à un bug." },
+      why: "Idempotent veut dire : appelé deux fois avec les mêmes paramètres, il produit un seul effet. Les agents réessaient, les harnais rejouent. Si `envoyer_facture` n'a pas de clé, une boucle confuse facture trois fois le même client sans que rien ne ressemble à un bug." },
     { p: 3, q: "La mise en cache de prompt vous donne un cache utile quand :",
       o: ["Le début de votre requête est identique caractère pour caractère à une requête précédente", "La question posée ressemble sémantiquement à une question déjà traitée récemment", "Vous renvoyez la même requête dans un délai donné, avant l'expiration du cache", "Vous activez l'option sur le compte et le fournisseur gère le reste"],
       why: "Correspondance de préfixe, à l'octet près. Ce qui ne bouge pas se met devant : prompt système, définitions d'outils, documents longs. Le tour utilisateur passe à la fin. Un horodatage injecté en tête invalide tout ce qui suit, et votre facture de tokens le montre le mois suivant." },
@@ -227,89 +219,89 @@ export const TRACKS = [
   bank: {
   beginner: [
     { p: 1, q: "Un workflow, dans le sens où on l'audite, c'est :",
-      o: ["L'enchaînement structuré des étapes d'un processus métier : déclencheur, traitements, validations, résultat", "Un organigramme de l'équipe", "Une liste de tâches dans un outil de gestion de projet", "Un script qui tourne toutes les heures"],
+      o: ["L'enchaînement structuré des étapes d'un processus métier : déclencheur, traitements, validations, résultat", "L'organigramme d'une équipe, avec les responsabilités de chacun et les circuits de décision", "La liste des tâches d'un projet dans un outil de gestion, avec leurs échéances et leurs responsables", "Un script planifié qui s'exécute à intervalle fixe et enchaîne plusieurs appels d'API"],
       why: "Quatre pièces, toujours les mêmes. Un audit commence par les nommer sur chaque process : ce qui le déclenche, ce qu'on y fait, qui valide, ce qui en sort. Un process qu'on ne sait pas découper ainsi ne s'automatise pas encore." },
     { p: 1, q: "Un webhook, c'est :",
-      o: ["Un appel HTTP qu'un système envoie à un autre au moment où un événement se produit", "Une tâche planifiée qui tourne toutes les heures", "Un déclencheur de base de données", "Un type de clé d'API"],
+      o: ["Un appel HTTP qu'un système envoie à un autre au moment où un événement se produit", "Une tâche planifiée qui interroge un système à intervalle régulier pour détecter les changements", "Un déclencheur de base de données qui exécute une procédure à chaque écriture", "Un type de clé d'API réservé aux échanges entre deux systèmes internes"],
       why: "De la notification poussée. L'alternative consiste à interroger l'API toutes les cinq minutes, ce qui consomme du quota et ajoute de la latence par construction." },
     { p: 1, q: "n8n se décrit le mieux comme :",
-      o: ["Une plateforme d'automatisation de workflows qui connecte les outils d'une entreprise sans développement lourd, hébergée chez soi ou en ligne", "Un grand modèle de langage", "Une base de données", "Un CRM"],
+      o: ["Une plateforme d'automatisation de workflows qui connecte les outils d'une entreprise sans développement lourd", "Un grand modèle de langage spécialisé dans la génération de scripts d'automatisation", "Une base de données orientée événements, conçue pour tracer et rejouer les échanges entre les systèmes d'une entreprise", "Un CRM avec des règles d'automatisation intégrées pour le suivi des prospects"],
       why: "Même catégorie que Make ou Zapier, avec une différence qui compte pour la gouvernance : vous pouvez l'héberger vous-même. Souvent le critère décisif quand les données ne doivent pas sortir de votre infrastructure." },
     { p: 2, q: "« Humain dans la boucle » signifie :",
-      o: ["Le flux s'arrête et attend qu'une personne valide ou corrige avant de continuer", "Une personne surveille un tableau de bord a posteriori", "Chaque étape est faite à la main", "Une personne écrit les prompts"],
+      o: ["Le flux s'arrête et attend qu'une personne valide ou corrige avant de continuer", "Une personne surveille un tableau de bord et intervient si un indicateur sort de la plage", "Chaque étape du flux est exécutée à la main, l'automatisation ne servant qu'à notifier", "Une personne rédige et maintient les prompts que le flux envoie au modèle"],
       why: "Le mot important est « s'arrête ». Relire un journal après que l'argent est parti place l'humain sur la boucle, et un seul des deux placements évite l'incident. Décider où l'humain reste indispensable, c'est la première règle de gouvernance qu'on écrit." },
     { p: 2, q: "L'automatisation de processus par l'IA (IPA) se distingue de l'automatisation classique parce que :",
-      o: ["Elle combine l'automatisation des tâches répétitives avec la capacité du modèle à comprendre un contenu non structuré : un mail, un PDF, une demande en langage libre", "Elle tourne plus vite", "Elle ne nécessite aucune validation humaine", "Elle remplace les API par des prompts"],
+      o: ["Elle combine l'automatisation des tâches répétitives avec la capacité du modèle à lire un contenu non structuré", "Elle s'exécute plus vite, le modèle remplaçant les appels d'API successifs par une seule inférence", "Elle ne nécessite aucune validation humaine, le modèle jugeant lui-même de la qualité du résultat avant de le transmettre", "Elle remplace les intégrations par API par des prompts qui décrivent l'échange attendu"],
       why: "L'automatisation classique s'arrête devant un mail mal rédigé ou une facture scannée de travers. Le modèle lit, extrait, classe ; le reste du workflow reste déterministe. C'est là que les sept heures par semaine se gagnent, sur les étapes que personne ne pouvait scripter." },
     { p: 2, q: "Pourquoi mettre une file d'attente entre deux systèmes ?",
-      o: ["Pour qu'un consommateur lent ou en panne ne bloque ni ne perde le travail du producteur", "Pour chiffrer les messages", "Pour réduire le nombre de clés d'API", "Pour réduire la taille des données"],
+      o: ["Pour qu'un consommateur lent ou en panne ne bloque ni ne perde le travail du producteur", "Pour chiffrer les messages échangés entre les deux systèmes pendant leur transit", "Pour réduire le nombre de clés d'API à gérer, la file portant une identité unique", "Pour réduire la taille des données échangées, la file compressant chaque message"],
       why: "Vous achetez du découplage, du tampon et des reprises. Vous le payez en garanties d'ordre et en système supplémentaire à exploiter : rentable au-dessus d'un certain volume, disproportionné en dessous." },
     { p: 3, q: "Une clé d'idempotence sert à :",
-      o: ["Garantir qu'une même requête envoyée deux fois ne produise qu'un seul effet", "Chiffrer les requêtes en transit", "Permettre à l'API de vous limiter", "Mettre les réponses en cache"],
+      o: ["Garantir qu'une même requête envoyée deux fois ne produise qu'un seul effet", "Chiffrer les requêtes en transit entre le client et l'API du fournisseur", "Permettre à l'API de reconnaître un client et de lui appliquer une limite de débit", "Mettre les réponses en cache pour renvoyer le même résultat sans recalcul"],
       why: "Les réseaux réessaient, les files redistribuent. Sans clé, une livraison « au moins une fois » devient discrètement un client débité deux fois." },
     { p: 3, q: "Écrire la procédure avant d'automatiser est utile parce que :",
-      o: ["On n'automatise pas un processus sur lequel personne n'est d'accord, et l'écrire révèle les exceptions non documentées", "C'est une obligation légale", "Ça rend l'automatisation plus rapide", "Ça remplace les tests"],
+      o: ["On n'automatise pas un processus sur lequel personne n'est d'accord, et l'écrire révèle les exceptions non documentées", "C'est une obligation légale dans la plupart des secteurs, avant toute automatisation touchant des données", "L'automatisation s'exécute plus vite quand elle suit une procédure écrite, étape par étape", "Une procédure écrite remplace les tests, chaque étape ayant été validée sur le papier"],
       why: "Automatiser un processus non écrit, c'est découvrir que quatre personnes le faisaient chacune à sa façon. La découverte a généralement lieu en production. Un audit IA sert d'abord à ça : mettre l'équipe d'accord sur le process avant de choisir l'outil." },
     { p: 3, q: "La raison la plus fréquente pour laquelle une automatisation s'arrête sans que personne s'en aperçoive :",
-      o: ["Une API en amont a changé son format de réponse ou son authentification, et rien ne surveillait", "Le serveur n'avait plus d'espace disque", "Le flux a été supprimé", "Trop d'utilisateurs en même temps"],
+      o: ["Une API en amont a changé son format de réponse ou son authentification, et rien ne surveillait", "Le serveur qui héberge le flux n'avait plus d'espace disque pour écrire ses journaux", "Le flux a été supprimé ou désactivé par erreur lors d'une opération de maintenance", "Trop d'utilisateurs ont déclenché le flux en même temps et la plateforme a saturé"],
       why: "Le point important tient dans « sans que personne s'en aperçoive ». Sans branche d'erreur et sans alerte, un flux cassé ressemble exactement à une semaine calme." }
   ],
   intermediate: [
     { p: 1, q: "Vous devez classer 40 000 tickets de support dans 12 catégories fixes, chaque nuit. Le bon outil :",
-      o: ["Un classifieur déterministe ou un appel modèle groupé à basse température, sans agent", "Un agent avec accès aux outils, ticket par ticket", "Une file de relecture humaine", "Un flux distinct par catégorie"],
+      o: ["Un classifieur déterministe ou un appel modèle groupé à basse température, sans agent", "Un agent avec accès aux outils, qui traite chaque ticket et décide de sa catégorie", "Une file de relecture humaine, le volume justifiant une équipe dédiée à la nuit", "Un flux distinct par catégorie, chacun filtrant les tickets qui le concernent"],
       why: "Entrée fixe, sortie fixe, aucune décision sur la suite à donner. Sortir un agent ici achète de la latence, du coût et de la variance en échange de rien. Un cas d'usage chiffré se calcule sur l'outil le plus simple qui fait le travail." },
     { p: 1, q: "Une porte d'approbation doit enregistrer :",
-      o: ["Ce qui a été proposé, qui a validé, quand, et ce que le système a fait ensuite", "Uniquement la décision finale", "Une capture d'écran de la demande", "Le poste du validateur"],
+      o: ["Ce qui a été proposé, qui a validé, quand, et ce que le système a fait ensuite", "Uniquement la décision finale, horodatée, pour ne pas alourdir le journal", "Une capture d'écran de la demande telle que le validateur l'a vue", "Le poste et le niveau hiérarchique du validateur, pour l'audit"],
       why: "La trace vaut plus que la porte. Six mois plus tard, « pourquoi est-ce parti ? » doit trouver sa réponse sans demander à quiconque de se souvenir. C'est aussi ce qu'un auditeur demandera en premier." },
     { p: 1, q: "La façon la plus sûre de tester un flux qui envoie des e-mails aux clients :",
-      o: ["L'exécuter de bout en bout vers un bac à sable ou une adresse de redirection, l'envoi réel derrière un interrupteur", "Le tester sur un petit groupe de vrais clients", "Relire attentivement le flux", "Tester chaque bloc isolément uniquement"],
+      o: ["L'exécuter de bout en bout vers un bac à sable ou une adresse de redirection, l'envoi réel derrière un interrupteur", "Le tester sur un petit groupe de vrais clients, choisis pour leur tolérance, avant l'ouverture générale", "Relire attentivement le flux à deux, bloc par bloc, en vérifiant chaque champ de destinataire", "Tester chaque bloc isolément avec des données fictives, puis activer le flux complet"],
       why: "Le test bloc par bloc rate le câblage, et les erreurs de destinataire vivent dans le câblage. Exercez tout le chemin, avec le dernier mètre dévié en sécurité." },
     { p: 2, q: "Votre flux se prend une limite de débit (429) au bout de 200 enregistrements sur 500. Le bon traitement :",
-      o: ["Attente exponentielle avec un peu d'aléatoire, puis reprise au dernier enregistrement traité", "Réessayer immédiatement en boucle serrée", "Faire échouer toute l'exécution et repartir de zéro", "Réduire définitivement le lot à un enregistrement"],
+      o: ["Attente exponentielle avec un peu d'aléatoire, puis reprise au dernier enregistrement traité", "Réessayer immédiatement en boucle serrée jusqu'à ce que l'API accepte de nouveau les appels", "Faire échouer toute l'exécution et la relancer depuis le début une fois la limite levée", "Réduire définitivement la taille du lot à un enregistrement par appel"],
       why: "Les reprises immédiates aggravent la panne dans laquelle vous êtes déjà, et repartir de zéro retraite 200 enregistrements corrects. Attente progressive plus curseur de reprise : le couple standard." },
     { p: 2, q: "Vous placez un appel à un modèle dans une boucle sur 10 000 lignes. Le premier contrôle à ajouter :",
-      o: ["Un plafond dur d'itérations et de dépense, avec arrêt de l'exécution quand il est franchi", "Une reprise sur chaque échec", "Un délai d'attente plus long", "Un modèle plus gros"],
+      o: ["Un plafond dur d'itérations et de dépense, avec arrêt de l'exécution quand il est franchi", "Une reprise automatique sur chaque échec, pour qu'aucune ligne ne soit perdue en route", "Un délai d'attente plus long sur chaque appel, pour absorber les lenteurs du modèle", "Un modèle plus gros, pour réduire le nombre de lignes à retraiter à la main"],
       why: "Une boucle plus un appel de modèle par élément : la façon la plus courante de découvrir son budget IA mensuel un mardi matin. Plafonnez, alertez, optimisez ensuite. Le ROI d'un projet IA inclut la maintenance, et ce plafond en fait partie." },
     { p: 2, q: "Le principal risque opérationnel d'héberger vous-même votre plateforme d'automatisation :",
-      o: ["Vous prenez en charge les mises à jour, les sauvegardes, la rotation des secrets et la disponibilité d'un système dont l'activité dépend", "Ça coûte plus cher que l'hébergé", "Ça ne peut pas se connecter aux API en ligne", "Il y a moins d'intégrations"],
+      o: ["Vous prenez en charge mises à jour, sauvegardes, rotation des secrets et disponibilité d'un système dont l'activité dépend", "La facture dépasse celle de l'offre hébergée dès que le volume augmente, à cause du matériel et de la bande passante à prévoir", "Les connexions aux API en ligne deviennent impossibles depuis un réseau interne", "Le catalogue d'intégrations disponibles est plus réduit que sur l'offre hébergée"],
       why: "L'auto-hébergement est souvent le bon choix : résidence des données, coût au volume, contrôle. Vos données, vos règles, mais aussi vos astreintes. Il n'est jamais gratuit, et la facture atterrit sur la personne de garde." },
     { p: 3, q: "Votre flux recopie automatiquement l'état d'un dossier de référence vers Notion et Slack. Quand les deux divergent :",
-      o: ["On écrase le miroir depuis la source de vérité, jamais l'inverse", "On garde la version la plus récente des deux", "On fusionne les deux et on tranche à la main", "On désactive la synchronisation jusqu'à investigation"],
+      o: ["On écrase le miroir depuis la source de vérité, jamais l'inverse", "On garde la version la plus récente des deux, quelle que soit son origine", "On fusionne les deux versions et on tranche à la main les conflits restants", "On désactive la synchronisation jusqu'à ce qu'une investigation explique l'écart"],
       why: "Un miroir n'a pas d'autorité : c'est une copie de lecture. Le jour où quelque chose remonte du miroir, vous avez deux sources de vérité, et la seconde périme sans que rien ne le signale." },
     { p: 3, q: "Votre flux agentique doit pouvoir escalader vers un humain. Le meilleur déclencheur d'escalade :",
-      o: ["Un seuil défini à l'avance : montant, ambiguïté, irréversibilité", "L'agent qui décide seul quand il se sent incertain", "Un échantillon aléatoire à pourcentage fixe", "Uniquement quand un appel d'outil échoue"],
+      o: ["Un seuil défini à l'avance : montant, ambiguïté, irréversibilité", "L'agent lui-même, qui escalade quand son score de confiance passe sous un niveau", "Un échantillon aléatoire à pourcentage fixe, relu par un humain chaque jour", "Un échec technique : l'escalade n'a lieu que si un appel d'outil renvoie une erreur"],
       why: "L'incertitude auto-déclarée n'est ni fiable ni auditable. Un seuil que vous pouvez énoncer, journaliser et modifier est ce que vous défendrez en revue. Voilà à quoi ressemble une règle de gouvernance quand elle est écrite." },
     { p: 3, q: "Vous faites correspondre des champs entre deux systèmes et la source ajoute un champ optionnel. Le traitement robuste :",
-      o: ["Valider contre un schéma et router les champs inconnus ou manquants vers une branche d'erreur", "Ignorer les champs inconnus silencieusement", "Faire échouer tout le flux", "Leur attribuer automatiquement une valeur par défaut"],
+      o: ["Valider contre un schéma et router les champs inconnus ou manquants vers une branche d'erreur", "Ignorer silencieusement les champs inconnus, le flux ne traitant que ceux qu'il attend", "Faire échouer tout le flux dès qu'un champ inattendu apparaît, pour forcer une revue", "Attribuer automatiquement une valeur par défaut à tout champ nouveau ou manquant"],
       why: "Les valeurs vides voyagent. Elles traversent trois étapes de plomberie sans validation et ressortent en ligne de facture vide, à un moment où la cause est à quatre systèmes de là." }
   ],
   expert: [
     { p: 1, q: "Vous migrez un flux déterministe stable vers de l'agentique. Ce qui doit rester déterministe :",
-      o: ["Tout ce qui a un chemin fixe et connu : validation, routage par règles, et chaque action irréversible", "Les parties qui échouent le plus souvent", "Les parties les plus lentes", "Rien : l'agentique doit remplacer tout le flux"],
+      o: ["Tout ce qui a un chemin fixe et connu : validation, routage par règles, et chaque action irréversible", "Les parties qui échouent le plus souvent, l'agent étant plus tolérant aux entrées inattendues", "Les parties les plus lentes, l'agent pouvant paralléliser ce que le flux fait en séquence", "Rien : une fois la décision prise, l'agentique doit remplacer l'ensemble du flux"],
       why: "On dépense l'agent là où l'entrée est vraiment non structurée ou le chemin impossible à énumérer. Emballer une condition qui marche dans un modèle ajoute du coût, de la latence et un nouveau mode de panne, pour zéro gain. On ne remplace rien, on se branche." },
     { p: 1, q: "Une API en aval se met à expirer sur 60 % des appels. Le bon comportement de votre flux :",
-      o: ["Déclencher un disjoncteur, cesser de la marteler, et vider la file quand elle est rétablie", "Réessayer agressivement jusqu'à réussir", "Faire échouer immédiatement chaque exécution", "Basculer automatiquement vers un autre fournisseur sans vérification"],
+      o: ["Déclencher un disjoncteur, cesser de la marteler, et vider la file quand elle est rétablie", "Réessayer chaque appel avec insistance jusqu'à obtenir une réponse, quel que soit le délai", "Faire échouer immédiatement chaque exécution et laisser les utilisateurs relancer à la main", "Basculer automatiquement vers un autre fournisseur, sans vérification préalable du résultat"],
       why: "Réessayer pendant une panne partielle revient à ajouter de la charge à un système déjà en train de tomber. Échouez vite, gardez le travail en attente, reprenez sur un signal de rétablissement." },
     { p: 1, q: "Pour un flux agentique, la chose la plus utile à journaliser :",
-      o: ["La trace de décision complète : entrées, chaque appel d'outil et son résultat, et la branche prise", "La sortie finale et un horodatage", "La durée totale d'exécution", "Le nombre de tokens consommés"],
+      o: ["La trace de décision complète : entrées, chaque appel d'outil et son résultat, et la branche prise", "La sortie finale et un horodatage, pour retrouver ce qui a été produit et quand", "La durée totale d'exécution, pour repérer les dérives de performance dans le temps et anticiper les dépassements", "Le nombre de tokens consommés, pour rattacher chaque exécution à son coût"],
       why: "Avec un chemin non déterministe, « qu'est-ce qu'il a fait ? » ne se répond que par la trace. Le coût et la durée vous diront seulement combien vous a coûté le fait d'être perdu." },
     { p: 2, q: "Votre file garantit une livraison « au moins une fois » et votre consommateur crée des bons de commande. En l'état, vous avez :",
-      o: ["Un incident de bons de commande en double, qui attend la première redistribution", "Uniquement un problème d'ordre", "Un goulot de performance", "Aucun problème, les doublons sont rares"],
+      o: ["Un incident de bons de commande en double, qui attend la première redistribution", "Uniquement un problème d'ordre : les bons peuvent arriver dans le désordre, jamais en double", "Un goulot de performance, la file ralentissant le consommateur à chaque accusé de réception", "Aucun problème : les redistributions sont rares et la file les signale quand elles se produisent"],
       why: "« Au moins une fois » plus un consommateur non idempotent forme un défaut, jamais un risque. La déduplication se fait sur une clé métier, dans la transaction du consommateur ; la logique de reprise en amont ne peut rien y faire." },
     { p: 2, q: "Flux multi-clients : un client envoie des données malformées qui font tomber le travailleur partagé. La correction structurelle :",
-      o: ["Isoler les pannes par client, files ou compartiments séparés, pour qu'un client ne puisse pas arrêter les autres", "Une meilleure validation d'entrée, uniquement", "Une machine plus puissante", "Limiter le débit de ce client"],
+      o: ["Isoler les pannes par client, files ou compartiments séparés, pour qu'un client ne puisse pas arrêter les autres", "Renforcer la validation d'entrée jusqu'à couvrir toutes les formes de données malformées", "Passer sur une machine plus puissante, capable d'absorber le crash d'un client sans interrompre le traitement des autres", "Limiter le débit de ce client jusqu'à ce qu'il corrige son format d'envoi"],
       why: "La validation reste nécessaire et insuffisante : la prochaine forme malformée est celle que vous n'aviez pas prévue. Le cloisonnement réduit le rayon d'explosion à un seul client, par construction." },
     { p: 2, q: "À la fin d'un audit IA, l'équipe propose douze cas d'usage. Le critère qui doit décider lesquels partent en build :",
-      o: ["Un gain chiffré sur un process réel, rapporté au coût total : outils, intégration, formation, maintenance", "Le cas le plus impressionnant en démonstration", "Le cas que la direction a demandé en premier", "Le cas qui utilise le modèle le plus récent"],
+      o: ["Un gain chiffré sur un process réel, rapporté au coût total : outils, intégration, formation, maintenance", "L'effet produit en démonstration devant la direction, qui détermine le soutien au projet et le budget alloué", "L'ordre dans lequel la direction a formulé ses demandes au début de l'audit", "La possibilité d'utiliser le modèle le plus récent, gage de meilleurs résultats"],
       why: "Trois cas d'usage viables, chiffrés et priorisés valent mieux que douze idées. Le chiffrage inclut la maintenance, poste que tout le monde oublie et qui décide du ROI réel à douze mois. Une démonstration impressionnante n'a jamais libéré une heure à personne." },
     { p: 3, q: "Vous devez rejouer 18 mois d'historique dans un flux qui tourne déjà en direct. L'élément de conception critique :",
-      o: ["Un curseur déterministe et une déduplication sur clé métier, pour que reprise et trafic réel ne traitent pas deux fois le même enregistrement", "Lancer la reprise la nuit", "Augmenter le nombre de travailleurs", "Suspendre le flux en direct pendant l'opération"],
+      o: ["Un curseur déterministe et une déduplication sur clé métier, pour qu'aucun enregistrement ne soit traité deux fois", "Un lancement de nuit, en dehors des heures où le flux en direct reçoit du trafic", "Un nombre de travailleurs augmenté pour la durée de la reprise, afin de finir avant l'ouverture et de ne pas croiser le trafic réel", "Une suspension du flux en direct pendant l'opération, avec rattrapage à la reprise"],
       why: "Suspendre le trafic réel déplace simplement la collision au redémarrage. Un traitement idempotent, indexé sur l'enregistrement, rend le chevauchement sans conséquence, ce qui vous autorise à rejouer en pleine journée." },
     { p: 3, q: "Le schéma de votre flux change, mais 400 exécutions longues en cours utilisent l'ancienne forme. La bonne approche :",
-      o: ["Versionner le schéma et laisser les exécutions en cours finir sur la version où elles ont démarré", "Migrer immédiatement toutes les exécutions en cours", "Tout annuler et relancer", "Rendre les nouveaux champs optionnels et espérer"],
+      o: ["Versionner le schéma et laisser les exécutions en cours finir sur la version où elles ont démarré", "Migrer immédiatement toutes les exécutions en cours vers le nouveau schéma, par script", "Annuler les 400 exécutions et les relancer depuis le début sur la nouvelle version", "Rendre les nouveaux champs optionnels et laisser les anciennes exécutions les ignorer"],
       why: "Problème classique des flux de longue durée. La version se fige au démarrage, les deux versions tournent côte à côte, et l'ancienne se retire une fois vidée." },
     { p: 3, q: "Le signal le plus clair qu'un processus ne doit PAS encore être automatisé :",
-      o: ["Les personnes qui le font ne sont pas d'accord sur ce qu'est le bon résultat", "Il ne tourne que quelques fois par mois", "Il implique plus d'un système", "Il comporte une étape de validation"],
+      o: ["Les personnes qui le font ne sont pas d'accord sur ce qu'est le bon résultat", "Il ne tourne que quelques fois par mois, ce qui ne justifie pas l'investissement", "Il implique plus d'un système, et les intégrations multiplient les points de panne", "Il comporte une étape de validation humaine que l'automatisation ne saurait remplacer"],
       why: "Fréquence, nombre de systèmes et validations sont des paramètres de conception. Un désaccord non résolu sur ce qui est correct fige la version d'une seule personne et rend le débat permanent, en plus d'invisible. Process d'abord ; sans process partagé, pas de solution." }
   ]}
 },
@@ -320,89 +312,89 @@ export const TRACKS = [
   bank: {
   beginner: [
     { p: 1, q: "L'ARR désigne :",
-      o: ["La valeur annualisée de vos revenus d'abonnement récurrents", "Le chiffre d'affaires total, prestations ponctuelles comprises", "Le chiffre d'affaires moins le coût des ventes", "L'encaissement des douze derniers mois"],
+      o: ["La valeur annualisée de vos revenus d'abonnement récurrents", "Le chiffre d'affaires total de l'année, prestations ponctuelles comprises", "Le chiffre d'affaires de l'année moins le coût direct des ventes", "Le total des encaissements des douze derniers mois, toutes sources"],
       why: "Récurrent et annualisé. Y glisser des frais de mise en service ponctuels reste la façon la plus courante de vider un ARR de son sens, et un assistant IA branché sur le CRM reproduira l'erreur avec assurance." },
     { p: 1, q: "Le ROI d'un projet IA rapporte les gains obtenus à :",
-      o: ["Son coût total : outils, intégration, formation, maintenance", "Le coût de la licence du modèle", "Le temps de développement", "Le budget annuel de la DSI"],
+      o: ["Son coût total : outils, intégration, formation, maintenance", "Le coût de la licence du modèle et des appels d'API sur l'année", "Le temps de développement passé par l'équipe technique interne", "Le budget annuel de la direction des systèmes d'information"],
       why: "Quatre postes, et les deux derniers sont ceux qu'on oublie. Une formation qui ne suit pas et une maintenance non budgétée transforment un cas d'usage rentable sur le papier en ligne de coût sans propriétaire." },
     { p: 1, q: "Le DSO (délai moyen de paiement client) mesure :",
-      o: ["Le nombre moyen de jours entre la vente et l'encaissement", "Le nombre de jours de stock détenu", "La durée de votre cycle de vente", "Le délai avant la reconnaissance du revenu"],
+      o: ["Le nombre moyen de jours entre la vente et l'encaissement", "Le nombre moyen de jours de stock détenu avant la vente", "La durée moyenne du cycle de vente, du premier contact à la signature", "Le délai moyen entre la facturation et la reconnaissance du revenu"],
       why: "Indicateur de conversion en trésorerie, et l'un des premiers cas d'usage qu'un audit fait ressortir : la relance est répétitive, guidée par des règles, et coûteuse à la main." },
     { p: 2, q: "Une couverture de pipeline de 3x signifie :",
-      o: ["Les affaires ouvertes représentent trois fois l'objectif à signer", "Vous avez signé trois fois votre objectif", "Trois commerciaux travaillent le même compte", "Votre prévision est fiable à 300 %"],
+      o: ["Les affaires ouvertes représentent trois fois l'objectif à signer", "Le chiffre signé sur la période représente trois fois l'objectif fixé", "Trois commerciaux travaillent en parallèle sur chaque compte du pipeline", "La prévision de signatures est jugée fiable à 300 % par l'équipe"],
       why: "Un ratio, sans promesse attachée. 3x de couverture avec 15 % de taux de signature donne un objectif manqué de moitié." },
     { p: 2, q: "Pourquoi ne faut-il pas coller des fiches clients dans un assistant grand public ?",
-      o: ["Vous perdez le contrôle de la destination des données et vous sortez probablement de vos engagements RGPD et contractuels", "La qualité des réponses y est moins bonne", "Ça coûte plus cher que l'API", "Le modèle les mémorisera définitivement"],
+      o: ["Vous perdez le contrôle de la destination des données et sortez probablement de vos engagements RGPD et contractuels", "La qualité des réponses est moins bonne qu'avec un outil branché sur vos données internes, faute de contexte sur vos clients", "Le coût par requête dépasse celui d'un accès par API négocié pour l'entreprise", "Le modèle mémorise définitivement les fiches et les ressort à d'autres utilisateurs"],
       why: "Le RGPD s'applique pleinement dès qu'un outil traite des données personnelles. Le problème est contractuel avant d'être technique, et la bonne réponse consiste à prendre l'outil couvert par le bon contrat pour cette donnée. Vos données, vos règles." },
     { p: 2, q: "Attrition (churn) et contraction diffèrent parce que :",
-      o: ["L'attrition est un client qui part ; la contraction est un client qui reste en dépensant moins", "L'attrition est volontaire, la contraction subie", "L'attrition porte sur le revenu, la contraction sur les comptes", "Ce sont deux mesures de la même chose"],
+      o: ["L'attrition est un client qui part ; la contraction est un client qui reste en dépensant moins", "L'attrition est une perte volontaire du client ; la contraction est une perte subie par l'entreprise", "L'attrition se mesure sur le revenu ; la contraction se mesure sur le nombre de comptes", "Ce sont deux mesures de la même chose, exprimées l'une en valeur et l'autre en pourcentage"],
       why: "Les fusionner en un seul chiffre masque le problème le plus actionnable des deux. Une contraction signale souvent un souci de valeur perçue alors que la relation est encore ouverte." },
     { p: 3, q: "La gouvernance IA, dans une direction financière, c'est :",
-      o: ["L'ensemble des règles que l'entreprise se donne pour encadrer l'usage de l'IA : quelles décisions gardent une validation humaine, quelles données sont accessibles, qui gère un incident", "Le comité qui choisit les fournisseurs de modèles", "Une charte éthique signée par la direction", "Le suivi mensuel de la dépense en tokens"],
+      o: ["Les règles que l'entreprise se donne pour encadrer l'usage de l'IA : validation humaine, données accessibles, gestion d'incident", "Le comité qui sélectionne les fournisseurs de modèles, négocie les contrats de licence et suit les renouvellements pour l'entreprise", "Une charte éthique signée par la direction et diffusée aux équipes, rappelant les usages autorisés", "Le suivi mensuel de la dépense en tokens par équipe, avec un plafond fixé par la direction financière"],
       why: "Trois questions, écrites et appliquées. Une charte signée ne bloque aucune écriture ; une règle « au-delà de 10 000 €, validation humaine » codée dans l'exécuteur, si. La gouvernance se juge à ce qu'elle empêche." },
     { p: 3, q: "Dans un flux financier assisté par IA, un « garde-fou » désigne le plus souvent :",
-      o: ["Une limite que le système applique lui-même : seuil de montant, comptes autorisés, validation obligatoire au-delà d'un niveau", "Un avertissement écrit dans le prompt", "Un tableau de bord relu chaque mois", "Une mention en bas de la sortie"],
+      o: ["Une limite que le système applique lui-même : seuil de montant, comptes autorisés, validation obligatoire au-delà", "Un avertissement écrit dans le prompt, rappelant au modèle les règles de prudence à respecter avant toute écriture comptable", "Un tableau de bord relu chaque mois par le contrôle de gestion, pour repérer les anomalies", "Une mention en bas de chaque sortie, indiquant que le contenu a été produit par une IA"],
       why: "Appliqué, et non conseillé. Une règle formulée comme une consigne à un modèle plutôt que comme un contrôle dans l'exécution ne tiendra pas le jour où elle comptera." },
     { p: 3, q: "La reconnaissance du revenu diffère de l'encaissement parce que :",
-      o: ["Le revenu se reconnaît à mesure que la prestation est délivrée, quelle que soit la date d'encaissement", "Les deux sont équivalents dans la plupart des référentiels", "Le revenu se reconnaît toujours plus tôt", "L'encaissement ne concerne que les abonnements"],
+      o: ["Le revenu se reconnaît à mesure que la prestation est délivrée, quelle que soit la date d'encaissement", "Les deux notions sont équivalentes dans la plupart des référentiels comptables, la différence n'étant que de présentation", "Le revenu se reconnaît toujours avant l'encaissement, dès la signature du contrat", "L'encaissement ne concerne que les abonnements, le revenu couvrant tout le reste"],
       why: "Un contrat annuel payé d'avance donne de la trésorerie aujourd'hui et du revenu sur douze mois. Tout assistant IA qui touche au reporting doit respecter ce décalage, sous peine de produire des chiffres faux avec assurance." }
   ],
   intermediate: [
     { p: 1, q: "Vous voulez améliorer la fiabilité de vos prévisions avec l'IA. Le mode de panne le plus dangereux :",
-      o: ["Le modèle apprend sur des dates de signature historiquement optimistes et reproduit le même biais avec plus d'assurance", "Il est trop lent pour être utile", "Il n'a pas accès au CRM", "Il coûte plus cher qu'un tableur"],
+      o: ["Le modèle apprend sur des dates de signature historiquement optimistes et reproduit le biais avec plus d'assurance", "Le modèle est trop lent pour être utile dans un cycle de prévision hebdomadaire, ses résultats arrivant après la revue", "Le modèle n'a pas accès au CRM et travaille sur des exports incomplets", "Le modèle coûte plus cher qu'un tableur pour un gain de précision marginal"],
       why: "Données douteuses en entrée, chiffres douteux mais crédibles en sortie. Sans travail d'hygiène sur les données, vous aurez automatisé votre biais de prévision en lui offrant un gain de crédibilité. Process d'abord, modèle ensuite." },
     { p: 1, q: "Quelle tâche RevOps se prête le moins à une automatisation complète ?",
-      o: ["Décider de passer en perte le solde d'un compte stratégique", "Enrichir des fiches comptes depuis un fournisseur de données", "Signaler les doublons dans le CRM", "Router les prospects entrants selon des règles de territoire"],
+      o: ["Décider de passer en perte le solde d'un compte stratégique", "Enrichir des fiches comptes depuis un fournisseur de données externe", "Signaler les doublons dans le CRM et proposer leur fusion", "Router les prospects entrants selon des règles de territoire"],
       why: "Irréversible, chargée de relation, à faible volume : trois propriétés qui plaident pour un humain. Les trois autres tâches sont volumineuses et guidées par des règles, exactement là où un cas d'usage se chiffre." },
     { p: 1, q: "Un modèle de scoring d'affaires se dégrade six mois après sa mise en service. Cause la plus probable :",
-      o: ["La dérive : votre cible, vos prix ou votre méthode de vente ont changé, les schémas appris ne tiennent plus", "Le fichier du modèle s'est corrompu", "La version de l'API a changé", "Trop d'utilisateurs l'interrogent"],
+      o: ["La dérive : votre cible, vos prix ou votre méthode de vente ont changé, les schémas appris ne tiennent plus", "Le fichier du modèle s'est corrompu lors d'une sauvegarde et produit des scores incohérents", "La version de l'API du fournisseur a changé et les appels renvoient des résultats différents sans que personne ne l'ait remarqué", "Trop d'utilisateurs interrogent le modèle en même temps et les réponses se dégradent"],
       why: "Un modèle de scoring est périssable. Sans réévaluation programmée contre les résultats récents, vous jouez le manuel de l'an dernier sur le marché de cette année. Cette réévaluation, c'est la ligne « maintenance » du ROI." },
     { p: 2, q: "Vous automatisez le rapprochement entre factures et bons de commande. Le garde-fou indispensable :",
-      o: ["Un seuil de montant et une tolérance d'écart au-delà desquels un humain valide", "Un score de confiance affiché dans l'interface", "Un audit mensuel sur échantillon", "Un e-mail de confirmation au fournisseur"],
+      o: ["Un seuil de montant et une tolérance d'écart au-delà desquels un humain valide", "Un score de confiance affiché dans l'interface, pour que le relecteur sache où regarder", "Un audit mensuel sur un échantillon de rapprochements, pour détecter les dérives", "Un e-mail de confirmation envoyé au fournisseur pour chaque rapprochement automatique"],
       why: "On rapproche automatiquement le petit, le propre et le dans-la-tolérance ; le reste part vers une personne. Le seuil doit être appliqué par le système et non laissé à l'attention d'un relecteur." },
     { p: 2, q: "Une IA rédige vos relances de factures impayées. Le risque de conformité à traiter en premier :",
-      o: ["Un ton ou des affirmations qui sortent du cadre légal du recouvrement ou du contrat, envoyés sans relecture", "Des e-mails mal écrits", "Le coût de génération", "La délivrabilité en boîte de réception"],
+      o: ["Un ton ou des affirmations hors du cadre légal du recouvrement ou du contrat, envoyés sans relecture", "Des e-mails mal écrits, qui nuisent à l'image de l'entreprise auprès de ses clients", "Le coût de génération, multiplié par le nombre de relances envoyées chaque mois", "La délivrabilité, les e-mails générés finissant plus souvent en courrier indésirable et n'atteignant jamais le client"],
       why: "Les communications de recouvrement sont encadrées dans la plupart des pays. Contraindre à des modèles validés avec des champs variables, plutôt qu'à de la génération libre, fait tomber l'essentiel du risque." },
     { p: 2, q: "Vous calculez le ROI d'un agent RevOps. Le poste que les équipes oublient le plus souvent :",
-      o: ["Le coût courant de surveillance, de correction des erreurs et de maintenance de l'intégration", "Le coût d'API du modèle", "Le temps de mise en place", "La formation de l'équipe"],
+      o: ["Le coût courant de surveillance, de correction des erreurs et de maintenance de l'intégration", "Le coût d'API du modèle, qui augmente avec le volume traité chaque mois", "Le temps de mise en place, entre le cadrage et la première exécution en production", "La formation de l'équipe, indispensable pour que l'agent soit utilisé au quotidien"],
       why: "Le coût d'exploitation. Un agent juste à 95 % sur 2 000 éléments par mois produit 100 exceptions que quelqu'un doit traiter. Budgétez-les, ou votre calcul de rentabilité relève de la fiction." },
     { p: 3, q: "Vous enrichissez des fiches clients européennes via un fournisseur de données américain. La préoccupation première :",
-      o: ["La base légale et le mécanisme de transfert des données personnelles concernées", "La latence de l'API entre régions", "La conversion de devise dans les fiches", "La couverture des entreprises européennes par le fournisseur"],
+      o: ["La base légale et le mécanisme de transfert des données personnelles concernées", "La latence des appels d'API entre les régions, qui ralentit l'enrichissement", "La conversion des devises dans les fiches, source d'écarts dans les montants", "La couverture des entreprises européennes par le fournisseur, souvent partielle"],
       why: "Question RGPD bien réelle, à établir avant de construire la chaîne. Rattraper une base légale sur un système déjà en fonctionnement coûte beaucoup plus cher que de la poser au départ." },
     { p: 3, q: "Votre assistant répond à « quel est notre taux de rétention nette ? » depuis l'entrepôt de données. Pour faire confiance à la réponse, il vous faut surtout :",
-      o: ["La requête exécutée et la définition employée, affichées à côté du chiffre", "Un score de confiance", "Un second modèle qui vérifie", "La réponse présentée sous forme de graphique"],
+      o: ["La requête exécutée et la définition employée, affichées à côté du chiffre", "Un score de confiance calculé par l'assistant, affiché à côté du chiffre", "Une vérification par un second modèle, qui recalcule le chiffre indépendamment", "La réponse présentée sous forme de graphique, avec l'évolution sur douze mois"],
       why: "La rétention nette a une demi-douzaine de définitions défendables. Un chiffre sans sa requête et sa définition reste une affirmation, et une réponse financière doit être reproductible." },
     { p: 3, q: "Le meilleur argument pour faire valider chaque devis sortant par un humain, même avec une IA juste à 98 % :",
-      o: ["Un devis est un engagement commercial : le coût des 2 % est sans commune mesure avec l'économie sur les 98 %", "Les clients préfèrent un contact humain", "L'IA n'a pas accès à la grille tarifaire", "La réglementation l'impose"],
+      o: ["Un devis est un engagement commercial : le coût des 2 % est sans commune mesure avec l'économie sur les 98 %", "Les clients préfèrent un contact humain et un devis signé par une personne identifiée, qu'ils pourront rappeler en cas de question", "L'IA n'a pas accès à la grille tarifaire à jour et risque d'appliquer d'anciens prix", "La réglementation impose qu'un engagement commercial soit validé par une personne"],
       why: "On automatise selon la conséquence, jamais selon la justesse seule. Une justesse élevée sur un travail réversible est un feu vert ; la même justesse sur un engagement contractuel ne l'est plus. Voilà où l'humain reste indispensable." }
   ],
   expert: [
     { p: 1, q: "Un même agent crée et valide un paiement fournisseur. La séparation des tâches :",
-      o: ["Est violée : le même acteur initie et approuve, qu'il soit logiciel ou non", "Est préservée, un logiciel n'ayant pas d'intérêt personnel", "Est une question de politique interne sans réponse technique", "Ne s'applique qu'au-dessus d'un certain montant"],
+      o: ["Est violée : le même acteur initie et approuve, qu'il soit logiciel ou non", "Est préservée : un logiciel n'a pas d'intérêt personnel et ne peut pas se favoriser", "Est une question de politique interne, sans réponse technique possible", "Ne s'applique qu'au-dessus d'un certain montant, fixé par le contrôle interne"],
       why: "La séparation porte sur l'indépendance du contrôle, pas sur l'intention. Un prompt détourné ou une description d'outil mal écrite déplace alors de l'argent de bout en bout, sans rien sur le chemin." },
     { p: 1, q: "Vous fixez les seuils au-delà desquels un agent ne peut plus agir seul en finance. La bonne base :",
-      o: ["La conséquence et la réversibilité de l'action, pas la confiance du modèle", "Le score de confiance auto-déclaré du modèle", "Un pourcentage fixe du montant de la transaction", "La justesse historique sur des tâches similaires"],
+      o: ["La conséquence et la réversibilité de l'action, pas la confiance du modèle", "Le score de confiance auto-déclaré du modèle, au-dessus duquel il agit seul", "Un pourcentage fixe du montant de la transaction, identique pour toutes les actions", "La justesse historique du modèle sur des tâches similaires, mesurée en test"],
       why: "La confiance est une propriété du modèle, la conséquence une propriété du monde. Une reclassification réversible de 50 000 € s'automatise plus sereinement qu'un paiement irréversible de 500 €." },
     { p: 1, q: "La dépense en tokens augmente dans plusieurs équipes et personne ne la porte. La correction structurelle :",
-      o: ["Une clé d'API ou une étiquette par équipe, rattachée à un centre de coût, avec budgets et alertes au niveau de la clé", "Un rapport mensuel à la direction financière", "Un plafond sur le compte global", "Passer à un modèle moins cher"],
+      o: ["Une clé d'API ou une étiquette par équipe, rattachée à un centre de coût, avec budgets et alertes par clé", "Un rapport mensuel à la direction financière, détaillant la dépense par fournisseur, par modèle et par équipe utilisatrice", "Un plafond sur le compte global, au-delà duquel tous les appels sont bloqués", "Un passage à un modèle moins cher pour l'ensemble des équipes, décidé centralement"],
       why: "On ne répartit pas ce qu'on ne sait pas attribuer. Étiqueter au niveau de la clé transforme la dépense IA en ligne de coût ordinaire avec un propriétaire, ce qui suffit généralement à la contenir." },
     { p: 2, q: "Un document de comité rédigé avec l'aide de l'IA contient un chiffre de revenu que personne ne sait reproduire. Le contrôle qui aurait dû l'empêcher :",
-      o: ["Chaque chiffre porte sa filiation vers une requête sur une source gouvernée, et un chiffre sans source ne peut pas être publié", "Une relecture et une correction orthographique", "Un modèle plus performant", "Une mention indiquant l'usage de l'IA"],
+      o: ["Chaque chiffre porte sa filiation vers une requête sur une source gouvernée ; un chiffre sans source ne peut pas être publié", "Une relecture par le contrôle de gestion et une correction orthographique avant l'envoi au comité, avec signature du directeur financier", "Un modèle plus performant, moins sujet aux hallucinations sur les données chiffrées", "Une mention en première page indiquant que le document a été rédigé avec l'aide de l'IA"],
       why: "La traçabilité doit être structurelle plutôt que procédurale. Si l'étape de génération ne peut pas rattacher une source, elle ne doit pas pouvoir produire de chiffre ; une relecture, elle, passera à côté à chaque échéance serrée." },
     { p: 2, q: "Un agent passe des écritures comptables. Pour l'audit, vous devez pouvoir démontrer :",
-      o: ["Qui a autorisé l'agent, ce qu'il a fait, sur quelles entrées, et qu'aucun humain n'a pu être contourné sur les écritures contrôlées", "Que le modèle était juste pendant les tests", "Le rapport de certification du fournisseur", "Le prompt de l'agent"],
+      o: ["Qui a autorisé l'agent, ce qu'il a fait, sur quelles entrées, et qu'aucun humain n'a pu être contourné sur les écritures contrôlées", "Que le modèle était juste pendant les tests, avec un taux d'erreur documenté et accepté", "Le rapport de certification du fournisseur du modèle, couvrant la sécurité, la confidentialité et la disponibilité du service", "Le prompt de l'agent, tel qu'il était en production au moment des écritures"],
       why: "Un auditeur pose à un agent les mêmes questions qu'à un salarié : autorité, preuve, respect de la séparation des tâches. « C'est l'IA qui l'a fait » ne constitue pas un contrôle." },
     { p: 2, q: "L'AI Act européen classe un système par niveau de risque. Pour un outil de scoring de crédit ou de tri de candidatures, la conséquence pratique :",
-      o: ["Le système est à haut risque : documentation, supervision humaine et journalisation deviennent des obligations, pas des bonnes pratiques", "Le système est interdit", "Aucune : l'AI Act ne concerne que les fournisseurs de modèles", "Une simple mention d'usage de l'IA suffit"],
+      o: ["Le système est à haut risque : documentation, supervision humaine et journalisation deviennent des obligations", "Le système est interdit : le crédit et le recrutement figurent parmi les usages proscrits par le règlement, sans dérogation possible", "Aucune : l'AI Act ne concerne que les fournisseurs de modèles, pas les entreprises qui les utilisent", "Une simple mention d'usage de l'IA dans les conditions générales suffit à se mettre en conformité"],
       why: "Entré en vigueur en 2024, à application progressive. Le crédit et le recrutement figurent dans les usages à haut risque : la gouvernance que vous auriez dû écrire de toute façon devient exigible, avec un calendrier. Autant l'écrire avant qu'on vous la demande." },
     { p: 3, q: "Prévoir les signatures du trimestre prochain : quand une régression statistique vaut-elle mieux qu'un modèle de langage ?",
-      o: ["Quand vous avez un historique chiffré propre et qu'il vous faut une estimation reproductible et explicable", "Quand il faut aller vite", "Quand le jeu de données est petit", "Quand les décideurs veulent un récit"],
+      o: ["Quand vous avez un historique chiffré propre et qu'il vous faut une estimation reproductible et explicable", "Quand il faut aller vite et qu'un modèle de langage prendrait trop de temps à mettre en place", "Quand le jeu de données est petit et qu'un modèle de langage n'aurait pas assez de matière", "Quand les décideurs veulent un récit et une explication plutôt qu'un chiffre brut"],
       why: "À chacun son terrain. La statistique produit le chiffre ; le modèle de langage lit le signal non structuré autour, comptes rendus d'appels, fils de support, mentions de concurrents, et explique l'écart." },
     { p: 3, q: "Votre modèle d'attribution assisté par IA et votre modèle multi-touch divergent de 30 % sur la contribution d'un canal. La bonne réaction :",
-      o: ["Traiter ça comme un conflit de définitions à trancher explicitement, et désigner un système de référence pour les décisions", "Faire la moyenne des deux", "Retenir celui qui soutient le budget en cours", "Écarter le modèle le plus récent"],
+      o: ["Un conflit de définitions à trancher explicitement, en désignant un système de référence pour les décisions", "Faire la moyenne des deux résultats, pour lisser les biais propres à chaque méthode et obtenir un chiffre consensuel", "Retenir celui qui soutient le budget en cours, pour ne pas rouvrir l'arbitrage", "Écarter le modèle le plus récent, le plus ancien ayant fait ses preuves"],
       why: "Faire la moyenne de deux définitions incompatibles produit un chiffre qui ne décrit rien. L'attribution est un choix de modélisation : on le fait une fois, on l'écrit, et toutes les décisions passent par le même." },
     { p: 3, q: "Vous construisez un générateur de devis interne pour l'équipe commerciale. L'élément de conception qui compte le plus :",
-      o: ["Des entrées validées par schéma, une source tarifaire unique, et un blocage dur des remises au-delà du niveau autorisé", "Un prompt bien écrit décrivant la politique tarifaire", "Une grande fenêtre de contexte avec la grille tarifaire collée dedans", "Un modèle affiné sur les devis passés"],
+      o: ["Des entrées validées par schéma, une source tarifaire unique, et un blocage dur des remises au-delà du niveau autorisé", "Un prompt bien écrit, décrivant la politique tarifaire, les niveaux de remise autorisés par profil et les exceptions tolérées", "Une grande fenêtre de contexte, avec la grille tarifaire complète collée dans chaque requête", "Un modèle affiné sur les devis passés, pour qu'il reproduise les pratiques de l'équipe"],
       why: "Une politique tarifaire écrite dans un prompt reste une suggestion dont on peut détourner le modèle. Écrite en validation dans l'exécution, elle devient une règle, et le niveau de remise autorisé est précisément l'endroit où vous serez testé." }
   ]}
 }
