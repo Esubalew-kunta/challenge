@@ -26,7 +26,12 @@
  */
 
 import type { Metadata } from "next";
-import { badgeImagePath, parseBadgeInput, BADGE_SIZE } from "@/lib/benchmark/badge";
+import {
+  badgeImagePath,
+  badgePath,
+  parseBadgeInput,
+  BADGE_SIZE,
+} from "@/lib/benchmark/badge";
 import { challengePublicUrl } from "@/lib/challenge/public-url";
 import { BadgeBroken, BadgeView } from "@/components/benchmark/badge-view";
 import { MAX_SCORE } from "@/lib/benchmark/engine";
@@ -79,7 +84,25 @@ export async function generateMetadata({
      développement est une adresse qu'il ne peut pas atteindre, donc l'image
      n'apparaîtrait simplement jamais. Ce défaut a déjà été livré une fois,
      dans les e-mails de fiches. */
-  const image = `${challengePublicUrl()}${badgeImagePath(input, LOCALE)}`;
+  const base = challengePublicUrl();
+  const image = `${base}${badgeImagePath(input, LOCALE)}`;
+
+  /* **`og:url` est obligatoire pour LinkedIn**, et son absence était la vraie
+     cause du « Cannot display preview » du 31 août : tout le reste était en
+     place, page accessible, `og:image` servie en 200, en-têtes robots levés.
+     LinkedIn refuse simplement de fabriquer un aperçu sans cette balise.
+
+     Elle manquait parce que cette page construit ses métadonnées à la main au
+     lieu de passer par `constructMetadata`, qui la pose pour toutes les autres
+     pages du site. La raison de ne pas l'utiliser tient : ce module compose
+     l'adresse sur `siteConfig.url`, c'est-à-dire aimakers.fr, où le Benchmark
+     ne vit pas encore et où l'adresse répondrait 404.
+
+     Elle pointe donc l'adresse publique du déploiement, la même base que
+     l'image, et suit la bascule de domaine sans rien à changer ici. Ses
+     paramètres sont conservés : c'est la page de CE badge, pas la page de
+     badge en général. */
+  const canonicalUrl = `${base}${badgePath(input, LOCALE)}`;
 
   return {
     title,
@@ -87,6 +110,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
+      url: canonicalUrl,
       siteName: siteConfig.name,
       type: "website",
       images: [

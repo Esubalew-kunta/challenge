@@ -337,18 +337,30 @@
 
    Le brun est `--expert`, la couleur de palier la plus chaude de la palette du
    Benchmark. Aucune couleur inventée : elle est déjà à l'écran sur la pastille
-   du niveau expert. Le soulignement est atténué au repos et plein au survol,
-   pour que le lien se voie sans crier. */
+   du niveau expert.
+
+   **Délavé vers le blanc à la demande du propriétaire, 31 août.** Le brun plein
+   attirait trop l'œil pour une mention de bas de formulaire. Il est mélangé à
+   60 % de blanc, ce qui donne environ #D2986B et un contraste de 2,3:1 sur le
+   fond clair. C'est sous le seuil WCAG AA de 4,5:1, et c'est assumé : le lien
+   n'est pas une action du parcours, il est là pour qui le cherche.
+
+   Le survol rétablit le brun plein et le soulignement. C'est ce qui rend le
+   choix défendable : la cible est atteignable et se révèle dès qu'on
+   l'approche, elle ne disparaît pas. */
 .bm-root .privacy-link {
   display: inline-block; margin-top: 30px;
   font-size: 12px; line-height: 1.5;
-  color: var(--expert);
+  color: color-mix(in srgb, var(--expert) 40%, #FFFFFF);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: color-mix(in srgb, var(--expert) 35%, transparent);
-  transition: text-decoration-color .15s ease;
+  text-decoration-color: color-mix(in srgb, var(--expert) 20%, transparent);
+  transition: color .15s ease, text-decoration-color .15s ease;
 }
-.bm-root .privacy-link:hover { text-decoration-color: var(--expert); }
+.bm-root .privacy-link:hover {
+  color: var(--expert);
+  text-decoration-color: var(--expert);
+}
 
 /* ---------- échelle typographique resserrée ----------
 

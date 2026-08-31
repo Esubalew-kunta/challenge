@@ -167,6 +167,43 @@ test("« ajouter à mon profil » retombe sur le nom quand l'identifiant manque"
   );
 });
 
+/* ------------------------------------------------- les balises Open Graph */
+
+/**
+ * Les quatre balises que LinkedIn exige, vérifiées dans la source de la page.
+ *
+ * Un test de rendu serait meilleur et coûterait un environnement Next entier
+ * pour une page qui n'a que des métadonnées. Une lecture de source attrape le
+ * seul défaut qu'on a réellement eu : `og:url` avait été oubliée, parce que
+ * cette page compose ses métadonnées à la main au lieu de passer par
+ * `constructMetadata`. Tout le reste était en place, la page répondait 200,
+ * l'image aussi, et LinkedIn refusait quand même l'aperçu.
+ */
+test("la page de badge déclare les quatre balises Open Graph de LinkedIn", () => {
+  const page = readFileSync(
+    fileURLToPath(new URL("../src/app/(fr)/benchmark/badge/page.tsx", import.meta.url)),
+    "utf8",
+  );
+
+  const start = page.indexOf("openGraph: {");
+  assert.ok(start > 0, "le bloc openGraph a disparu de la page de badge");
+  const block = page.slice(start, page.indexOf("twitter:", start));
+
+  for (const field of ["title,", "description,", "url:", "images:"]) {
+    assert.ok(
+      block.includes(field),
+      `openGraph n'expose plus « ${field} » : LinkedIn refusera l'aperçu`,
+    );
+  }
+
+  /* L'adresse vient de `challengePublicUrl()` et non de `siteConfig.url` : le
+     Benchmark ne vit pas encore sur aimakers.fr, où l'adresse répondrait 404. */
+  assert.ok(
+    page.includes("challengePublicUrl()"),
+    "l'adresse publique doit venir du déploiement, pas du domaine canonique",
+  );
+});
+
 /* ------------------------------------------------------- le mot interdit */
 
 /**
