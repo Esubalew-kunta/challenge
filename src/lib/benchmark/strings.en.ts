@@ -128,8 +128,12 @@ export const STRINGS_EN: Record<string, string> = {
     "Pick a department: it is what decides your questions.",
 
   "onboarding.step5.label": "What do you work on in {track}?",
+  // Plus rendue depuis le 1er septembre : ses deux phrases sont devenues
+  // fausses quand le rôle est passé après le round 1. Remplacée par
+  // `role.hint`. Conservée pour la parité avec le français.
   "onboarding.step5.hint":
     "Last step. Take the closest one: your run starts on the click.",
+  // Plus rendue : l'écran de rôle n'a plus de chemin d'erreur.
   "onboarding.step5.error": "Take the closest one. One click is enough.",
   // Section 11 du PRD. Le pack fournit la mention de démonstration, qui dit que
   // rien n'est transmis : faux depuis que Supabase est branché.
@@ -143,6 +147,10 @@ export const STRINGS_EN: Record<string, string> = {
   // propriétaire du 28 août : la version française est déjà en ligne, donc les
   // deux disent la même chose non validée plutôt qu'une seule.
   "onboarding.step5.privacy": "Privacy policy",
+
+  // ---------------------------------------------------------------------- rôle
+  // L'écran posé après le round 1, traduit du français.
+  "role.hint": "Take the closest one: round 2 starts on the click.",
 
   // ----------------------------------------------------------------- question
   "question.timerLabel": "Time",
@@ -220,29 +228,39 @@ export const STRINGS_EN: Record<string, string> = {
   "scorecard.verdict.expert.body":
     "You held the hardest bank in the game, step 3 included. Inside a team, that level is called an AI Champion: the person the others turn to before plugging an agent into a real process.",
 
+  // Retirée de l'écran le 1er septembre, comme en français : « Post on
+  // LinkedIn » copie déjà ce texte. La clé reste pour la parité.
   "scorecard.copyLinkedIn": "Copy my LinkedIn post",
   "scorecard.seeCorrige": "See the answer key",
   "scorecard.otherTrack": "Try another track",
 
-  // --------------------------------------------------------------------- badge
+  // ---------------------------------------------------------------- récompense
+  // Traduit de la maquette française du 1er septembre.
+  "reward.eyebrow": "Your reward",
+  "reward.lead":
+    "{n} agent skills for your role, ready to install in Claude Code:",
+  "reward.download": "Download the pack (.zip) · {poids}",
+
+  // ------------------------------------------------------------- carte de score
   // Traduit du français, non relu, comme tout ce fichier. Les {jetons} gardent
   // leur nom français : ce sont des clés, pas du texte.
   //
   // Le mot « certification » est banni ici aussi. On dit « level » ou
-  // « result ». Le test `badge-wording` couvre les deux langues.
+  // « result ». **Le mot « badge » l'est depuis le 1er septembre**, décision de
+  // Maneesh : les règles de marque de LinkedIn réservent les badges à LinkedIn.
+  // On dit « score card ». Le test `badge-wording` couvre les deux langues.
   "badge.shareLinkedIn": "Post on LinkedIn",
-  "badge.download": "Download the badge",
-  "badge.addToProfile": "Add to my profile",
-  "badge.previewAlt": "The Makers Benchmark badge, {niveau} level, {track} track",
-  "badge.profileEntry": "The Makers Benchmark, {niveau} level ({track})",
+  "badge.download": "Download the card",
+  "badge.previewAlt":
+    "The Makers Benchmark score card, {niveau} level, {track} track",
   "badge.pageTitle": "{nom}, {niveau} level",
   "badge.pageLead": "{score} out of {max} on The Makers Benchmark, {track} track.",
   "badge.backToBenchmark": "Take the Benchmark",
   "badge.honest":
-    "This badge records a run played on aimakers.fr. It is not a proctored exam, and the score on it was earned over nine questions.",
-  "badge.brokenTitle": "This badge link is incomplete",
+    "This score card records a run played on aimakers.fr. It is not a proctored exam, and the score on it was earned over nine questions.",
+  "badge.brokenTitle": "This score card link is incomplete",
   "badge.brokenBody":
-    "Something is missing from the link, or one part of it was edited. Play the Benchmark to get a badge in your own name.",
+    "Something is missing from the link, or one part of it was edited. Play the Benchmark to get a score card in your own name.",
 
   // ------------------------------------------------------------------- corrigé
   "corrige.title": "Answer key",

@@ -169,40 +169,20 @@ export function linkedInShareUrl(absolutePageUrl: string): string {
 }
 
 /**
- * « Ajouter à mon profil », le lien officiel de LinkedIn.
+ * ── « Ajouter à mon profil » n'existe plus ────────────────────────────────
  *
- * Il pré-remplit une entrée dans la section que LinkedIn nomme « Licences et
- * certifications ». Le nom de cette section est celui de LinkedIn et on ne peut
- * pas le changer ; notre propre texte, lui, ne dit jamais « certification ».
- * C'est la règle du pack, et le test `no-certification` la tient.
+ * Le lien `linkedin.com/profile/add` rangeait le résultat dans la section que
+ * LinkedIn nomme « Licences et certifications ». Il fonctionnait, il était
+ * livré, et il est retiré le 1er septembre après la relecture de Maneesh : les
+ * règles de marque de LinkedIn réservent les badges à LinkedIn, et un score
+ * obtenu en neuf questions n'a rien à faire dans la rubrique des
+ * certifications d'un profil.
  *
- * `organizationId` est l'identifiant numérique de la page entreprise. Sans lui,
- * LinkedIn accepte quand même l'entrée et affiche `organizationName` en texte
- * libre, sans le logo ni le lien vers la page. On envoie donc l'un ou l'autre
- * selon ce qui est configuré, plutôt que d'attendre l'identifiant pour livrer.
+ * Retiré et non masqué, comme les parcours d'exemple du classement et comme les
+ * anciens packs de ressources : la fonction, ses chaînes, son test et la
+ * variable d'environnement `NEXT_PUBLIC_LINKEDIN_ORGANIZATION_ID` partent
+ * ensemble. Ce qu'on ne sert plus, on l'enlève.
+ *
+ * Ce qui reste : `linkedInShareUrl`, le partage ordinaire d'un lien dans un
+ * fil, qui n'affirme rien.
  */
-export type AddToProfileInput = {
-  /** Ce qui s'affiche comme intitulé de l'entrée. Vient des chaînes, pas d'ici. */
-  entryName: string;
-  issueYear: number;
-  issueMonth: number;
-  /** L'adresse publique de la page de badge. */
-  certUrl: string;
-  organizationId?: string;
-  organizationName: string;
-};
-
-export function addToProfileUrl(input: AddToProfileInput): string {
-  const params = new URLSearchParams({
-    startTask: "CERTIFICATION_NAME",
-    name: input.entryName,
-    issueYear: String(input.issueYear),
-    issueMonth: String(input.issueMonth),
-    certUrl: input.certUrl,
-  });
-
-  if (input.organizationId) params.set("organizationId", input.organizationId);
-  else params.set("organizationName", input.organizationName);
-
-  return `https://www.linkedin.com/profile/add?${params.toString()}`;
-}

@@ -1,15 +1,16 @@
 /**
- * Le badge du Benchmark : ce qui entre, ce qui sort, et le mot interdit.
+ * La carte de score du Benchmark : ce qui entre, ce qui sort, et les deux mots
+ * interdits.
  *
  * Trois choses sont protégées ici, et chacune a déjà une façon connue de mal
  * tourner :
  *
- * 1. **La lecture des paramètres.** Le badge se dessine depuis l'adresse. Un
+ * 1. **La lecture des paramètres.** La carte se dessine depuis l'adresse. Un
  *    champ mal validé, et notre logo se retrouve à côté d'une insulte, d'une
  *    adresse web, ou d'un score que le jeu ne peut pas produire.
- * 2. **Le mot « certification ».** La règle du pack : on dit « niveau » ou
- *    « résultat ». Une relecture humaine ne tient pas cette règle sur la durée,
- *    un test si.
+ * 2. **Les mots « certification » et « badge ».** On dit « niveau », « résultat »
+ *    ou « carte de score ». Une relecture humaine ne tient pas cette règle sur
+ *    la durée, un test si.
  * 3. **Les adresses.** LinkedIn ne prend qu'un lien, et ce lien doit être
  *    absolu et pointer sur la page, jamais sur l'image.
  */
@@ -20,7 +21,6 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import {
-  addToProfileUrl,
   badgeImagePath,
   badgePath,
   cleanName,
@@ -145,26 +145,28 @@ test("l'image sert du SVG sur la page et du PNG quand elle sort du site", () => 
   assert.ok(saved.includes("download=1"));
 });
 
-test("« ajouter à mon profil » retombe sur le nom quand l'identifiant manque", () => {
-  const base = {
-    entryName: "Le Benchmark des Makers, niveau Expert (Marketing & Growth)",
-    issueYear: 2026,
-    issueMonth: 8,
-    certUrl: "https://aimakers.fr/benchmark/badge?n=Sara",
-    organizationName: "AI Makers",
-  };
-
-  const withoutId = new URL(addToProfileUrl(base));
-  assert.equal(withoutId.searchParams.get("organizationName"), "AI Makers");
-  assert.equal(withoutId.searchParams.get("organizationId"), null);
-
-  const withId = new URL(addToProfileUrl({ ...base, organizationId: "1234567" }));
-  assert.equal(withId.searchParams.get("organizationId"), "1234567");
-  assert.equal(
-    withId.searchParams.get("organizationName"),
-    null,
-    "LinkedIn ignore le nom libre dès qu'un identifiant est fourni : envoyer les deux embrouille la lecture du lien",
+/**
+ * « Ajouter à mon profil » ne doit pas revenir.
+ *
+ * Le lien `linkedin.com/profile/add` rangeait le résultat dans la rubrique des
+ * licences et certifications d'un profil. Retiré le 1er septembre sur décision
+ * de Maneesh. Un test qui vérifie une absence a mauvaise réputation, et il se
+ * justifie ici : la fonction a existé, elle marchait, et la remettre est une
+ * ligne. C'est exactement le genre de chose qui repasse par distraction.
+ */
+test("le lien « ajouter à mon profil » de LinkedIn n'existe plus", () => {
+  const source = readFileSync(
+    fileURLToPath(new URL("../src/lib/benchmark/badge.ts", import.meta.url)),
+    "utf8",
   );
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, "");
+
+  for (const forbidden of ["profile/add", "CERTIFICATION_NAME", "organizationId"]) {
+    assert.ok(
+      !code.includes(forbidden),
+      `« ${forbidden} » est revenu dans badge.ts : le lien de certification LinkedIn est retiré`,
+    );
+  }
 });
 
 /* ------------------------------------------------- les balises Open Graph */
@@ -179,29 +181,38 @@ test("« ajouter à mon profil » retombe sur le nom quand l'identifiant manque"
  * `constructMetadata`. Tout le reste était en place, la page répondait 200,
  * l'image aussi, et LinkedIn refusait quand même l'aperçu.
  */
-test("la page de badge déclare les quatre balises Open Graph de LinkedIn", () => {
-  const page = readFileSync(
-    fileURLToPath(new URL("../src/app/(fr)/benchmark/badge/page.tsx", import.meta.url)),
-    "utf8",
-  );
+/* Les deux langues. La page anglaise manquait purement et simplement jusqu'au
+   1er septembre : `BADGE_PATH.en` l'annonçait, le bouton de partage anglais y
+   menait, et l'adresse répondait 404. Personne ne l'avait vu, la page anglaise
+   du Benchmark n'ayant pas encore de vrai joueur. Ce test aurait suffi. */
+const BADGE_PAGES = [
+  "../src/app/(fr)/benchmark/badge/page.tsx",
+  "../src/app/(en)/en/benchmark/badge/page.tsx",
+];
 
-  const start = page.indexOf("openGraph: {");
-  assert.ok(start > 0, "le bloc openGraph a disparu de la page de badge");
-  const block = page.slice(start, page.indexOf("twitter:", start));
+test("les deux pages de carte de score déclarent les balises Open Graph de LinkedIn", () => {
+  for (const relative of BADGE_PAGES) {
+    const path = fileURLToPath(new URL(relative, import.meta.url));
+    const page = readFileSync(path, "utf8");
 
-  for (const field of ["title,", "description,", "url:", "images:"]) {
+    const start = page.indexOf("openGraph: {");
+    assert.ok(start > 0, `${relative} : le bloc openGraph a disparu`);
+    const block = page.slice(start, page.indexOf("twitter:", start));
+
+    for (const field of ["title,", "description,", "url:", "images:"]) {
+      assert.ok(
+        block.includes(field),
+        `${relative} : openGraph n'expose plus « ${field} », LinkedIn refusera l'aperçu`,
+      );
+    }
+
+    /* L'adresse vient de `challengePublicUrl()` et non de `siteConfig.url` : le
+       Benchmark ne vit pas encore sur aimakers.fr, où elle répondrait 404. */
     assert.ok(
-      block.includes(field),
-      `openGraph n'expose plus « ${field} » : LinkedIn refusera l'aperçu`,
+      page.includes("challengePublicUrl()"),
+      `${relative} : l'adresse publique doit venir du déploiement, pas du domaine canonique`,
     );
   }
-
-  /* L'adresse vient de `challengePublicUrl()` et non de `siteConfig.url` : le
-     Benchmark ne vit pas encore sur aimakers.fr, où l'adresse répondrait 404. */
-  assert.ok(
-    page.includes("challengePublicUrl()"),
-    "l'adresse publique doit venir du déploiement, pas du domaine canonique",
-  );
 });
 
 /* ------------------------------------------------------- le mot interdit */
@@ -218,6 +229,33 @@ test("la page de badge déclare les quatre balises Open Graph de LinkedIn", () =
  * jamais : ni les chaînes affichées, ni les mots dessinés sur le badge.
  */
 const FORBIDDEN = /certifi/i;
+
+/**
+ * Le second mot interdit, depuis le 1er septembre.
+ *
+ * Décision de Maneesh : les règles de marque de LinkedIn réservent les badges à
+ * LinkedIn. Ce que nous produisons s'appelle une carte de score, en français
+ * comme en anglais.
+ *
+ * Le contrôle porte sur les valeurs affichées, jamais sur les clés : les clés
+ * gardent leur préfixe `badge.`, que personne ne voit, et les renommer dans deux
+ * langues aurait rempli le diff sans rien changer à l'écran.
+ */
+const FORBIDDEN_BADGE = /\bbadges?\b/i;
+
+test("aucune chaîne affichée ne dit « badge »", () => {
+  for (const [table, name] of [
+    [STRINGS_FR, "fr"],
+    [STRINGS_EN, "en"],
+  ] as const) {
+    for (const [key, value] of Object.entries(table)) {
+      assert.ok(
+        !FORBIDDEN_BADGE.test(value),
+        `« ${key} » (${name}) dit « badge » : on dit « carte de score » / « score card » — ${value}`,
+      );
+    }
+  }
+});
 
 test("aucune chaîne affichée ne dit « certification »", () => {
   for (const [table, name] of [

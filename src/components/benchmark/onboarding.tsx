@@ -1,11 +1,20 @@
 "use client";
 
 /**
- * L'onboarding, cinq étapes.
+ * L'onboarding, quatre étapes.
  *
- * Nom, e-mail, entreprise, track, rôle. Les trois premières ont un champ et un
- * bouton ; les deux dernières avancent au clic, et cliquer un rôle démarre le
- * parcours sans bouton supplémentaire.
+ * Nom, e-mail, entreprise, track. Les trois premières ont un champ et un
+ * bouton ; la dernière avance au clic, et cliquer un track démarre le parcours
+ * sans bouton supplémentaire.
+ *
+ * ── La cinquième étape n'est plus ici ───────────────────────────────────────
+ *
+ * Le choix du rôle était la cinquième et dernière étape, entre le track et la
+ * première question. Il est déplacé après le round 1, sur demande du
+ * propriétaire, deux fois : cinq écrans avant la moindre question, c'est cinq
+ * occasions d'abandonner avant d'avoir vu ce qu'on est venu voir. La question du
+ * rôle se pose à quelqu'un qui a déjà répondu à trois questions et vu son
+ * verdict, donc à quelqu'un qui a une raison de continuer. Voir `role-screen.tsx`.
  *
  * Le retour préserve ce qui a été saisi. Chaque étape a son propre message
  * d'erreur, parce qu'un message générique oblige le lecteur à deviner lequel
@@ -40,7 +49,7 @@ export const EMPTY_LEAD: Lead = {
   role: null,
 };
 
-const STEPS = 5;
+const STEPS = 4;
 
 /** Assez pour attraper une faute de frappe, pas assez pour refuser une adresse
  *  valable dont la forme sort de l'ordinaire. */
@@ -69,14 +78,13 @@ type Props = {
   onLeave: () => void;
   /** Renvoie faux si le parcours n'a pas pu démarrer : banque absente ou mal
    *  rangée. L'étape 4 reprend la main plutôt que de laisser un clic mort. */
-  onStartRun: (lead: Lead & { trackId: TrackId; role: string }) => boolean;
+  onStartRun: (lead: Lead & { trackId: TrackId }) => boolean;
 };
 
 export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
   const locale = useBenchmarkLocale();
-  const { TRACKS, ROLES } = contentFor(locale);
+  const { TRACKS } = contentFor(locale);
   const [step, setStep] = useState(0);
-  const currentTrack = TRACKS.find((track) => track.id === lead.trackId);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -104,24 +112,18 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
     goTo(step + 1);
   };
 
-  const chooseTrack = (trackId: TrackId) => {
-    onChange({ ...lead, trackId, role: null });
-    goTo(4);
-  };
+  /* Cliquer un track démarre le parcours. Le rôle, qui s'intercalait ici, se
+     demande maintenant après le round 1.
 
-  const chooseRole = (role: string) => {
-    if (!lead.trackId) {
-      setError(s("onboarding.step4.error", locale));
-      setStep(3);
-      return;
-    }
-    // Un track sans banque jouable renvoie l'utilisateur au choix du
-    // département, avec le message de cette étape. Aucun écran blanc, aucune
-    // exception qui remonte jusqu'à React.
-    if (!onStartRun({ ...lead, role, trackId: lead.trackId })) {
+     Un track sans banque jouable laisse l'utilisateur sur cette étape, avec le
+     message de cette étape. Aucun écran blanc, aucune exception qui remonte
+     jusqu'à React. */
+  const chooseTrack = (trackId: TrackId) => {
+    const filled = { ...lead, trackId, role: null };
+    onChange(filled);
+    if (!onStartRun(filled)) {
       onChange({ ...lead, trackId: null, role: null });
       setError(s("onboarding.step4.error", locale));
-      setStep(3);
     }
   };
 
@@ -225,30 +227,6 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
                   </button>
                 ))}
               </div>
-            </>
-          )}
-
-          {step === 4 && (
-            <>
-              <Slot
-                k="onboarding.step5.label"
-                as="h2"
-                values={{ track: currentTrack?.name ?? "" }}
-              />
-              <Slot k="onboarding.step5.hint" as="p" className="hint" />
-              <div className="roles" role="group">
-                {(lead.trackId ? ROLES[lead.trackId] : []).map((role) => (
-                  <button
-                    key={role}
-                    type="button"
-                    className="role"
-                    aria-pressed={lead.role === role}
-                    onClick={() => chooseRole(role)}
-                  >
-                    {role}
-                  </button>
-                ))}
-              </div>
               {/*
                 Un lien, plus un paragraphe. La mention détaillait ce qui est
                 enregistré et ce qui s'affiche ; elle devenait une liste à tenir
@@ -256,6 +234,11 @@ export function Onboarding({ lead, onChange, onLeave, onStartRun }: Props) {
                 jour où l'entreprise a quitté le classement. La politique de
                 confidentialité, elle, est le document qui fait foi et qui est
                 maintenu ailleurs. Décision du propriétaire, 31 août.
+
+                Elle vivait sur l'étape du rôle, qui était la dernière avant la
+                première question. Le rôle étant parti après le round 1, elle
+                suit : elle doit rester sur le dernier écran qu'on voit avant de
+                commencer à jouer, pas sur un écran d'après.
 
                 Absolu et non relatif : `PRIVACY_URL` pointe la politique
                 publiée sur aimakers.fr, ce qui reste juste depuis le

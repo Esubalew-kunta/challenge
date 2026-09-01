@@ -13,7 +13,6 @@
  * sécurisé, on le dit plutôt que de laisser croire que c'est copié.
  */
 
-import { useState } from "react";
 import { MAX_SCORE, type RunSummary } from "@/lib/benchmark/engine";
 import { BookingCtaButton } from "@/components/shared/booking-modal";
 import type { Board } from "@/lib/benchmark/board";
@@ -21,12 +20,12 @@ import { contentFor } from "@/lib/benchmark/content";
 import type { TierKey, Track } from "@/lib/benchmark/types";
 import { s, sf } from "@/lib/benchmark/strings";
 import {
-  addToProfileUrl,
   badgeImagePath,
   badgePath,
   linkedInShareUrl,
   type BadgeInput,
 } from "@/lib/benchmark/badge";
+import { packDownloadPath, packFor, packSizeLabel } from "@/lib/benchmark/packs";
 import { useBenchmarkLocale } from "./locale-context";
 import { formatTime, rankCounter, splitRoundLine } from "@/lib/benchmark/format";
 import { Slot } from "./string-slot";
@@ -47,17 +46,6 @@ type Props = {
   onOtherTrack: () => void;
   onToast: (key: string) => void;
 };
-
-/**
- * L'identifiant de la page entreprise LinkedIn, s'il est configuré.
- *
- * Sans lui, LinkedIn accepte l'entrée « ajouter à mon profil » et affiche le
- * nom de l'organisation en texte libre, sans logo ni lien vers la page. Le
- * bouton marche donc dès aujourd'hui et s'améliore le jour où quelqu'un pose la
- * variable ; attendre l'identifiant pour le livrer aurait été le mauvais
- * arbitrage.
- */
-const LINKEDIN_ORG_ID = process.env.NEXT_PUBLIC_LINKEDIN_ORGANIZATION_ID?.trim();
 
 async function copy(text: string): Promise<boolean> {
   try {
@@ -84,18 +72,10 @@ export function Scorecard({
   const locale = useBenchmarkLocale();
   const { POST_LINKEDIN, DEFI_COLLEGUE, HASHTAGS } = contentFor(locale);
 
-  /* La date d'obtention envoyée à LinkedIn, figée au premier rendu. Un
-     `new Date()` recalculé à chaque rendu changerait le lien sous le curseur
-     au passage de minuit, ce qui ne casse rien mais ne se justifie pas. Cet
-     écran n'existe qu'après une partie jouée, donc jamais rendu sur le
-     serveur : aucun risque de décalage d'hydratation. */
-  const [issued] = useState(() => {
-    const now = new Date();
-    return { year: now.getFullYear(), month: now.getMonth() + 1 };
-  });
   const tier = summary.finalTier;
   const time = formatTime(summary.durationSeconds);
   const label = tierLabel(tier);
+  const pack = packFor(track.id);
 
   /* Le lien pointe sur notre route, qui note le téléchargement puis redirige
      vers le fichier. L'ancienne version envoyait la mesure en parallèle sans
@@ -212,6 +192,37 @@ export function Scorecard({
         </div>
 
         {/*
+          La récompense : le pack de skills du track qui vient d'être joué.
+
+          Elle est posée juste sous le score et **avant** la carte partageable,
+          comme les deux écrans de la maquette : on donne avant de demander. Un
+          bloc de partage placé entre le résultat et la récompense ferait passer
+          le partage pour le prix de la récompense.
+
+          Les anciens packs de ressources avaient été retirés le 31 août, l'idée
+          étant abandonnée. Celle-ci n'est pas la même : trois skills d'agent
+          réelles, choisies pour le métier, installables dans Claude Code. Le
+          poids affiché est mesuré sur le fichier au moment de la construction,
+          jamais écrit à la main : une maquette qui dit « 80 Ko » pour les quatre
+          packs se trompe sur trois d'entre eux.
+        */}
+        <div className="reward">
+          <Slot k="reward.eyebrow" className="eyebrow" />
+          <Slot k="reward.lead" as="p" values={{ n: pack.skills.length }} />
+          <ul className="reward-skills">
+            {pack.skills.map((skill) => (
+              <li key={skill}>{skill}</li>
+            ))}
+          </ul>
+          <a className="btn btn-primary" href={packDownloadPath(track.id)} download>
+            <Slot
+              k="reward.download"
+              values={{ poids: packSizeLabel(track.id, locale) }}
+            />
+          </a>
+        </div>
+
+        {/*
           L'écran de partage du pack, replié dans la carte de score plutôt que
           posé sur un quatrième écran : le lecteur vient de finir, l'obliger à
           cliquer « suivant » pour voir son badge coûterait des partages sans
@@ -266,25 +277,8 @@ export function Scorecard({
                 <Slot k="badge.shareLinkedIn" />
               </a>
 
-              <a
-                className="btn btn-ghost"
-                href={addToProfileUrl({
-                  entryName: sf(
-                    "badge.profileEntry",
-                    { niveau: label, track: track.name },
-                    locale,
-                  ),
-                  issueYear: issued.year,
-                  issueMonth: issued.month,
-                  certUrl: badgePageUrl,
-                  organizationId: LINKEDIN_ORG_ID,
-                  organizationName: "AI Makers",
-                })}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Slot k="badge.addToProfile" />
-              </a>
+              {/* « Ajouter à mon profil » était ici. Retiré le 1er septembre :
+                  voir la note en tête de `badge.ts`. */}
 
               <a
                 className="btn btn-ghost"
@@ -300,30 +294,16 @@ export function Scorecard({
         )}
 
         <div className="share-row">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={async () =>
-              onToast(
-                (await copy(linkedInPost))
-                  ? "toast.linkedInCopied"
-                  : "toast.linkedInFailed",
-              )
-            }
-          >
-            <Slot k="scorecard.copyLinkedIn" />
-          </button>
+          {/* « Copier mon post LinkedIn » était ici. Retiré le 1er septembre :
+              le bouton « Poster sur LinkedIn » de la carte copie déjà le même
+              texte avant d'ouvrir LinkedIn. Deux boutons pour une action, à
+              trois lignes d'écart dans la même vue. */}
           <button type="button" className="btn btn-ghost" onClick={onSeeCorrige}>
             <Slot k="scorecard.seeCorrige" />
           </button>
           <button type="button" className="btn btn-ghost" onClick={onOtherTrack}>
             <Slot k="scorecard.otherTrack" />
           </button>
-          {/* Le bouton de téléchargement du pack a été retiré le 31 août :
-              l'idée des packs de ressources est abandonnée, code, fichiers et
-              chaînes compris. Voir la note en tête de `board.ts` pour la même
-              règle appliquée à l'entreprise : ce qu'on ne sert plus, on
-              l'enlève, on ne le masque pas. */}
         </div>
 
         <div className="lb-head">

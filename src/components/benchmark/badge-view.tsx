@@ -15,9 +15,8 @@
  */
 
 import Link from "next/link";
-import { Download, ExternalLink, Linkedin, UserPlus } from "lucide-react";
+import { Download, ExternalLink, Linkedin } from "lucide-react";
 import {
-  addToProfileUrl,
   badgeImagePath,
   badgePath,
   linkedInShareUrl,
@@ -27,18 +26,7 @@ import { BENCHMARK_PATH } from "@/lib/benchmark/share";
 import { MAX_SCORE } from "@/lib/benchmark/engine";
 import { s, sf } from "@/lib/benchmark/strings";
 import { trackById } from "@/lib/benchmark/content";
-import { siteConfig } from "@/lib/site-config";
 import type { Locale } from "@/lib/i18n";
-
-/**
- * L'identifiant de la page entreprise LinkedIn, s'il est configuré.
- *
- * Sans lui, LinkedIn accepte l'entrée et affiche le nom de l'organisation en
- * texte libre, sans logo ni lien. Le badge marche donc dès aujourd'hui, et
- * s'améliore le jour où quelqu'un pose la variable. Attendre l'identifiant pour
- * livrer le bouton aurait été le mauvais arbitrage.
- */
-const LINKEDIN_ORG_ID = process.env.NEXT_PUBLIC_LINKEDIN_ORGANIZATION_ID?.trim();
 
 export function BadgeBroken({ locale }: { locale: Locale }) {
   return (
@@ -61,16 +49,11 @@ export function BadgeView({
   locale,
   input,
   base,
-  issued,
 }: {
   locale: Locale;
   input: BadgeInput;
   /** L'origine publique, calculée sur le serveur. Jamais l'hôte de la requête. */
   base: string;
-  /** La date d'obtention envoyée à LinkedIn. Passée en argument pour que la
-   *  page reste rendue à l'identique d'un appel à l'autre, ce qu'un
-   *  `new Date()` posé ici empêcherait. */
-  issued: { year: number; month: number };
 }) {
   const track = trackById(input.trackId, locale);
   if (!track) return <BadgeBroken locale={locale} />;
@@ -120,22 +103,8 @@ export function BadgeView({
           {s("badge.shareLinkedIn", locale)}
         </a>
 
-        <a
-          href={addToProfileUrl({
-            entryName: sf("badge.profileEntry", values, locale),
-            issueYear: issued.year,
-            issueMonth: issued.month,
-            certUrl: pageUrl,
-            organizationId: LINKEDIN_ORG_ID,
-            organizationName: siteConfig.name,
-          })}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-sm border border-foreground px-5 py-2.5 text-[0.9375rem] font-semibold transition-colors hover:bg-foreground hover:text-background"
-        >
-          <UserPlus className="size-4" aria-hidden />
-          {s("badge.addToProfile", locale)}
-        </a>
+        {/* « Ajouter à mon profil » était ici. Retiré le 1er septembre : voir
+            la note en tête de `badge.ts`. */}
 
         <a
           href={badgeImagePath(input, locale, { shape: "square", download: true })}

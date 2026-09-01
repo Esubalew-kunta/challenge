@@ -706,6 +706,37 @@
    lisible, le nom moins. C'est accepté, l'aperçu sert à reconnaître ce qu'on
    s'apprête à publier, pas à le lire. */
 
+/* ---------- récompense ---------- */
+
+/* Le pack de skills du track, livré le 1er septembre. Absent de l'artefact de
+   référence, donc absent du contrôle de dérive : ces sélecteurs n'y ont pas
+   d'équivalent à comparer.
+
+   Aucune valeur nouvelle. La carte reprend `.closer`, les pastilles reprennent
+   `.tier-badge.intermediate`, le bleu doux sur le bleu encre : les trois noms de
+   skills sont des identifiants techniques, ils sont donc en `--mono` comme le
+   reste des identifiants de la page. */
+.bm-root .reward {
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  padding: 26px 30px;
+  margin-bottom: 26px;
+  display: flex; flex-direction: column; gap: 12px;
+  align-items: flex-start;
+}
+.bm-root .reward p { margin: 0; color: var(--text-2); font-size: 15px; max-width: 56ch; }
+
+.bm-root .reward-skills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  list-style: none; margin: 2px 0 4px; padding: 0;
+}
+.bm-root .reward-skills li {
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  background: var(--signal-soft); color: var(--signal-ink);
+  border-radius: 20px; padding: 6px 13px;
+}
+
 /* ---------- classement ---------- */
 
 .bm-root .lb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }

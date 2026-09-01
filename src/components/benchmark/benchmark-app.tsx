@@ -42,6 +42,7 @@ import { Onboarding, EMPTY_LEAD, type Lead } from "./onboarding";
 import { QuestionScreen } from "./question-screen";
 import { StatusBar } from "./status-bar";
 import { VerdictModal } from "./verdict-modal";
+import { RoleScreen } from "./role-screen";
 import { Scorecard } from "./scorecard";
 import { CorrigeModal } from "./corrige-modal";
 import { Slot } from "./string-slot";
@@ -94,6 +95,21 @@ export function BenchmarkApp({
   const [toastKey, setToastKey] = useState<string | null>(null);
 
   /**
+   * L'écran de rôle, intercalé entre le verdict du round 1 et le round 2.
+   *
+   * Le rôle était la cinquième étape de l'onboarding, avant la première
+   * question. Déplacé le 1er septembre, sur demande du propriétaire faite deux
+   * fois : cinq écrans avant de voir une question, c'est cinq occasions de
+   * partir avant d'avoir vu ce qu'on est venu voir.
+   *
+   * Un drapeau, et non un cinquième `screen` : la question suivante est déjà
+   * tirée derrière cet écran, elle attend simplement d'être montée. C'est aussi
+   * ce qui protège le chronomètre, remonté avec `QuestionScreen` : tant que cet
+   * écran est là, le compte à rebours n'a pas commencé.
+   */
+  const [askRole, setAskRole] = useState(false);
+
+  /**
    * Remonter en haut à chaque changement d'écran.
    *
    * Une seule route, aucun rechargement : le navigateur ne remet donc jamais le
@@ -132,7 +148,7 @@ export function BenchmarkApp({
    * journalise, et l'onboarding reprend la main.
    */
   const beginRun = (
-    filled: Lead & { trackId: NonNullable<Lead["trackId"]>; role: string },
+    filled: Lead & { trackId: NonNullable<Lead["trackId"]> },
   ): boolean => {
     const chosen = trackById(filled.trackId, locale);
     if (!chosen) {
@@ -153,6 +169,7 @@ export function BenchmarkApp({
     setRun(fresh);
     setDrawn(drawQuestion(fresh));
     setRevealed(null);
+    setAskRole(false);
     setScreen("quiz");
     return true;
   };
@@ -228,8 +245,23 @@ export function BenchmarkApp({
     setVerdict(null);
     setRevealed(null);
     setDrawn(drawQuestion(advanced));
+
+    /* La question du round 2 est tirée juste au-dessus, mais elle reste cachée
+       tant que le rôle n'est pas donné. Le test porte sur le rôle et non sur le
+       numéro de round : quelqu'un qui reprend un track après un premier
+       parcours a déjà répondu, on ne lui repose pas la question. */
+    if (!lead.role) setAskRole(true);
   };
 
+  const chooseRole = (role: string) => {
+    setLead((current) => ({ ...current, role }));
+    setAskRole(false);
+  };
+
+  /* Rejouer garde le nom, l'e-mail et l'entreprise, et remet à zéro ce qui est
+     propre au parcours. Le rôle repart avec le track : changer de département
+     change la liste des rôles, et garder « Growth engineering » sur un parcours
+     Finance écrirait une ligne fausse en base. */
   const restart = () => {
     setScreen("onboarding");
     setLead({ ...lead, trackId: null, role: null });
@@ -238,6 +270,7 @@ export function BenchmarkApp({
     setRevealed(null);
     setSummary(null);
     setBoard(null);
+    setAskRole(false);
   };
 
   const nextLabelKey = (() => {
@@ -317,7 +350,11 @@ export function BenchmarkApp({
         />
       )}
 
-      {screen === "quiz" && run && drawn && (
+      {screen === "quiz" && askRole && track && (
+        <RoleScreen track={track} onChoose={chooseRole} />
+      )}
+
+      {screen === "quiz" && !askRole && run && drawn && (
         <QuestionScreen
           drawn={drawn}
           round={run.round + 1}

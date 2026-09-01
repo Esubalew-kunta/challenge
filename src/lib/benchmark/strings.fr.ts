@@ -135,9 +135,20 @@ export const STRINGS_FR: Record<string, string> = {
   "onboarding.step4.error":
     "Choisissez un département : c'est lui qui détermine vos questions.",
 
+  // Le libellé sert toujours, sur l'écran de rôle d'après le round 1 : la
+  // question qu'il pose n'a pas changé.
   "onboarding.step5.label": "Sur quoi travaillez-vous en {track} ?",
+  // PLUS RENDUE. Cette indication disait « Dernière étape. Prenez le plus
+  // proche : votre parcours démarre au clic. » Ses deux phrases sont devenues
+  // fausses le 1er septembre, quand le rôle est passé après le round 1 : ce
+  // n'est plus une étape, et le parcours a déjà démarré. Remplacée par
+  // `role.hint`. La clé reste pour la parité entre les deux langues, et hors
+  // de DRAFT_KEYS puisqu'une chaîne qui ne s'affiche pas n'a rien à faire
+  // relire.
   "onboarding.step5.hint":
     "Dernière étape. Prenez le plus proche : votre parcours démarre au clic.",
+  // Plus rendue : l'écran de rôle n'a plus de chemin d'erreur, le track étant
+  // déjà choisi et sa banque déjà chargée quand la question se pose.
   "onboarding.step5.error": "Choisissez le plus proche. Un clic suffit.",
   // Section 11 du PRD. Le pack fournit la mention de démonstration, qui dit que
   // rien n'est transmis : faux depuis que Supabase est branché.
@@ -154,6 +165,13 @@ export const STRINGS_FR: Record<string, string> = {
   // classement. Le texte est celui du pied de page du site, pas un libellé
   // inventé ici.
   "onboarding.step5.privacy": "Politique de confidentialité",
+
+  // ---------------------------------------------------------------------- rôle
+  // L'écran posé après le round 1. PROVISOIRE, voir DRAFT_KEYS : écrit ici
+  // parce que l'indication de l'ancienne étape 5 est devenue fausse, et qu'un
+  // écran sans indication laisse le lecteur se demander pourquoi on lui pose
+  // cette question maintenant. En attente de Youssef.
+  "role.hint": "Prenez le plus proche : le round 2 démarre au clic.",
 
   // ----------------------------------------------------------------- question
   "question.timerLabel": "Temps",
@@ -231,9 +249,26 @@ export const STRINGS_FR: Record<string, string> = {
   "scorecard.verdict.expert.body":
     "Vous avez tenu la banque la plus dure du jeu, palier 3 compris. Ce niveau-là, dans une équipe, s'appelle un AI Champion : la personne vers qui les autres se tournent avant de brancher un agent sur un vrai process.",
 
+  // Retiré de l'écran le 1er septembre : « Poster sur LinkedIn », sur la carte,
+  // copie déjà ce texte avant d'ouvrir LinkedIn. La clé reste, comme
+  // `leaderboard.colCompany`, pour ne pas casser la parité entre les deux
+  // langues pour une chaîne qui coûte vingt octets.
   "scorecard.copyLinkedIn": "Copier mon post LinkedIn",
   "scorecard.seeCorrige": "Voir le corrigé",
   "scorecard.otherTrack": "Essayer un autre track",
+
+  // ---------------------------------------------------------------- récompense
+  // Les trois chaînes viennent de la maquette envoyée le 1er septembre, pas du
+  // pack de contenu : PROVISOIRE, voir DRAFT_KEYS.
+  //
+  // Le nombre de skills et le poids sont des jetons, jamais écrits dans la
+  // chaîne. La maquette annonce « 80 Ko » : c'est le poids du seul pack
+  // Marketing & Growth, et il est faux pour les trois autres. Le poids est
+  // mesuré sur le fichier, voir `packs.ts`.
+  "reward.eyebrow": "Votre récompense",
+  "reward.lead":
+    "{n} skills d'agent pour votre métier, prêtes à installer dans Claude Code :",
+  "reward.download": "Télécharger le pack (.zip) · {poids}",
 
   // --------------------------------------------------------------------- badge
   // Le pack livre la maquette du badge et le gabarit du post, pas les libellés
@@ -242,24 +277,29 @@ export const STRINGS_FR: Record<string, string> = {
   //
   // Le mot « certification » est banni de tout ce bloc. On dit « niveau » ou
   // « résultat », c'est la règle du pack, et le test `badge-wording` la tient.
-  // La section où LinkedIn range l'entrée porte son propre nom, que nous ne
-  // choisissons pas et que nous ne recopions nulle part.
-  "badge.shareLinkedIn": "Publier sur LinkedIn",
-  "badge.download": "Télécharger le badge",
-  "badge.addToProfile": "Ajouter à mon profil",
-  "badge.previewAlt": "Badge du Benchmark des Makers, niveau {niveau}, track {track}",
-  // L'intitulé pré-rempli dans le profil LinkedIn. Il nomme un niveau atteint
-  // sur un track, et rien de plus.
-  "badge.profileEntry": "Le Benchmark des Makers, niveau {niveau} ({track})",
+  //
+  // **Le mot « badge » l'est aussi, depuis le 1er septembre.** Décision de
+  // Maneesh : les règles de marque de LinkedIn réservent les badges à LinkedIn,
+  // donc ce que nous produisons s'appelle une carte de score et rien d'autre.
+  // Les clés gardent leur préfixe `badge.` — renommer 11 clés dans deux langues
+  // pour un préfixe que personne ne voit à l'écran serait du bruit dans le diff
+  // — mais aucune valeur affichée ne dit plus « badge », et le test le tient.
+  //
+  // L'image, elle, ne change pas : c'est la même carte, mieux nommée.
+  "badge.shareLinkedIn": "Poster sur LinkedIn",
+  "badge.download": "Télécharger la carte",
+  "badge.previewAlt":
+    "Carte de score du Benchmark des Makers, niveau {niveau}, track {track}",
   "badge.pageTitle": "{nom}, niveau {niveau}",
   "badge.pageLead": "{score} sur {max} au Benchmark des Makers, track {track}.",
   "badge.backToBenchmark": "Passer le Benchmark",
-  // La ligne honnête. Le badge porte notre marque : il doit dire ce qu'il est.
+  // La ligne honnête. La carte porte notre marque : elle doit dire ce qu'elle
+  // est.
   "badge.honest":
-    "Ce badge rend compte d'un parcours joué sur aimakers.fr. Ce n'est pas un examen surveillé, et le score qui y figure a été obtenu en neuf questions.",
-  "badge.brokenTitle": "Ce lien de badge est incomplet",
+    "Cette carte de score rend compte d'un parcours joué sur aimakers.fr. Ce n'est pas un examen surveillé, et le score qui y figure a été obtenu en neuf questions.",
+  "badge.brokenTitle": "Ce lien de carte de score est incomplet",
   "badge.brokenBody":
-    "Il manque un élément au lien, ou l'un d'eux a été modifié. Rejouez le Benchmark pour obtenir un badge à votre nom.",
+    "Il manque un élément au lien, ou l'un d'eux a été modifié. Rejouez le Benchmark pour obtenir une carte de score à votre nom.",
 
   // ------------------------------------------------------------------- corrigé
   "corrige.title": "Corrigé",
@@ -382,16 +422,23 @@ export const DRAFT_KEYS_FR = new Set<string>([
   // Réécrite le 31 août : l'ancienne promettait un affichage de l'entreprise au
   // classement, ce qui n'est plus vrai. En attente de Youssef.
   "onboarding.step3.hint",
-  // Le bloc badge en entier : le pack a livré la maquette, pas les libellés.
+  // Le bloc carte de score en entier : le pack a livré la maquette, pas les
+  // libellés.
   "badge.shareLinkedIn",
   "badge.download",
-  "badge.addToProfile",
   "badge.previewAlt",
-  "badge.profileEntry",
   "badge.pageTitle",
   "badge.pageLead",
   "badge.backToBenchmark",
   "badge.honest",
   "badge.brokenTitle",
   "badge.brokenBody",
+  // Le bloc récompense : recopié de la maquette du 1er septembre, qui n'est pas
+  // le pack de contenu validé.
+  "reward.eyebrow",
+  "reward.lead",
+  "reward.download",
+  // L'indication de l'écran de rôle, écrite le 1er septembre parce que celle de
+  // l'ancienne étape 5 est devenue fausse en changeant de place.
+  "role.hint",
 ]);

@@ -134,17 +134,8 @@ export default async function PageBenchmarkBadge({
   const input = parseBadgeInput(reader(await searchParams));
   if (!input) return <BadgeBroken locale={LOCALE} />;
 
-  /* La date d'obtention est calculée ici, une fois, puis descendue en argument.
-     Un `new Date()` dans le composant rendrait la page différente d'un appel à
-     l'autre et empêcherait tout rendu statique. */
-  const now = new Date();
-
-  return (
-    <BadgeView
-      locale={LOCALE}
-      input={input}
-      base={challengePublicUrl()}
-      issued={{ year: now.getFullYear(), month: now.getMonth() + 1 }}
-    />
-  );
+  /* La date d'obtention descendait ici jusqu'au 1er septembre : elle ne servait
+     qu'au lien « ajouter à mon profil », retiré depuis. La page n'a plus rien
+     qui dépende du moment où elle est rendue. */
+  return <BadgeView locale={LOCALE} input={input} base={challengePublicUrl()} />;
 }
